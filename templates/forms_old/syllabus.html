@@ -1,0 +1,1519 @@
+<style>
+    hr {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 0;
+        border-top: 6px solid rgba(0, 0, 0, .1);
+    }
+</style>
+{% if course_details.course_type_id == 1 or course_details.course_type_id == 5 %}
+    <div class="fieldset-content">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {% if course_syllabus %}
+            {% for cs in course_syllabus %}
+                <div class="row">
+                    <div class="form-textarea col-md-12">
+                        <span class="form-label" style="width: 5%">Unit-{{ forloop.counter }}</span>
+
+                        <input type="text" name="short_title" id="short_title" style="width: 75%"
+                               placeholder="Short title" value="{% if cs.short_title %}{{ cs.short_title }}{% endif %}">
+                        <input type="number" name="contact_hours" id="contact_hours" style="width: 16%"
+                               placeholder="No.of contact hours"
+                               value="{% if cs.number_of_contact_hours %}{{ cs.number_of_contact_hours }}{% endif %}">
+                    </div>
+                    <div class="form-textarea col-md-12">
+                        <input type="hidden" name="unit_no" value="{{ forloop.counter }}">
+                        <textarea rows="1" name="unit_name" id="unit_name" class="form-control">{% if cs.unit_name %}
+                            {{ cs.unit_name }}{% endif %}</textarea>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="err">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span>Learning Outcomes</span>
+                </div><br>
+                <div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                      id="learning_outcome_1">{% if cs.outcome_1 %}
+                                {{ cs.outcome_1 }}{% endif %}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                      style="text-align: center;">{% if cs.level_1 %}
+                                {{ cs.level_1 }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                      id="learning_outcome_2">{% if cs.outcome_2 %}
+                                {{ cs.outcome_2 }}{% endif %}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                      style="text-align: center;">{% if cs.level_2 %}
+                                {{ cs.level_2 }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                      id="learning_outcome_3">{% if cs.outcome_3 %}
+                                {{ cs.outcome_3 }}{% endif %}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                      style="text-align: center;">{% if cs.level_3 %}
+                                {{ cs.level_3 }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="newEntrySection{{ forloop.counter }}"></div>
+                <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <span id="commity_add_more{{ forloop.counter0 }}"
+                              style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="form-label">Pedagogy tools</span>
+                        <div>
+                            {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                            <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                                <option value="" selected>Select Pedagogy Tool</option>
+                                {% for p in pedagogy_tools %}
+                                    {% if cs.pedagogy_tool_1_id == p.id %}
+                                        <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                    {% else %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="form-label">Pedagogy tools</span>
+                        <div>
+                            {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                            <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                                <option value="" selected>Select Pedagogy Tool</option>
+                                {% for p in pedagogy_tools %}
+                                    {% if cs.pedagogy_tool_2_id == p.id %}
+                                        <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                    {% else %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {#    <div class="row">#}
+                {#        <div class="col-md-12">#}
+                {#            <span class="form-label">Pedagogy tools</span>#}
+                {#            <div>#}
+                {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" placeholder="Pedagogy.." class="form-control" value="{% if cs.pedagogy_tools %}{{ cs.pedagogy_tools }}{% endif %}">#}
+                {#            </div>#}
+                {#        </div>#}
+                {#    </div>#}
+                <hr/>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-1</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="1">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection1"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more0"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-2</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="2">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection2"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more1"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-3</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="3">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection3"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more2"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-4</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="4">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection4"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more3"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-5</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="5">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection5"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more4"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        {% endif %}
+    </div>
+{% elif course_details.course_type_id == 2 %}
+
+    <div class="fieldset-content">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {% if practical_syllabus %}
+            {% for p in practical_syllabus %}
+                <input type="hidden" name="practical_id" value="{{ p.id }}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="form-label">Topic</span>
+                        <div>
+                            <input type="text" value="{{ p.topic }}" name="syllabus_topic" id="syllabus_topic"
+                                   class="form-control" placeholder="Enter topic"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="form-label">Type</span>
+                        <div>
+                            <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                                <option value="" selected disabled>Select Type</option>
+                                {% for s in syllabus_type %}
+                                    {% if s.id == p.syllabus_type_id %}
+                                        <option value="{{ s.id }}" selected>{{ s.name }}</option>
+                                    {% else %}
+                                        <option value="{{ s.id }}">{{ s.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Topic</span>
+                    <div>
+                        <input type="text" name="syllabus_topic" id="syllabus_topic" class="form-control"
+                               placeholder="Enter topic"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Type</span>
+                    <div>
+                        <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                            <option value="" selected disabled>Select Type</option>
+                            {% for s in syllabus_type %}
+                                <option value="{{ s.id }}">{{ s.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% elif course_details.course_type_id == 3 %}
+    <div class="fieldset-content">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Theory</b></span></center></u>
+        </div>
+        {% if course_syllabus %}
+            {% for cs in course_syllabus %}
+                <div class="row">
+                    <div class="form-textarea col-md-12">
+                        <span class="form-label" style="width: 5%">Unit-{{ forloop.counter }}</span>
+
+                        <input type="text" name="short_title" id="short_title" style="width: 75%"
+                               placeholder="Short title" value="{% if cs.short_title %}{{ cs.short_title }}{% endif %}">
+                        <input type="number" name="contact_hours" id="contact_hours" style="width: 16%"
+                               placeholder="No.of contact hours"
+                               value="{% if cs.number_of_contact_hours %}{{ cs.number_of_contact_hours }}{% endif %}">
+                    </div>
+                    <div class="form-textarea col-md-12">
+                        <input type="hidden" name="unit_no" value="{{ forloop.counter }}">
+                        <textarea rows="1" name="unit_name" id="unit_name" class="form-control">{% if cs.unit_name %}
+                            {{ cs.unit_name }}{% endif %}</textarea>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="err">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span>Learning Outcomes</span>
+                </div><br>
+                <div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                      id="learning_outcome_1">{% if cs.outcome_1 %}
+                                {{ cs.outcome_1 }}{% endif %}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                      style="text-align: center;">{% if cs.level_1 %}
+                                {{ cs.level_1 }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                      id="learning_outcome_2">{% if cs.outcome_2 %}
+                                {{ cs.outcome_2 }}{% endif %}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                      style="text-align: center;">{% if cs.level_2 %}
+                                {{ cs.level_2 }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-11">
+                            <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                      id="learning_outcome_3">{% if cs.outcome_3 %}
+                                {{ cs.outcome_3 }}{% endif %}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                      style="text-align: center;">{% if cs.level_3 %}
+                                {{ cs.level_3 }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="newEntrySection{{ forloop.counter }}"></div>
+                <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <span id="commity_add_more{{ forloop.counter0 }}"
+                              style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="form-label">Pedagogy tools</span>
+                        <div>
+                            {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                            <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                                <option value="" selected>Select Pedagogy Tool</option>
+                                {% for p in pedagogy_tools %}
+                                    {% if cs.pedagogy_tool_1_id == p.id %}
+                                        <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                    {% else %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="form-label">Pedagogy tools</span>
+                        <div>
+                            {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                            <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                                <option value="" selected>Select Pedagogy Tool</option>
+                                {% for p in pedagogy_tools %}
+                                    {% if cs.pedagogy_tool_2_id == p.id %}
+                                        <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                    {% else %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {#    <div class="row">#}
+                {#        <div class="col-md-12">#}
+                {#            <span class="form-label">Pedagogy tools</span>#}
+                {#            <div>#}
+                {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" placeholder="Pedagogy.." class="form-control" value="{% if cs.pedagogy_tools %}{{ cs.pedagogy_tools }}{% endif %}">#}
+                {#            </div>#}
+                {#        </div>#}
+                {#    </div>#}
+                <hr/>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-1</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="1">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection1"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more0"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-2</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="2">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection2"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more1"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-3</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="3">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection3"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more2"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-4</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="4">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection4"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more3"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-5</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text" name="short_title" style="width: 75%" id="short_title" placeholder="Short title"
+                           value="">
+                    <input type="number" name="contact_hours" style="width: 16%" id="contact_hours"
+                           placeholder="No.of contact hours" value="">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="5">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_1"
+                                  id="learning_outcome_1"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_1" id="level_1"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_2"
+                                  id="learning_outcome_2"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_2" id="level_2"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control" rows="2" name="learning_outcome_3"
+                                  id="learning_outcome_3"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <textarea class="form-control" rows="2" name="level_3" id="level_3"
+                                  style="text-align: center;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection5"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="commity_add_more4"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Pedagogy tools</span>
+                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2">
+                            <option value="" selected>Select Pedagogy Tool</option>
+                            {% for p in pedagogy_tools %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        {% endif %}
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Practical</b></span></center></u>
+        </div>
+        {% if practical_syllabus %}
+            {% for p in practical_syllabus %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="form-label">Topic</span>
+                        <div>
+                            <input type="text" value="{{ p.topic }}" name="syllabus_topic" id="syllabus_topic"
+                                   class="form-control" placeholder="Enter topic"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="form-label">Type</span>
+                        <div>
+                            <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                                <option value="" selected disabled>Select Type</option>
+                                {% for s in syllabus_type %}
+                                    {% if s.id == p.syllabus_type_id %}
+                                        <option value="{{ s.id }}" selected>{{ s.name }}</option>
+                                    {% else %}
+                                        <option value="{{ s.id }}">{{ s.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Topic</span>
+                    <div>
+                        <input type="text" name="syllabus_topic" id="syllabus_topic" class="form-control"
+                               placeholder="Enter topic"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Type</span>
+                    <div>
+                        <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                            <option value="" selected disabled>Select Type</option>
+                            {% for s in syllabus_type %}
+                                <option value="{{ s.id }}">{{ s.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% elif course_details.course_type_id == 4 %}
+    <div class="fieldset-content">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {% if course_details.project_topic %}
+            {% for i in course_details.project_topic %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="form-label">Topic-{{ forloop.counter }}</span>
+                        <input type="text" value="{{ i.project_topic }}" name="project_topic" id="project_topic"
+                               class="form-control" placeholder="Enter topic"/>
+                    </div>
+                </div><br>
+            {% endfor %}
+            <div id="newEntryProject"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="project_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="form-label">Topic</span>
+                    <input type="text" name="project_topic" id="project_topic" class="form-control"
+                           placeholder="Enter topic"/>
+                </div>
+            </div>
+            <div id="newEntryProject"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="project_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="fieldset-footer">
+    <span>Step 4 of 6</span>
+</div>
+
+
+<script>
+    var addedCountProject = {% if practical_syllabus %}{{ practical_syllabus|length }}{% else %}1{% endif %};
+    $("#project_add_more").click(function () {
+        addedCountP++;
+        let ademic_details_add_more_div = '<div class="project_add_more"><div class="row mt-4"><div class="col-md-11"><input type="text" name="project_topic" id="project_topic" class="form-control" placeholder="Enter topic"/></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryProject" onclick="removeThisEntryProject(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntryProject").append(ademic_details_add_more_div);
+        if (addedCountP == 20) {
+            $("#project_add_more").hide()
+        }
+
+
+    });
+
+    function removeThisEntryProject(entry) {
+        $(entry).closest(".project_add_more").remove();
+        addedCountP--;
+        if (addedCountP == 19) {
+            $("#project_add_more").show()
+        }
+        {#removeAcRecord(acQualificationId)#}
+
+    }
+
+</script>
+<script>
+    var addedCountP = {% if practical_syllabus %}{{ practical_syllabus|length }}{% else %}1{% endif %};
+    $("#practical_add_more").click(function () {
+        addedCountP++;
+        let ademic_details_add_more_div = '<div class="practical_add_more"><div class="row mt-4"><div class="col-md-6"><input type="text" name="syllabus_topic" id="syllabus_topic" class="form-control" placeholder="Enter topic"/></div><div class="col-md-5"><select class="form-control" aria-label="Default select example" name="syllabus_type"><option value="" selected disabled>Select Type</option>{% for s in syllabus_type %}<option value="{{ s.id }}">{{ s.name }} </option>{% endfor %}</select></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryPractical" onclick="removeThisEntryPractical(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntryPractical").append(ademic_details_add_more_div);
+        if (addedCountP == 50) {
+            $("#practical_add_more").hide()
+        }
+
+
+    });
+
+    function removeThisEntryPractical(entry) {
+        $(entry).closest(".practical_add_more").remove();
+        addedCountP--;
+        if (addedCountP == 49) {
+            $("#practical_add_more").show()
+        }
+        {#removeAcRecord(acQualificationId)#}
+
+    }
+
+</script>
+
+<script>
+    {#var addedCount = {% for cs in course_syllabus %}{% if cs.outcome_1 %}{{ cs.outcome_1|length }}{% else %}1{% endif %}{% endfor %};#}
+    var addedCount = 1;
+    $("#commity_add_more0").click(function () {
+        addedCount++;
+        let ademic_details_add_more_div = '<div class="commity_add_more0"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control" rows="2" name="learning_outcome_${addedCount}" id="learning_outcome_1"></textarea></div><div class="col-md-1"><textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry" onclick="removeThisEntry(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntrySection1").append(ademic_details_add_more_div);
+        if (addedCount == 3) {
+            $("#commity_add_more0").hide()
+        }
+
+
+    });
+
+    function removeThisEntry(entry) {
+        $(entry).closest(".commity_add_more0").remove();
+        addedCount--;
+        if (addedCount == 2) {
+            $("#commity_add_more0").show()
+        }
+        {#removeAcRecord(acQualificationId)#}
+
+    }
+
+</script>
+<script>
+    var addedCount1 = 1;
+    $("#commity_add_more1").click(function () {
+        addedCount1++;
+        let ademic_details_add_more_div = '<div class="commity_add_more1"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control" rows="2" name="learning_outcome_${addedcount1}" id="learning_outcome_${addedcount1}"></textarea></div><div class="col-md-1"><textarea class="form-control" rows="2" name="level_${addedcount1}" id="level_${addedcount1}" style="text-align: center;"></textarea></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry2" onclick="removeThisEntry2(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntrySection2").append(ademic_details_add_more_div);
+        if (addedCount1 == 3) {
+            $("#commity_add_more1").hide()
+        }
+
+
+    });
+
+    function removeThisEntry2(entry) {
+        $(entry).closest(".commity_add_more1").remove();
+        addedCount1--;
+        if (addedCount1 == 2) {
+            $("#commity_add_more1").show()
+        }
+        {#removeAcRecord(acQualificationId)#}
+
+    }
+</script>
+<script>
+    var addedCount2 = 1;
+    $("#commity_add_more2").click(function () {
+        addedCount2++;
+        let ademic_details_add_more_div = '<div class="commity_add_more2"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea></div><div class="col-md-1"><textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry3" onclick="removeThisEntry3(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntrySection3").append(ademic_details_add_more_div);
+        if (addedCount2 == 3) {
+            $("#commity_add_more2").hide()
+        }
+
+
+    });
+
+    function removeThisEntry3(entry) {
+        $(entry).closest(".commity_add_more2").remove();
+        addedCount2--;
+        if (addedCount2 == 2) {
+            $("#commity_add_more2").show()
+        }
+    }
+</script>
+<script>
+    var addedCount3 = 1;
+    $("#commity_add_more3").click(function () {
+        addedCount3++;
+        let ademic_details_add_more_div = '<div class="commity_add_more3"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea></div><div class="col-md-1"><textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry4" onclick="removeThisEntry4(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntrySection4").append(ademic_details_add_more_div);
+        if (addedCount3 == 3) {
+            $("#commity_add_more3").hide()
+        }
+
+
+    });
+
+    function removeThisEntry4(entry) {
+        $(entry).closest(".commity_add_more3").remove();
+        addedCount3--;
+        if (addedCount3 == 2) {
+            $("#commity_add_more3").show()
+        }
+    }
+</script>
+<script>
+    var addedCount4 = 1;
+    $("#commity_add_more4").click(function () {
+        addedCount4++;
+        let ademic_details_add_more_div = '<div class="commity_add_more4"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea></div><div class="col-md-1"><textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry5" onclick="removeThisEntry5(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntrySection5").append(ademic_details_add_more_div);
+        if (addedCount4 == 3) {
+            $("#commity_add_more4").hide()
+        }
+
+
+    });
+
+    function removeThisEntry5(entry) {
+        $(entry).closest(".commity_add_more4").remove();
+        addedCount4--;
+        if (addedCount4 == 2) {
+            $("#commity_add_more4").show()
+        }
+    }
+</script>

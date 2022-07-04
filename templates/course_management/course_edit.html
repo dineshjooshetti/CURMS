@@ -1,0 +1,665 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+    {% load static %}
+	{% load user_tags %}
+
+
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style>
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+                height:44px !important;
+            }
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{{pre_url}}">Programme Structure</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Course Structure Edit</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid ">
+        <div class="card shadow">
+            <div class="card-body">
+                <form  method="POST" action="/course/course_edit/{{ course_id}}" id="course_edit_form" name="course_edit_form" enctype="multipart/form-data">
+                    <input type="hidden" name="a" value="{% if course_details.id %}{{ course_details.id }}{% endif %}" >
+                           
+					{% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="form-label">Course Title</span>
+                            <div>
+                                <input type="text" name="course_title" id="course-title" value="{% if course_details.course_name %}{{ course_details.course_name }}{% endif %}" class="form-control" placeholder="course title"  >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="form-label">Type of course</span>
+                            <div>
+                                <select class="form-control"  id="type_of_course" name="type_of_course" aria-label="Default select example">
+                                    <option value="" selected>Select Type Of Course</option>
+                                    {% for c in course_type %}
+                                        {% if c.id == course_details.course_type_id %}
+                                            <option  value="{{ c.id }}" selected >{{ c.name }} </option>
+                                        {% else %}
+                                            <option  value="{{ c.id }}">{{ c.name }} </option>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="form-label">Course category</span>
+                            <div>
+                                <select class="form-control" aria-label="Default select example" name="course_category">
+                                    <option value="" selected>Select Course category</option>
+                                    {% for c in course_category %}
+                                        {% if c.id == course_details.course_category_id %}
+                                            <option value="{{ c.id }}" selected >{{ c.category }}</option>
+                                        {% else %}
+                                            <option value="{{ c.id }}">{{ c.category }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="form-label">Level of the course</span>
+                            <select class="form-control" aria-label="Default select example" name="level_of_course">
+                                <option value="" selected>Select Level of course</option>
+                                {% for l in level_of_course %}
+                                    {% if  l.level == course_details.level_of_course_id %}
+                                        <option value="{{  l.level}}" selected >{{ l.level__level }}</option>
+                                    {% else %}
+                                        <option value="{{  l.level }}">{{ l.level__level }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div><br>
+					 <div class="row">
+                        <div class="col-md-6">
+                            <span class="form-label">Campus</span>
+							<div>
+                            <select class="form-control select2 campus"  id="campus" name="campus" multiple  >
+                                {% for p in campus_det %}
+                                        <option value="{{ p.id }}" {% for j in campus %}{% if p.id == j.campus_id %}selected{% endif %}{% endfor %}>{{ p.name }}</option>
+                                {% endfor %}
+                            </select>
+							</div>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="form-label">Institution</span>
+							<div>
+                            <select class="form-control select2 inst"  id="inst" name="inst" multiple  >
+                                {% for l in inst %}
+                                    <option value="{{ l }}" {% for j in inst_det %}{% if l == j.institute %}selected{% endif %}{% endfor %}>{{ l }}</option>
+                                {% endfor %}
+                            </select>
+							</div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="form-label">Department</span>
+							<div>
+                            <select class="form-control select2 dept"  id="dept" name="dept" multiple  >
+                                {% for l in dept %}
+                                    <option value="{{ l }}" {% for j in dept_det %}{% if l == j.department %}selected{% endif %}{% endfor %}>{{ l }}</option>
+                                {% endfor %}
+                            </select>
+							</div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="form-label">L</span>
+                            <div>
+                                <input {% if course_details.course_type_id == 2 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 4 %} disabled {% endif %}
+										 {% if course_details.course_type_id == 5 %} disabled {% endif %}
+                                        type="text" name="L" id="L" value="{% if course_details.L %}{{ course_details.L }}{% endif %}" class="form-control credit_value" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">T</span>
+                            <div>
+                                <input {% if course_details.course_type_id == 2 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 4 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 5 %} disabled {% endif %}
+                                        type="text" name="T" id="T" value="{% if course_details.T %}{{ course_details.T }}{% endif %}" class="form-control credit_value" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">P </span>
+                            <div>
+                                <input {% if course_details.course_type_id == 1 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 4 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 5 %} disabled {% endif %}
+                                        type="text" name="P" id="P" value="{% if course_details.P %}{{ course_details.P }}{% endif %}" class="form-control credit_value" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">J</span>
+                            <div>
+                                <input
+                                        {% if course_details.course_type_id == 1 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 2 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 3 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 5 %} disabled {% endif %}
+                                        type="text" name="J" id="J" value="1" class="form-control credit_value" {% if not course_details.course_type_id == 6 %} readonly {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">S</span>
+                            <div>
+                                <input
+                                        {% if course_details.course_type_id == 1 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 2 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 3 %} disabled {% endif %}
+                                         {% if course_details.course_type_id == 4 %} disabled {% endif %}
+                                        type="text" name="S" id="S" value="{% if course_details.S %}{{ course_details.S }}{% endif %}" class="form-control credit_value" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">C</span>
+                            <div>
+                                <input type="text" name="C" id="C" value="{% if course_details.C %}{{ course_details.C }}{% endif %}" class="form-control credit_value" {% if not course_details.course_type_id == 4 %} readonly {% endif %}  >
+                            </div>
+                        </div>
+                    </div>
+
+{#                    {% endif %}#}
+                    <br>
+					{% if request.user|has_group:"PCMI" %}
+						{% if csmi or csmc %}
+						<div class="row">
+							<div class="form-group col-md-6">
+								<span class="form-label">CSM Incharge</span>
+								<div>
+								<select class="form-control select2" aria-label=" select example" id="csmi" name="csmi" multiple>
+									<option value="{{ csmi.to_user_id }}" selected>{{ csmi.to_user__first_name }}|{{ csmi.to_user__username }}|{{ csmi.to_user__email }}</option>
+								</select>
+								</div>
+							</div>
+							<input type="hidden" name="csmi_old" value="{{csmi.to_user_id}}">
+							<input type="hidden" name="csmc_old" value="{{csmc.0.to_user_id}}">
+							<div class="form-group col-md-6">
+								<span class="form-label">CSM Member</span>
+								<div>
+								<select class="form-control select2" aria-label=" select example" id="csmc" name="csmc" multiple >
+									{% for p in csmc %}
+										<option value="{{ p.to_user_id }}" selected>{{ p.to_user__first_name }}|{{ p.to_user__username }}|{{ p.to_user__email }}</option>
+									{% endfor %}
+								</select>
+								</div>
+							</div>
+							  <div class="col-md-12">
+								<ul><li>CSM Incharge : Course Syllabus Modification Committee Incharge </li>
+									<li>CSM Member   : Course Syllabus Modification Committee Member </li>
+								</ul>
+							</div><br>
+						</div>
+						{% endif %}
+					{% endif %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="form-label"></span>
+                            <button type="submit" class="btn btn-md "  style="background-color: #7f0000;color: white;"> Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Forward Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span>Do you want forward to the BoS Co-Chair ?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/pcmi/program_forward/{{ p_id }}" method="POST">{% csrf_token %}
+                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                        <input type="hidden" id="bos_user_id" name="bos_user_id" value="{{ program_assign_details.user_id }}">
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+
+    <script>
+
+        $(".pcmi_forward_bosc").click(function(){
+            var str = this.id;
+            $("#staticModal1").modal('show')
+        })
+
+        $(".budget_count").keyup(function() {
+            $(".cutom_error").remove()
+            budget_error=false
+            sum = 0
+            mul = 0
+            console.log(this.id)
+            $('.budget_count').each(function () {
+                if (Number($(this).val()) > 3){
+                    budget_error=true
+                    alert('Please enter value below 3')
+                    {#$(".budget_count").after(`<div class="cutom_error error">Greater than 3</div>`)#}
+                }
+                else{
+                    sum += Number($(this).val());
+                    mul = sum * 15
+                }
+            })
+            $("#total").val(sum)
+            $("#total_hours").val(Math.round(mul))
+
+
+        })
+        $( document ).ready(function() {
+
+            $("#csmi").select2({
+                placeholder: 'Select CSM Incharge',
+                minimumInputLength: 3,
+                maximumSelectionLength: 1,
+                language: {
+                    maximumSelected: function (e) {
+                        var t = "You can only select " + e.maximum + " CSM Incharge";
+                        return t
+
+                    }
+                },
+
+                ajax: {
+                    url: '/pcmi/get_csm_incharges',
+                    dataType: 'json',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            term: term.term
+                        };
+                    },
+                    processResults: function (data) {
+
+                        //console.log(data)
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.first_name + '|' + item.username + '|' + item.email, id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+            $("#csmc").select2({
+                placeholder: 'Select CSM Member',
+                minimumInputLength: 3,
+                maximumSelectionLength: 1,
+                language: {
+                    maximumSelected: function (e) {
+                        var t = "You can only select " + e.maximum + " CSM Member";
+                        return t
+
+                    }
+                },
+
+                ajax: {
+                    url: '/pcmi/get_csm_incharges',
+                    dataType: 'json',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            term: term.term
+                        };
+                    },
+                    processResults: function (data) {
+
+                        //console.log(data)
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.first_name + '|' + item.username + '|' + item.email, id: item.id
+                                }
+                            })
+                        };
+
+                    }
+                }
+            });
+        });
+		$("#campus").select2({
+        });
+        $("#inst").select2({
+        });
+        $("#dept").select2({
+        });
+
+        $(".campus").on('change',function(){
+            {#alert('hi')#}
+            a=(this)
+            if (a.val === '') {
+                return false;
+            }
+            $.ajax({
+                method: "POST",
+                url: '/pcmi/get_institution_by_campus',
+                data: "campus=" + $('.campus').val(),
+                success: function (result) {
+                    console.log(result);
+                    $("#inst").html('<option value="" disabled >' + 'Select Institutions' + '</option>');
+                    $("#dept").html('<option value="" disabled >' + 'Select Departments' + '</option>');
+                    for (var i = 0; i < result.inst.length; i++) {
+                        $("#inst").append('<option value="' + result.inst[i]["institution"] + '" >' + result.inst[i]["institution"] + '</option>');
+                    }
+                }
+            });
+        })
+        $(".inst").on('change',function(){
+            {#alert('hi')#}
+            a=(this)
+            if (a.val === '') {
+                return false;
+            }
+            $.ajax({
+                method: "GET",
+                url: '/pcmi/get_dept_by_institution?inst='+$(".inst").val()+'&campus='+$(".campus").val(),
+                success: function (result) {
+                    console.log(result);
+                    $("#dept").html('<option value="" disabled >' + 'Select Department' + '</option>');
+                    for (var i = 0; i < result.dept.length; i++) {
+                        $("#dept").append('<option value="' + result.dept[i]["dept_code__dept_code"] + '" >' +result.dept[i]["dept_code__dept_inst"]+' - '+ result.dept[i]["dept_code__dept_code"] + '</option>');
+                    }
+                }
+            });
+        })
+    </script>
+	
+	<script>
+	$('#C').keypress(function (e) {
+		var regex = new RegExp("^[0-9-.]+$");
+		var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+		if (regex.test(str)) {
+			return true;
+		}
+
+		e.preventDefault();
+		return false;
+	});
+	$(".credit_value").keyup(function(e) {
+            $(".cutom_error").remove();
+            budget_error = false;
+            sum = 0;
+            mul = 0;
+            console.log(this.id);
+            course_type=$("#type_of_course").val()
+			if (course_type!=6){
+				if(this.id == 'L' && $(this).val()>4){
+					alert('L value should be less then 5');
+					$(this).val('')
+					return false;
+				}
+				else if(this.id== 'T' && $(this).val()>4){
+					 alert('T value should be less then 5');
+					 $(this).val('')
+					return false;
+				}
+				else if(this.id == 'P' && ($(this).val()!=2 && $(this).val()!=4 && $(this).val()!=6)){
+				
+					 alert('P value should be 2 or 4 or 6');
+					 $(this).val('')
+					return false;
+				}
+				else if(this.id=='J' && $(this).val()>19){
+					 alert('J value should be less then 20');
+					 $(this).val('')
+					return false;
+				}
+				else if(this.id=='S' && $(this).val()>9){
+					 alert('S value should be less then 10');
+					 $(this).val('')
+					return false;
+				}
+			}
+			if(course_type == 1){
+                if ((Number($("#L").val())+Number($("#T").val()))> 4 ){
+                    alert('L+T value should be less then 5');
+                    $(this).val('')
+                    return false;
+                }else{
+                    $("#C").val(Number($("#L").val())+Number($("#T").val()))
+                }
+            }else if(course_type ==2){
+
+                 $("#C").val(Number($("#P").val())*0.5)
+            }else if(course_type ==3){
+                l = $("#L").val();
+                t = $("#T").val();
+                p = $("#P").val();
+                sum = (Number(l) + Number(t)) + Number(p*0.5)
+                $("#C").val(sum)
+
+            }
+			//else if(course_type ==4){
+            //    $("#C").val(Number($("#J").val())/4)
+            //}
+			else if(course_type ==5){
+                $("#C").val(Number($("#S").val()))
+            }
+			else if(course_type ==6){
+                $("#C").val(0)
+            }
+    })
+    $("#type_of_course").change(function () {
+        course_type=$(this).val()
+		 //$("#C").prop("readonly", true);
+		if(course_type != 4){
+			$("#C").prop("readonly", true);
+		}else{
+			$("#C").prop("readonly", false);
+		}
+        if(course_type == 1){
+			
+            $("#L,#T").prop("disabled", false);
+            $("#P,#J,#S").prop("disabled", true);
+            $("#C").val(Number($("#L").val())+Number($("#T").val()))
+        }else if(course_type ==2){
+            $("#P").prop("disabled", false);
+            $("#L,#T,#J,#S").prop("disabled", true);
+            $("#C").val(Number($("#P").val())*0.5)
+        }else if(course_type ==3){
+            $("#L,#T,#P").prop("disabled", false);
+            $("#J,#S").prop("disabled", true);
+            l = $("#L").val();
+            t = $("#T").val();
+            p = $("#P").val();
+            sum = (Number(l) + Number(t)) + Number(p*0.5)
+            $("#C").val(sum)
+        }
+		else if(course_type ==4){
+			$("#C").prop("readonly", false);
+			$("#L,#T,#P,#S").prop("disabled", true);
+            $("#J").prop("disabled", false);
+            $("#J").prop("readonly", true);
+            $("#J").val(1);
+            
+        }
+		else if(course_type ==5){
+            
+			$("#T,#P,#J,#L").prop("disabled", true);
+			$("#J").prop("readonly", false);
+            $("#S").prop("disabled", false);
+            $("#C").val(Number($("#S").val()))
+        }
+		else if(course_type ==6){
+            $("#T,#P,#J,#L,#S").prop("disabled", false);
+            $("#T,#P,#J,#L,#S").prop("readonly", false);
+			$("#C").prop("readonly", true);
+            $("#C").val(0)
+        }
+    })
+
+
+jQuery.validator.addMethod("alpha_space", function(value, element, param) {
+  return value.match(new RegExp("^" + param + "*$"));
+});
+jQuery.validator.addMethod("exactlength", function(value, element, param) {
+ return this.optional(element) || value.length == param;
+}, $.validator.format("Please enter exactly {0} characters."));
+
+jQuery.extend(jQuery.validator.messages, {
+    required: "This field is required.",
+    remote: "Please fix this field.",
+    email: "Please enter a valid email address.",
+    url: "Please enter a valid URL.",
+    date: "Please enter a valid date.",
+    dateISO: "Please enter a valid date (ISO).",
+    number: "Please enter a valid number.",
+    digits: "Please enter only digits.",
+    creditcard: "Please enter a valid credit card number.",
+    equalTo: "Please enter the same value again.",
+    accept: "Please enter a value with a valid extension.",
+    maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+    minlength: jQuery.validator.format("Please enter at least {0} characters."),
+    rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+    range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+    max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+    min: jQuery.validator.format("Please enter a value greater than or equal to {0}."),
+    alpha_space:jQuery.validator.format("Please enter alphabets only"),
+
+});
+//ceritification_form js
+$( "#course_edit_form" ).validate({
+      rules: {
+        course_title: {
+          required: true,
+
+        },
+		type_of_course: {
+          required: true,
+
+        },
+		course_category: {
+          required: true,
+
+        },
+		level_of_course: {
+          required: true,
+
+        },
+		campus: {
+          required: true,
+
+        },
+		inst: {
+          required: true,
+
+        },
+		dept: {
+          required: true,
+
+        },
+		L: {
+			number: true,
+			range: [0, 4],
+			required: true,
+		},
+		T: {
+			number: true,
+			range: [0, 4],
+          required: true,
+
+        },
+		P: {
+			number: true,
+			min:0,
+			max:6,
+			
+          required: true,
+
+        },
+		J: {
+			
+          required: true,
+
+        },
+		S: {
+			number: true,
+			range: [0, 9],
+			required: true,
+
+        },
+		csmc: {
+			
+          required: true,
+
+        },
+		csmi: {
+			
+          required: true,
+
+        },
+
+      },
+      errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            $(element).closest('div').after(error)
+          }
+        },
+
+    });
+
+	</script>
+{% endblock %}

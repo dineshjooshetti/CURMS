@@ -1,0 +1,181 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+    {% load static %}
+
+
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style>
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page">Programme Details</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid ">
+        <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="fa fa-file-alt mr-2"></i>PROGRAMME STRUCTURE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="far fa-comment-dots mr-2"></i>SUGGESTIONS & TIMELINE</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+				<h3 class="text-center"> {{program_assign_details.program__name}}</h3><br>
+                        
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                        {% if program_structures %}
+							{% for i in program_structures %}
+
+								<span class="text-center"><h5>Level {{ i.level__level }}</h5></span>
+								<div class="table-responsive py-4">
+                                            <table id="example" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Course Title</th>
+													<th>Status</th>
+                                                    <th>Course Type</th>
+                                                    <th>Category</th>
+                                                    <th>L</th>
+                                                    <th>T</th>
+                                                    <th>P</th>
+                                                    <th>J</th>
+                                                    <th>S</th>
+                                                    <th>C</th>
+                                                    {#						<th>Action</th>#}
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for j in i.course_structures %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>
+                                                            {% if j.course_status %}
+                                                                <a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pcmc/course_preview/{{ j.encrypt_id }}">{{ j.course_name }}</a>
+                                                            {% else %}
+                                                                {{ j.course_name }}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+													{% if j.course_status %}
+														{{ j.course_status }}
+													{% elif program_user_mapping.program_status_level_id == 3 and  program_user_mapping.is_edit == 1 %}
+														<button type="submit" class="btn btn-sm assign_cms"  id="{{ j.id }}" style="background-color: #7f0000;color: white;float: left">Assign</button>
+													{%else%}
+														Course structure uploaded
+													{% endif %}
+												</td>
+                                                        <td>{{ j.course_type__name }}</td>
+                                                        <td>{{ j.course_category__category }}</td>
+                                                        <td>{{ j.L }}</td>
+                                                        <td>{{ j.T }}</td>
+                                                        <td>{{ j.P }}</td>
+                                                        <td>{{ j.J }}</td>
+                                                        <td>{{ j.S }}</td>
+                                                        <td>{{ j.C }}</td>
+                                                        {#						<td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pcmi/program_detail/{{ a.encrypt_id }}">#}
+                                                        {#								<i class="fa fa-eye" style="color:green"></i></a>#}
+                                                        {#						</td>#}
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+								<hr>
+							{% endfor %}
+
+                        {% else %}
+                            <span style="text-align: center">No Data is available</span>
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane fade show" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                        <h2 style="color:#7f0000;text-align: center">Timeline</h2>
+                        <hr>
+                        <!-- timeline -->
+                        <div class="timeline">
+
+
+                            {% for t in program_timeline %}
+                                <div class="timeline__event  animated fadeInUp delay-1s timeline__event--type2">
+                                    <div class="timeline__event__icon">
+                                        <img src="{% if forloop.counter == 1  %}{{ t.to_user__image }}  {% else %}{{ t.user__image }}{% endif %}" class="timeline-userimg">
+                                    </div>
+                                    <div class="timeline__event__date">
+                                        {% if forloop.counter == 1  %}{{ t.created }}{% else %}{{ t.created }}{% endif %}
+                                    </div>
+                                    <div class="timeline__event__content" style="width:75%">
+                                        <div class="timeline__event__title">
+                                            {% if forloop.counter == 1 %}{{ t.to_user__first_name }} <br><span style="font-size: 14px">{{ t.to_user_group__description }}</span> {% else %}{{ t.user__first_name }} <br><span style="font-size: 14px">{{ t.user_group__description }}</span>{% endif %}<span class="status">{% if forloop.counter == 1 %}<span>Pending</span>{% else %}{{ t.program_status_level__title }}{% endif %}</span>
+                                            {#								<br>#}
+                                            {#								<span class="designation">HOI  -VSP -GIT  -EECE</span>#}
+                                        </div>
+                                        {% if forloop.counter == 1 %}
+
+                                        {% else %}
+                                            <div class="timeline__event__description">
+                                                <p>TO: {{ t.to_user__first_name }} | {{ t.to_user_group__description }}</p>
+                                                  {% if t.comment %}
+                                                <p>{{ t.comment }}</p>
+                                                 {%  endif %}
+                                              </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+
+                        </div>
+                        <!--- end timeline-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {#    </div>#}
+    </div>
+
+
+
+    
+    
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+    <script>
+    
+    </script>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'bosc/base.html' %}
+{% load static %}
+{% block body %}
+    <style>
+        .custom-file-input{
+            opacity:0 !important;
+        }
+        .container{
+            width:100% !important;
+        }
+        .form-radio-item input + label{
+            color:#000000 !important;
+        }
+        .fieldset-content{
+            padding-right: 0px !important;
+        }
+        .fieldset-content{
+            height:auto !important;
+        }
+        .form-textarea textarea{
+            width:100% !important;
+        }
+        #val{
+            width:100% !important;
+        }
+        #credit_card, textarea{
+        background-color: #dddddd;
+        }
+        #about_us{
+        background-color: #cccc;
+        }
+        #text_padding{
+        padding-left: 120px;
+        }
+        .label{
+        padding-left: 80px;
+        font-weight: bold;
+        font-size: 15px!important;
+        }
+    </style>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'form_ui/fonts/material-icon/css/material-design-iconic-font.min.css'%}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'form_ui/css/style.css'%}">
+     <div class="header  pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-8 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                   <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item active"><a href="/">Add PAB</a></li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+   <div class="container-fluid mt--6">
+   <div class="container">
+            <h2>Add PAB</h2>
+            <hr>
+            <form method="POST" id="add_guest" class="signup-form" action="/bosc/add_pab_user">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="fieldset-content">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="username" class="form-label">Name</label>
+                                <div>
+                                <input type="text" name="firstname" maxlength="15" id="firstname" required>
+                                <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+               <div class="col-lg-4 text-right">
+{#                                     <span> <span class="feildCount">0</span></span> <span>/10</span>#}
+               </div>
+            </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <div>
+                                <input type="email" name="email" id="email" required>
+                                 <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+               <div class="col-lg-4 text-right">
+{#                                     <span> <span class="feildCount">0</span></span> <span>/10</span>#}
+               </div>
+            </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="username" class="form-label">Phone</label>
+                                <div>
+                                <input type="number" name="phone" maxlength="5" id="phone" required>
+                                 <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+               <div class="col-lg-4 text-right">
+{#                                     <span> <span class="feildCount">0</span></span> <span>/10</span>#}
+               </div>
+            </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="username" class="form-label">Organization</label>
+                                <div>
+                                <input type="text" name="campus"  id="campus" required>
+                                 <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+               <div class="col-lg-4 text-right">
+{#                                     <span> <span class="feildCount">0</span></span> <span>/10</span>#}
+               </div>
+            </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="username" class="form-label">Designation</label>
+                                <div>
+                                <input type="text" name="designation"  id="designation" required>
+                                 <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+               <div class="col-lg-4 text-right">
+{#                                     <span> <span class="feildCount">0</span></span> <span>/10</span>#}
+               </div>
+            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <center><button type="submit" class="btn btn-success mb-4 mt-2" name="ssend">Create PAB</button></center>
+            </form>
+        </div>
+</div>
+
+<script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/validations/guestform.js'%}"></script>
+
+{% endblock %}

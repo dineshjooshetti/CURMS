@@ -1,0 +1,138 @@
+{% extends 'bosc/base.html' %}
+{% block body %}
+{% load static %}
+    <style>
+    .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+        }
+    </style>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+ 
+ <div class="container-fluid mt-3">
+		<div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item active"><a href="#">Programme list</a></li>
+                </ol>
+              </nav>
+            </div>
+         </div>
+        </div>
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="card">
+					<div class="card-header"><h4 class="mb-0 pt-1" style="float:left">Programme list</h4> 
+					<span class="" style="float:right"><a href="/bosc/create_program" class="btn btn-sm " style="background-color: #7f0000;color: #fff">+ Create New Programme</a></span></div>
+                        <div class="card-body">
+                               <div class="" id="administration" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                              
+                                    <div class="table-responsive mb-2">
+                                      <table class="table table-flush example2" id="datatable-buttons1">
+                                          <thead>
+                                              <tr>
+                                                <th>S.No</th>
+                                                <th>Name of Programme</th>
+                                                <th>Programme Type</th>
+                                                <!--th>Programme Category</th-->
+                                                <th>Status</th>
+                                                <!-- <th>Status</th>
+                                                <th>Status</th> -->
+                                                <th>Action</th>
+
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                              {% for a in programs %}
+                                              <tr>
+                                              <td>{{ forloop.counter }}</td>
+                                                  <td>{% if not a.program_status_id == 1 %}
+														<a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/bosc/bosc_program_detail/{{ a.encrypt_id }}">{{ a.name }}</a>
+													{% else %}
+														{{a.name}}
+													{% endif %}
+												</td>
+                                                <td>{{ a.program_type__type }}</td>
+                                                <!--td>{{ a.program_category__name }}</td-->
+                                                <!-- <td>{{ a.to_user__first_name }}-{{ a.to_user__groups__name }}</td> -->
+                                                <td>{{ a.program_status }}</td>
+                                                <!-- <td>Pending</td> -->
+                                                <td>
+                                                    <a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="Edit" href="/bosc/program_edit/{{ a.encrypt_id }}">
+                                                        <i class="fa fa-edit" style="color:#3a3872"></i></a>
+													<span class="item project_delete" style="text-align: center;cursor: pointer;" id="{{ a.id }}" data-program="{{a.name}}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash" style="color: #7f0000;" aria-hidden="true"></i></span>
+	
+
+                                                </td>
+                                              </tr>
+                                              {% endfor %}
+                                              </tbody>
+                                      </table>
+                                    </div>
+                                </div>
+                               </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+<div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+			 data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="staticModalLabel2">Delete Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>
+        <center>Are You Sure Want to Delete "<span id="program_name"></span>" Programme </center>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form action="/bosc/program_delete" method="POST">{% csrf_token %}
+            <input type="hidden" id="program_del" name="program_del" class="btn btn-danger">
+            <input type="hidden" name="path" value={{request.path}} class="btn btn-danger">
+            <input type="submit" style="background-color: #7f0000;color: white" class="btn btn-md" value="Delete">
+        </form>
+
+    </div>
+    </div>
+    </div>
+    </div>
+
+<script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+
+
+ // Data Table
+ $('#datatable-buttons1').DataTable( {
+    "bPaginate" : $('#datatable-buttons1 tbody tr').length>10,
+    language: {
+	   searchPlaceholder: 'Name/Type/Status',
+       paginate: {
+         previous: "<i class='fa fa-angle-left'>",
+         next: "<i class='fa fa-angle-right'>"
+       }
+     }
+
+} );
+$(".project_delete").click(function() {
+
+    $("#program_del").val(this.id);
+    $("#program_name").html($(this).attr('data-program'))
+    $("#staticModal1").modal('show')
+} );
+
+</script>
+
+{% endblock %}

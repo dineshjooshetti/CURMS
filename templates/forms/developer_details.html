@@ -1,0 +1,91 @@
+
+<div class="fieldset-content">
+    <div class="row">
+        <div class="col-md-6">
+            <span class="form-label">Name of the faculty</span>
+            <div>
+            <input type="text" name="name" id="name" placeholder="Name"  value="{{ course_owner.to_user__first_name }}" disabled/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span class="form-label">Employee ID</span>
+            <input type="text" name="emp_id" id="emp_id" placeholder="Employee ID"value="{{ course_owner.to_user__username }}" disabled/>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-6">
+            <span class="form-label">Designation</span>
+            <div>
+            <input type="text" name="Designation" id="designation" placeholder="Name" value="{{ course_owner.to_user__designation }}" disabled/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span class="form-label">Department/Institute(course owner)</span>
+
+                <select class="form-control" aria-label="Default select example" name="dept_inst" disabled>
+                  <option selected disabled>Select Department/Institute</option>
+                  {% for d in dept %}
+                      {% if d.id == course_details.dept_code_id or d.id == course_owner.to_user__dept_code_id %}
+                        <option value="{{ d.id }}" selected>{{ d.dept_inst }}</option>
+                      {% else %}
+                        <option value="{{ d.id }}">{{ d.dept_inst }}</option>
+                      {% endif %}
+                  {% endfor %}
+                </select>
+
+        </div>
+    </div><br>
+</div>
+<div class="fieldset-footer">
+        <span>Step 1 of 5</span>
+</div>
+
+
+<script>
+
+$( document ).ready(function() {
+
+   $("#co_investigator").select2({
+    minimumInputLength: 3,
+    maximumSelectionLength: 2,
+         language: {
+        maximumSelected: function (e) {
+            var t = "You can only select " + e.maximum + " Co-Investigators";
+            return t
+
+        }
+    },
+
+    ajax: {
+        url: '/project/get_co_investigator',
+        dataType: 'json',
+        type: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            return {
+                term: term.term
+            };
+        },
+        processResults: function (data) {
+
+            //console.log(data)
+            return{
+               results: $.map(data, function (item) {
+                    return {
+                        text: item.first_name+' | '+item.username+' | '+item.campus+' | '+item.institution+' | '+item.department,
+                        id: item.id
+                    }
+                })
+            };
+
+        }
+    }
+});
+})
+
+function edit_co_phone(obj){
+alert(obj.id)
+$(obj).next('input').attr('type','text')
+console.log(obj)
+}
+ </script>

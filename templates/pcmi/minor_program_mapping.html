@@ -1,0 +1,540 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+    {% load static %}
+    <style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+            margin-left: 37%;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+        .select2-container--default .select2-selection--single{
+            height:45px!important;
+        }
+    .select2-selection__rendered {
+    line-height: 44px!important;
+    }
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="/pcmi/pcmi_program_detail/{{enc_program_id}}">Program Details</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Programme Minor core</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid ">
+        <div class="nav-wrapper">
+
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+            <div class="row">
+              <div class="col-md-4"><h3 class="text-left"> {{course_category.category}}</h3></div>
+              <div class="col-md-4"> <h3 class="text-center"> {{program.0.name}}</h3></div>
+              <div class="col-lg-4">
+                  <a href="/pcmi/pcmi_program_detail/{{program_id}}" style="color: black" class="btn btn-cus-yellow ml-8"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+               </div>
+            </div>
+
+				<br>
+
+                <div >
+                    <div >
+
+
+                        {% if programs_data%}
+                            <div class="table-responsive py-4">
+                                <table id="example1" class="table table-bordered table-striped">
+                                <thead >
+
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Course Name</th>
+                                    <th>Course Type</th>
+                                    <th>Program Type</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>P</th>
+                                    <th>J</th>
+                                    <th>S</th>
+                                    <th>C</th>
+                                    <th>CSMI</th>
+                                    <th>CSMM</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                             {% for p in programs_data %}
+                                    <tr>
+                                        <td colspan="6"><h4 class="text-right"> {{p.program__name}}</h4> </td>
+                                        <td colspan="6"><div class="switch m-b-md" data-id="{{p.program_id}}" data-value="1">
+                                           <label class="custom-toggle custom-toggle-warning">
+                                          <input type="checkbox" {% if p.program_id in mapped_minor_prograns %}checked{% endif %} {% if is_edit == 0 %}disabled {% endif %}>
+                                          <span class="custom-toggle-slider rounded-circle" data-label-off="NO" data-label-on="YES"></span>
+                                                </label>
+                                           </div></td>
+                                    </tr>
+                                {% for i in p.course_data %}
+                                  <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ i.course_name }}</td>
+                                    <td>{{ i.course_type__name }}</td>
+                                    <td>{{ i.program_type__type }}</td>
+
+                                    <td>{{ i.L }}</td>
+                                    <td>{{ i.T}}</td>
+                                    <td>{{ i.P}}</td>
+                                    <td>{{ i.J}}</td>
+                                    <td>{{ i.S}}</td>
+                                    <td>{{ i.C}}</td>
+                                    <td>{% if i.csmi_name%}{{ i.csmi_name }}{% else %}-{% endif %}</td>
+                                    <td>{% if i.csmm_name%}{{ i.csmm_name }}{% else %}-{% endif %}</td>
+                                    <td>{{i.course_status}}</td>
+
+
+                                  </tr>
+                                {% endfor %}
+                             {%endfor%}
+                                </tbody>
+                              </table>
+                            </div>
+
+                        {% else %}
+                            <br>
+                            <div class="text-center"> No Data Available....</div>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- Program Structure Modal popup -->
+<div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+
+
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel" style="color: #7f0000">Forward Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h3 style="color: black">Are you sure to forward to the Co-Chair, BoS?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/pcmi/forward_program_to_bosc_by_pcmi/{{ program_id }}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <input type="hidden" id="administration_del" name="administration_del" class="btn btn-danger">
+                    <input type="hidden" id="path" name="path" class="path" value="{{request.path}}">
+{#                                <input type="hidden" id="training_id" name="training_id" class="path" value="{{id}}">#}
+                    <input type="submit" style="background-color: #7f0000;color: white" class="btn btn-md" value="Submit">
+                </form>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<!-- End Program Structure Modal popup -->
+
+<!-- Program Forward Modal popup -->
+<div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                 {% if not program_st == level_mapped %}
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="staticModalLabel">Forward Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="font-size: 20px">
+                        <h3 style="color: black;text-align: center;">Please make sure to upload the following</h3>
+                        {% for i in level %}
+                        <li style="font-size: 14px">Level {{ i }} </li>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                    </div>
+					{% elif dept_inst_course%}
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="staticModalLabel">Forward Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="font-size: 20px">
+                        <h3 style="color: black;text-align: center;">Please map the Institution and Department for the following Course(s).
+									You can map this by clicking on the edit button (<i class="fa fa-edit" style="color:dodgerblue"></i>) in the action tab   </h3>
+                        {% for i in dept_inst_course %}
+                        <li style="font-size: 14px">{{ i }}</li>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                     {% elif ltpjs_course%}
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="staticModalLabel">Forward Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="font-size: 20px">
+                        <h3 style="color: black;text-align: center;">Please check LTPJSC for the following Course(s)</h3>
+                        {% for i in ltpjs_course %}
+                        <li style="font-size: 14px">{{ i }}</li>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                    </div>
+
+                 {% else %}
+                     <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Forward Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <h3 style="color: black">Are you sure to forward to the Co-Chair, BoS?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/pcmi/program_forward/{{ p_id }}" method="POST">{% csrf_token %}
+                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                        <input type="hidden" id="bos_user_id" name="bos_user_id" value="{{ program_assign_details.user_id }}">
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+<!-- End Program Forward Modal popup -->
+
+<!-- Course Assign Modal popup -->
+<div class="modal fade" id="assign_cms" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Assign CSM Committee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/pcmi/course_assign" method="POST">{% csrf_token %}
+
+                <div class="modal-body">
+                    <input type="hidden" name="course_id" id="course_id">
+                    <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <span class="form-label">CSM Incharge</span>
+                            <select class="form-control select2" aria-label=" select example" id="csmi" name="csmi" multiple>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <span class="form-label">CSM Member</span>
+                            <select class="form-control select2" aria-label=" select example" id="csmc" name="csmc" multiple >
+
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+
+
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                    <ul>
+                    <li><span class="form-label">CSM Incharge : Course Syllabus Modification committee Incharge</span></li>
+                    <li><span class="form-label">CSM Member : Course Syllabus Modification committee Member</span></li>
+                    </ul>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Course Assign Modal popup -->
+
+<!-- Delete Course Modal popup -->
+<div class="modal fade" id="staticModal_delete" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h3 style="color: black">Are you sure want to Delete ?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/course/course_del" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="course_del" name="course_del" >
+                    <input type="hidden" id="p_id" name="p_id" value="{{ p_id }}" >
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Delete Course Modal popup -->
+
+
+<!-- Course catageory Course Modal popup -->
+<div class="modal fade" id="staticModal_pending" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Please Map below Pre requisite Courses</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" onclick="window.location.reload()" >&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+               <div class="form-group col-md-12">
+                <div id="pending_courses"></div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.location.reload()" >Cancel</button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Course catageory Modal popup -->
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+<script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jszip.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/pdfmake.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/vfs_fonts.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.html5.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.print.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+<script>
+$(".select2").select2({
+	placeholder: "Select a Campus",
+
+ });
+        // $('#example1').dataTable({
+        //     "paging": false,"bInfo": false,
+        // });
+
+
+        $(".assign_cms").click(function(){
+            var course_id = this.id;
+            $("#course_id").val(course_id)
+            $("#assign_cms").modal('show')
+        })
+        $(".pcmi_forward_bosc").click(function(){
+            var str = this.id;
+            $("#staticModal1").modal('show')
+
+        })
+        $(".message_post").click(function(){
+            var str = this.id;
+            $("#staticModal").modal('show')
+        })
+        $(".delete_confirm").click(function(){
+            var str = this.id;
+            $("#course_del").val(str)
+            $("#staticModal_delete").modal('show')
+        })
+        $( document ).ready(function() {
+
+            $("#csmi").select2({
+                placeholder: 'Select CSM Incharge',
+                minimumInputLength: 3,
+
+                maximumSelectionLength: 1,
+                language: {
+                    maximumSelected: function (e) {
+                        var t = "You can only select " + e.maximum + " CSM Incharge";
+                        return t
+
+                    }
+                },
+
+                ajax: {
+                    url: '/pcmi/get_csm_incharges',
+                    dataType: 'json',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            term: term.term
+                        };
+                    },
+                    processResults: function (data) {
+
+                        //console.log(data)
+                        return{
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.first_name+'|'+item.username+'|'+item.email,id:item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+            $("#csmc").select2({
+                placeholder: 'Select CSM Member',
+                minimumInputLength: 3,
+                maximumSelectionLength: 1,
+                language: {
+                    maximumSelected: function (e) {
+                        var t = "You can only select " + e.maximum + " CSM Member";
+                        return t
+
+                    }
+                },
+
+                ajax: {
+                    url: '/pcmi/get_csm_incharges',
+                    dataType: 'json',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            term: term.term
+                        };
+                    },
+                    processResults: function (data) {
+
+                        //console.log(data)
+                        return{
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.first_name+'|'+item.username+'|'+item.email,id:item.id
+                                }
+                            })
+                        };
+
+                    }
+                }
+            });
+        })
+
+
+    var program_id;
+    $(document).on("click", ".switch", function() {
+        program_id = $(this).data('id');
+
+    });
+
+    $(".switch").find("input[type=checkbox]").on("change",function() {
+
+        var status = $(this).prop('checked');
+        if(status == true) {
+            status = 1;
+
+        } else {
+            status = 0;
+        }
+        $.ajax ({
+            url: '/pcmi/minor_core_programs_mapping',
+            type: 'POST',
+            data: {"status": status, "choosen_program_id":program_id,'program_header_id':{{p_id}},'category_id':{{category_id}}},
+            success: function(data){
+                if(data.status==200) {
+                    console.log("success");
+                }else if(data.status==201) {
+                        $('#pending_courses').empty();
+                        for (i=0;i<data.pending_courses.length;i++){
+                            $('#pending_courses').append('<li>'+data.pending_courses[i]+'</li>')
+                        }
+                        $("#staticModal_pending").modal('show')
+                }
+                else if(data.status==500) {
+                    console.log("error");
+                }
+            },
+
+        });
+
+
+
+    });
+
+
+
+
+    </script>
+{% endblock %}

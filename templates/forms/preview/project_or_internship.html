@@ -1,0 +1,126 @@
+<p style="text-align: justify;margin-top:15px;">
+	{{ course_details.course_descrption }}
+</p>
+<h4>Course Objectives</h4>
+<div>
+	<ul style="font-size:14px !important;">
+	{%for i in course_details.course_objectives %}
+		<li>{{i}}</li>
+	{%endfor%}
+	</ul>
+</div>
+<h4>Alternate Exposure</h4>
+<div>
+	<p>{{ course_details.alternative_exposure }}</p>
+</div>
+ <h4>Course Pre-requisite(s)</h4>
+{% for i in course_pre_requisite %}
+	<div>
+		<ol style="font-size:14px !important;">
+			<li>{{ i.prerequesti__course_name }}</li>
+		</ol>
+	</div>
+{% endfor %}
+ <h4>Course Co-requisite(s)</h4>
+{% for i in course_co_requisite %}
+	<div>
+		<ol style="font-size:14px !important;">
+			<li>{{ i.corequesti__course_name }}</li>
+		</ol>
+	</div>
+{% endfor %}
+<h4>SDG(Sustainable development goal)</h4>
+<div>{%for i in course_details.sdg %}
+		{{i}}{% if not forloop.counter == course_details.sdg|length%},{%endif%}
+	{%endfor%}
+</div><br>
+<h4>SDG(Sustainable development goal) Jusification</h4>
+<div>
+	<p style="text-align: justify">{{course_details.sdg_description}}</p>
+</div>
+
+<h4>Topics</h4>
+<div>
+	<ol style="font-size:14px !important;">{%for i in course_details.project_topic %}
+		<li>{{i}}</li>
+	{%endfor%}
+</ol>
+</div>
+
+
+<table style="font-size:14px !important;"  border="1" width="100%">
+	<tr>
+		<td width="95%"><b>Texbook(s)</b></td>
+		<td><b>Topics</b></td>
+	</tr>
+		{% for j in course_book_details %}
+			<tr>
+			<td><p>{{ forloop.counter }}.&nbsp;{{ j.author }},'{{ j.title }}',{{ j.edition }},{{ j.publisher }},{{ j.place_of_publication }},{{ j.year }},{{ j.isbn }}</p>
+			</td>
+			<td>{{ j.unit_mapping }}</td>
+			</tr>
+		{% endfor %}
+	
+</table>
+<table style="font-size:14px !important;"  border="1" width="100%">
+	<tr>
+		<td width="95%"><b>Additional Reading(s)</b></td>
+		<td><b>Topics</b></td>
+	</tr>
+	
+		{% for i in references_details %}
+		<tr>
+			<td>
+				<p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.edition }},{{ i.publisher }},{{ i.place_of_publication }},{{ i.year }},{{ i.isbn }}</p>
+			</td>
+			<td>{{ i.unit_mapping }}</td>
+			</tr>
+		{% endfor %}
+	
+</table>
+<table style="font-size:14px !important;"  border="1" width="100%">
+	<tr>
+		<td width="95%"><b>Journal(s)</b></td>
+		<td><b>Topics</b></td>
+	</tr>
+	
+		{% for i in journal_details %}
+			<tr>
+			<td>
+				<p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.year }},{{ i.pages }}</p>
+			</td>
+			<td>{{ i.unit_mapping }}</td>
+			 </tr>
+		{% endfor %}
+   
+</table>
+<table style="font-size:14px !important;"  border="1" width="100%">
+	<tr>
+		<td width="95%"><b>Website(s)</b></td>
+		<td><b>Topics</b></td>
+	</tr>
+	
+		{% for i in website_details %}
+		<tr>
+			<td>
+				<p>{{ forloop.counter }}.&nbsp;{{ i.name_website }},{{ i.last_accessed }},{{ i.website_url }}</p>
+			</td>
+			<td>{{ i.unit_mapping }}</td>
+			</tr>
+		{% endfor %}
+	
+</table><br><br>
+<h4>Course Outcome(s)</h4>	
+<div>
+	<ul style="font-size:14px !important;">
+	{% for i in course_details.course_outcome %}
+		<li>{{i}}</li>
+	{% endfor %}	
+	</ul>
+</div>
+<center><h3 class="mt-5" style="text-align: center;">Instructional Plan</h3></center>
+{% if course_details.instruction_plan %}
+	<embed src="/media/user/instruction_plan/{{ course_details.instruction_plan }}#toolbar=0"  type="application/pdf"  width="100%" height="600px" />
+{% else %}
+	<span>No file uploaded</span>
+{% endif %}

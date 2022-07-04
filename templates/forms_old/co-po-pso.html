@@ -1,0 +1,658 @@
+<style>
+.table input {
+    {#width: 50px;#}
+    height: 40px;
+    border: 1px solid black;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+.table thead th {
+    font-size: 14px ;
+    text-align: center;
+    {#width: 90px;#}
+}
+.table tbody th {
+    font-size: 14px ;
+    text-align: center;
+}
+.card {
+    margin-bottom: 0px !important;
+}
+.table th, .table td{
+    padding:0px;
+    width:30px;
+}
+    .table thead th{
+        text-transform:none;
+    }
+</style>
+<div class="fieldset-content">
+    <div class="row mt--5">
+        <div class="col-lg-6">
+            <div class="card-header text-center" style="margin-bottom: -15px">
+                <span style="font-size: 18px ;">COs</span>
+            </div>
+            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                {% for c in course_outcome %}
+                    <span>{{ forloop.counter }} &nbsp;{{ c.course_outcome }}</span>
+                {% endfor %}
+            </div>
+             <div class="card-header text-center" style="margin-bottom: -15px">
+                <span style="font-size: 18px ;">PSOs</span>
+            </div>
+            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                {% for p in pso %}
+                    <span>{{ forloop.counter }}  &nbsp;{{ p.pso }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card-header text-center" style="margin-bottom: -15px">
+                <span style="font-size: 18px ;">POs</span>
+            </div>
+            <div class="card" style="border: 2px solid #cccccc;padding: 10px;font-size: 13px;color: black;">
+                <span>1  &nbsp;Engineering Knowledge</span>
+                <span>2  &nbsp;Problem analysis</span>
+                <span>3  &nbsp;Design/development of solutions</span>
+                <span>4  &nbsp;Conduct investigations of complex problems</span>
+                <span>5  &nbsp;Modern tool usage</span>
+                <span>6  &nbsp;The engineer and society</span>
+                <span>7  &nbsp;Environment and sustainability</span>
+                <span>8  &nbsp;Ethics</span>
+                <span>9  &nbsp;Individual or team work</span>
+                <span>10  &nbsp;Communication</span>
+                <span>11  &nbsp;Project management and finance</span>
+                <span>12  &nbsp;Life-long Learning</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card-header text-center" style="margin-bottom: -15px">
+                <span style="font-size: 18px ;">Level of correlation</span>
+            </div>
+            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black;font-size: 13px">
+                <span>1  &nbsp;Low</span>
+                <span>2  &nbsp;Medium</span>
+                <span>3  &nbsp;High</span>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="table-responsive py-4">
+        {% if co_po_pso %}
+            <table id="table" class="table table-bordered">
+          <thead class="text-center">
+            <tr>
+              <th scope="col"></th>
+              <th colspan="12">POs</th>
+              <th colspan="{{ pso|length }}">PSOs</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th scope="col">CO</th>
+              <th scope="col">1</th>
+              <th scope="col">2</th>
+              <th scope="col">3</th>
+              <th scope="col">4</th>
+              <th scope="col">5</th>
+              <th scope="col">6</th>
+              <th scope="col">7</th>
+              <th scope="col">8</th>
+              <th scope="col">9</th>
+              <th scope="col">10</th>
+              <th scope="col">11</th>
+              <th scope="col">12</th>
+              {% for p in pso %}
+                  <th scope="col">{{ forloop.counter }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            <input type="hidden" name="courseid" value="{{ course_details.id }}">
+            {% for c in co_po_pso %}
+            <tr>
+                <input type="hidden" name="co_po_pso_id" value="{{ c.id }}">
+              <th scope="row">{{ c.co }}<input type="hidden" name="co" value="{{ c.co }}"></th>
+                <td><input size="1" class="form-control po_1" name="po1" type="number" value="{% if c.po1 %}{{ c.po1 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_2" name="po2" type="number" value="{% if c.po2 %}{{ c.po2 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_3" name="po3" type="number" value="{% if c.po3 %}{{ c.po3 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_4" name="po4" type="number" value="{% if c.po3 %}{{ c.po4 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_5" name="po5" type="number" value="{% if c.po5 %}{{ c.po5 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_6" name="po6" type="number" value="{% if c.po6 %}{{ c.po6 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_7" name="po7" type="number" value="{% if c.po7 %}{{ c.po7 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_8" name="po8" type="number" value="{% if c.po8 %}{{ c.po8 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_9" name="po9" type="number" value="{% if c.po9 %}{{ c.po9 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_10" name="po10" type="number" value="{% if c.po10 %}{{ c.po10 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_11" name="po11" type="number" value="{% if c.po11 %}{{ c.po11 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control po_12" name="po12" type="number" value="{% if c.po12 %}{{ c.po12 }}{% endif %}" contenteditable></td>
+                <td><input size="1" class="form-control pso_1" name="pso1" value="{% if c.pso1 %}{{ c.pso1 }}{% endif %}" type="number" contenteditable></td>
+                <td><input size="1" class="form-control pso_2" name="pso2" value="{% if c.pso2 %}{{ c.pso2 }}{% endif %}" type="number" contenteditable></td>
+                <td><input size="1" class="form-control pso_3" name="pso3" value="{% if c.pso3 %}{{ c.pso3 }}{% endif %}" type="number" contenteditable></td>
+                {% if not c.pso4 == None %}
+                    <td><input size="1" class="form-control pso_4" name="pso4" value="{% if c.pso4 %}{{ c.pso4 }}{% endif %}" type="number" contenteditable></td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+            <tr>
+              <th scope="row">Avg</th>
+                <td><input class="form-control" id="po_total_1" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_2" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_3" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_4" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_5" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_6" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_7" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_8" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_9" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_10" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_11" type="number" contenteditable></td>
+                <td><input class="form-control" id="po_total_12" type="number" contenteditable></td>
+                {% for p in pso %}
+                    <td><input class="form-control" id="pso_total_{{ forloop.counter }}" type="number" contenteditable></td>
+                {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+        {% else %}
+
+            <table id="table" class="table table-bordered">
+              <thead class="text-center">
+                <tr>
+                  <th scope="col"></th>
+                  <th colspan="12">POs</th>
+                  <th colspan="{{ pso|length }}">PSOs</th>
+                </tr>
+              </thead>
+              <thead>
+                <tr>
+                  <th scope="col">CO</th>
+                  <th scope="col">1</th>
+                  <th scope="col">2</th>
+                  <th scope="col">3</th>
+                  <th scope="col">4</th>
+                  <th scope="col">5</th>
+                  <th scope="col">6</th>
+                  <th scope="col">7</th>
+                  <th scope="col">8</th>
+                  <th scope="col">9</th>
+                  <th scope="col">10</th>
+                  <th scope="col">11</th>
+                  <th scope="col">12</th>
+                  {% for p in pso %}
+                      <th scope="col">{{ forloop.counter }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                <input type="hidden" name="courseid" value="{{ course_details.id }}">
+                {% for c in course_outcome %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}<input type="hidden" name="co" value="{{ forloop.counter }}"></th>
+                    <td><input class="form-control po_1" name="po1" type="number" contenteditable></td>
+                    <td><input class="form-control po_2" name="po2" type="number" contenteditable></td>
+                    <td><input class="form-control po_3" name="po3" type="number" contenteditable></td>
+                    <td><input class="form-control po_4" name="po4" type="number" contenteditable></td>
+                    <td><input class="form-control po_5" name="po5" type="number" contenteditable></td>
+                    <td><input class="form-control po_6" name="po6" type="number" contenteditable></td>
+                    <td><input class="form-control po_7" name="po7" type="number" contenteditable></td>
+                    <td><input class="form-control po_8" name="po8" type="number" contenteditable></td>
+                    <td><input class="form-control po_9" name="po9" type="number" contenteditable></td>
+                    <td><input class="form-control po_10" name="po10" type="number" contenteditable></td>
+                    <td><input class="form-control po_11" name="po11" type="number" contenteditable></td>
+                    <td><input class="form-control po_12" name="po12" type="number" contenteditable></td>
+                    {% for p in pso %}
+                        <td><input class="form-control pso_{{ forloop.counter }}" name="pso{{ forloop.counter }}" type="number" contenteditable></td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                <tr>
+                  <th scope="row">Avg</th>
+                    <td><input class="form-control" id="po_total_1" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_2" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_3" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_4" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_5" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_6" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_7" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_8" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_9" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_10" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_11" type="number" contenteditable></td>
+                    <td><input class="form-control" id="po_total_12" type="number" contenteditable></td>
+                    {% for p in pso %}
+                        <td><input class="form-control" id="pso_total_{{ forloop.counter }}" type="number" contenteditable></td>
+                    {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+
+{#        <div class="table-responsive py-4">#}
+{#        <table class="table table-bordered">#}
+{#          <thead class="text-center">#}
+{#            <tr>#}
+{#              <th scope="col"></th>#}
+{#              <th colspan="12">POs</th>#}
+{#              <th colspan="{{ pso|length }}">PSOs</th>#}
+{#            </tr>#}
+{#          </thead>#}
+{#          <thead>#}
+{#            <tr>#}
+{#              <th scope="col">CO</th>#}
+{#              <th scope="col">1</th>#}
+{#              <th scope="col">2</th>#}
+{#              <th scope="col">3</th>#}
+{#              <th scope="col">4</th>#}
+{#              <th scope="col">5</th>#}
+{#              <th scope="col">6</th>#}
+{#              <th scope="col">7</th>#}
+{#              <th scope="col">8</th>#}
+{#              <th scope="col">9</th>#}
+{#              <th scope="col">10</th>#}
+{#              <th scope="col">11</th>#}
+{#              <th scope="col">12</th>#}
+{#              {% for p in pso %}#}
+{#                  <th scope="col">{{ forloop.counter }}</th>#}
+{#              {% endfor %}#}
+{#            </tr>#}
+{#          </thead>#}
+{#          <tbody>#}
+{#            {% for c in course_outcome %}#}
+{#            <tr>#}
+{#              <th scope="row">{{ forloop.counter }}</th>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td><span class="budget_count1" id="B1" contenteditable></span></td>#}
+{#                <td contenteditable><input class="form-control pso_1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                {% for p in pso %}#}
+{#                    <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                {% endfor %}#}
+{#            </tr>#}
+{#            {% endfor %}#}
+{#            <tr>#}
+{#              <th scope="row">Avg</th>#}
+{#                <td contenteditable><input id="pso_total_1" class="form-control" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                {% for p in pso %}#}
+{#                    <td contenteditable><input class="form-control budget_count1" type="hidden"></td>#}
+{#                {% endfor %}#}
+{#            </tr>#}
+{#          </tbody>#}
+{#        </table>#}
+{#    </div>#}
+</div>
+
+<div class="fieldset-footer">
+        <span>Step 6 of 6</span>
+</div>
+
+<script>
+$(".po_1").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    console.log(this.id)
+    total_count = 0
+    $('.po_1').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    console.log(total_count)
+    {#alert($("td:not(:empty)").length)#}
+    {#alert($('#trans_log_table tr').find('td:not(:empty)').length)#}
+    $("#po_total_1").val(sum1/total_count)
+});
+
+$(".po_2").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_2').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_2").val(sum1/total_count)
+});
+
+$(".po_3").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_3').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_3").val(sum1/total_count)
+});
+
+$(".po_4").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_4').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_4").val(sum1/total_count)
+});
+
+$(".po_5").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_5').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_5").val(sum1/total_count)
+});
+
+$(".po_6").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_6').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_6").val(sum1/total_count)
+});
+
+$(".po_7").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_7').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_7").val(sum1/total_count)
+});
+
+$(".po_8").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_8').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_8").val(sum1/total_count)
+});
+
+$(".po_9").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_9').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_9").val(sum1/total_count)
+});
+
+$(".po_10").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_10').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_10").val(sum1/total_count)
+});
+
+$(".po_11").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_11').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_11").val(sum1/total_count)
+});
+
+$(".po_12").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_12').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+         {#console.log($(this).val())#}
+         {#mul = sum * 15#}
+        }
+    })
+    {#alert($("td:not(:empty)").length)#}
+    $("#po_total_12").val(sum1/total_count)
+});
+
+{% for p in pso %}
+    $(".pso_{{ forloop.counter }}").keyup(function() {
+        $(".cutom_error1").remove()
+        budget_error=false
+        sum1 = 0
+        mul = 0
+        total_count = 0
+        console.log(this.id)
+        $('.pso_{{ forloop.counter }}').each(function () {
+            if (Number($(this).val()) > 3){
+            budget_error=true
+                alert('Please enter value between 1 and 3')
+                $(this).val('')
+            }
+            else{
+                if ($(this).val() != ''){
+                    total_count = total_count + 1
+                }
+             sum1 += Number($(this).val());
+             {#console.log($(this).val())#}
+             {#mul = sum * 15#}
+            }
+        })
+        {#alert($("td:not(:empty)").length)#}
+        $("#pso_total_{{ forloop.counter }}").val(sum1/total_count)
+    });
+{% endfor %}
+</script>

@@ -1,0 +1,108 @@
+
+<div class="fieldset-content">
+    <input type="hidden" name="id" value="{{ course_details.id }}">
+    <div class="row">
+        <div class="col-md-6">
+            <span class="form-label">Type of course</span>
+            <div>
+                <input type="hidden" name="type_of_course" value="{{ course_details.course_type_id }}">
+                <select class="form-control"  id="type_of_course" name="type_of_course" aria-label="Default select example" disabled>
+                      <option value="" selected>Select Type Of Course</option>
+                        {% for c in course_type %}
+                            {% if c.id == course_details.course_type_id %}
+                                <option  value="{{ c.id }}" selected>{{ c.name }} </option>
+                            {% else %}
+                                <option  value="{{ c.id }}">{{ c.name }} </option>
+                            {% endif %}
+
+                        {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span class="form-label">Level of course</span>
+            <input type="hidden" name="level_of_course" value="{{ course_details.level_of_course_id }}">
+            <select class="form-control" aria-label="Default select example" name="level_of_course" disabled>
+              <option value="" selected>Select Level of course</option>
+              {% for l in level_of_course %}
+                  {% if l.id == course_details.level_of_course_id %}
+                    <option value="{{ l.id }}" selected>{{ l.level }}</option>
+                  {% else %}
+                      <option value="{{ l.id }}">{{ l.level }}</option>
+                  {% endif %}
+              {% endfor %}
+            </select>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-6">
+            <span class="form-label">Course category</span>
+            <div>
+                <input type="hidden" name="course_category" value="{{ course_details.course_category_id }}">
+                <select class="form-control" aria-label="Default select example" name="course_category" disabled>
+                  <option value="" selected>Select Course category</option>
+                  {% for c in course_category %}
+                      {% if c.id == course_details.course_category_id %}
+                          <option value="{{ c.id }}" selected>{{ c.category }}</option>
+                      {% else %}
+                          <option value="{{ c.id }}">{{ c.category }}</option>
+                      {% endif %}
+                  {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div><br>
+</div>
+<div class="fieldset-footer">
+        <span>Step 2 of 6</span>
+</div>
+
+
+<script>
+
+$( document ).ready(function() {
+
+   $("#co_investigator").select2({
+    minimumInputLength: 3,
+    maximumSelectionLength: 2,
+         language: {
+        maximumSelected: function (e) {
+            var t = "You can only select " + e.maximum + " Co-Investigators";
+            return t
+
+        }
+    },
+
+    ajax: {
+        url: '/project/get_co_investigator',
+        dataType: 'json',
+        type: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            return {
+                term: term.term
+            };
+        },
+        processResults: function (data) {
+
+            //console.log(data)
+            return{
+               results: $.map(data, function (item) {
+                    return {
+                        text: item.first_name+' | '+item.username+' | '+item.campus+' | '+item.institution+' | '+item.department,
+                        id: item.id
+                    }
+                })
+            };
+
+        }
+    }
+});
+})
+
+function edit_co_phone(obj){
+alert(obj.id)
+$(obj).next('input').attr('type','text')
+console.log(obj)
+}
+ </script>

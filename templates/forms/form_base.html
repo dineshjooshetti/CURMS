@@ -1,0 +1,186 @@
+{% extends 'csmc/base.html' %}
+{% load static %}
+{% block body %}
+    <style>
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height:44px !important;
+    }
+    .custom-file-input{
+        opacity:0 !important;
+    }
+    .container{
+        width:100% !important;
+    }
+    .form-radio-item input + label{
+        color:#000000 !important;
+    }
+    .fieldset-content{
+        padding-right: 0px !important;
+    }
+    .fieldset-content{
+        height:auto !important;
+    }
+    .form-textarea textarea{
+        width:100% !important;
+    }
+    #val{
+        width:100% !important;
+    }
+    input[type="text"]:disabled {
+  background: #dddddd;
+}
+    .select2-container{
+        width:500px !important;
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered{
+        padding-top:10px;
+    }
+    .select2-container .select2-selection--single{
+        height:48px !important;
+    }
+    .teaxtarea_label{
+        {#font-weight:700;#}
+    }
+    input, select, textarea{
+        font-weight: normal !important;
+    }
+    .teaxtarea_label_sub{
+        font-weight: normal;
+        font-size: 12px;
+        font-style: italic;
+    }
+    .file_label_sub{
+        font-weight: normal;
+        font-size: 12px;
+        font-style: italic;
+        padding-bottom: 15px;
+        padding-left: 10px;
+    }
+    .charCounter{
+            {#color: rgb(51 47 47 / 60%);#}
+         	padding-right: 10px;
+        }
+    .err{
+        color:red;
+        font-size:12px;
+    }
+	
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'form_ui/fonts/material-icon/css/material-design-iconic-font.min.css'%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'form_ui/css/style.css'%}">
+     <div class="header pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-8 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item" aria-current="page">Course Details</li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+        </div>
+      </div>
+   </div>
+   <div class="container-fluid mt--6">
+
+
+
+   <div class="container">
+            <h2 style="color:#b11016">{{course_details.course_name}}</h2>
+            <form method="POST" id="signup-form"  action="/csmc/course_book_save/{{ course_id }}" class="signup-form">
+                {% csrf_token %}
+                <!--h3>
+                    <span class="title_text">Personal details</span>
+                </h3>
+                <fieldset>
+                    {% include 'forms/developer_details.html' %}
+                </fieldset>
+
+                <h3>
+                    <span class="title_text">Course code details</span>
+                </h3>
+                <fieldset>
+
+                    {% include 'forms/course_details.html' %}
+                </fieldset-->
+                <h3 class="title">
+                    <span class="title_text">About the course</span>
+                </h3>
+                <fieldset class="body">
+                    {% include 'forms/about_course.html' %}
+
+                </fieldset>
+
+                <h3>
+                    <span class="title_text">Syllabus</span>
+                </h3>
+                <fieldset>
+                    {% include 'forms/syllabus.html' %}
+                </fieldset>
+                <h3>
+                    <span class="title_text">Bibliography</span>
+                </h3>
+                <fieldset>
+                    {% include 'forms/bibliography.html' %}
+                </fieldset>
+
+            </form>
+        </div>
+
+
+
+</div>
+    <!--- content -->
+<script>
+active_step=0
+{%  if active_step %}
+    active_step = "{{ active_step }}"
+    active_step = active_step - 1
+{% endif %}
+
+</script>
+    <script src="{% static 'form_ui/vendor/jquery-validation/dist/jquery.validate.js' %}"></script>
+    <script src="{% static 'form_ui/vendor/jquery-validation/dist/additional-methods.min.js' %}"></script>
+    <script src="{% static 'form_ui/js/wordcounter.js'%}"></script>
+    <script src="{% static 'form_ui/vendor/jquery-steps/jquery.steps.js' %}"></script>
+    <script src="{% static 'form_ui/vendor/minimalist-picker/dobpicker.js' %}"></script>
+    <script src="{% static 'form_ui/vendor/jquery.pwstrength/jquery.pwstrength.js' %}"></script>
+    <script src="{% static 'form_ui/js/main.js' %}"></script>
+<script>
+$( document ).ready(function() {
+
+})
+</script>
+<script>
+
+function save_exit_function() {
+    $.ajax
+    ({
+        url: '/project/save_exit/',
+        data: $('#signup-form').serialize(),
+        type: 'post',
+        success: function(result){
+            console.log(result)
+            if(result.status == 200){
+                window.location.href = "/";
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.statusText);
+        }
+    });
+
+}
+</script>
+
+{% endblock %}

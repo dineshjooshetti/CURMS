@@ -1,0 +1,165 @@
+<!-- MAIN CONTENT-->
+{% extends 'bosc/base.html' %}
+{% block body %}
+{% load static %}
+{#{% load user_tags %}#}
+<link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/custom_datatable.css' %}">
+<!-- Page plugins -->
+
+   <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/jquery.dataTables.min.css' %}">
+  <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/buttons.dataTables.min.css' %}">
+    <!-- Header -->
+    <div class="header pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item active"><a href="/">Users</a></li>
+                </ol>
+              </nav>
+            </div>
+              <div class="col-lg-6 col-5 text-right">
+                  <a href="/bosc/add_pab_user" class="btn btn-md btn-success"  ><i class="fa fa-user"></i>&nbsp;+ Create PAB</a>
+            </div>
+
+          </div>
+        </div>
+		<div class="card">
+                         <div class="card-body">
+
+                    <form  method="POST" action="/bosc/pab_upload" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="col-lg-8  ml--4">
+                            <div class="form-file">
+                                <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="data" id="doc" class="custom-file-input mc" style="cursor: pointer" >
+                                <a href="/media/sample_pab_users.xlsx" download>Sample Excel</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <span class="form-label"></span>
+                                <button type="submit" class="btn btn-md "  style="background-color: #7f0000;color: white;float: left"> Submit</button>
+                            </div>
+
+                        </div>
+                    </form>
+                    </div>
+                    </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h3 class="mb-0">PAB List</h3>
+
+            </div>
+          <div class="card-body">
+
+            <div class="table-responsive py-4">
+              <table class="table table-flush" id="datatable-buttons1">
+                <thead class="thead-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Designation</th>
+                    <th>Organization</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for user in guest_details %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{%if user.phone %}{{ user.phone }} {%endif%}</td>
+                    <td>{%if user.designation %}{{ user.designation }} {%endif%}</td>
+                    <td>{%if user.campus %}{{ user.campus }} {%endif%}</td>
+
+{#                    <td>{{ request.user.groups }}{% for i in  request.user.groups.all %}{{ i.name }},{% endfor %}</td>#}
+{#					<td>#}
+{#                        <a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/user/user_details/{{ user.encrypt_id }}">#}
+{#                                                    <i class="fa fa-eye" style="color:green"></i></a>&nbsp;#}
+{#                    </td>#}
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- modal static -->
+{#			<div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"#}
+{#			 data-backdrop="static">#}
+{#				<div class="modal-dialog modal-sm" role="document">#}
+{#					<div class="modal-content">#}
+{#						<div class="modal-header">#}
+{#							<h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>#}
+{#							<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#								<span aria-hidden="true">&times;</span>#}
+{#							</button>#}
+{#						</div>#}
+{#						<div class="modal-body">#}
+{#							<p>#}
+{#                            <center>Are You Sure Want to Delete</center>#}
+{#							</p>#}
+{#						</div>#}
+{#						<div class="modal-footer">#}
+{#							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>#}
+{#                            <form action="/user/delete_trainer/" method="POST">{% csrf_token %}#}
+{#                                <input type="hidden" id="trainer_id" name="trainer_id" class="btn btn-danger" value="Delete">#}
+{#                                <input type="submit" class="btn btn-danger" value="Delete">#}
+{#                            </form>#}
+{##}
+{#						</div>#}
+{#					</div>#}
+{#				</div>#}
+{#			</div>#}
+			<!-- end modal static -->
+
+<!-- Optional JS -->
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jszip.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/pdfmake.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/vfs_fonts.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.html5.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.print.min.js' %}"></script>
+
+
+  <script>
+    $('#datatable-buttons1').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'pdf', 'print'
+        ],
+        language: {
+           paginate: {
+             previous: "<i class='fas fa-angle-left'>",
+             next: "<i class='fas fa-angle-right'>"
+           }
+         }
+
+    } );
+    $('.dt-buttons .buttons-html5, .buttons-print').removeClass('dt-button').addClass('btn-sm btn-default');
+  </script>
+
+{% endblock %}

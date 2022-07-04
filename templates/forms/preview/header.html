@@ -1,0 +1,65 @@
+<table border="1" style="font-size: 14px !important;margin-top:15px;" width="100%">
+	<tr>
+		<th rowspan="6"><img style="height: 120px;margin-left: 6px;margin-right: -31px;" src="/static/gitam-logo.jpg"></th>
+		<th>Course Code</th>
+		<th>Course Title</th>
+		<th colspan="6">
+			<table border="1" width="100%" style="text-align:center">
+			<tr>
+				<th  width="16.666%">L</th>
+				<th>T</th>
+				<th>P</th>
+				<th>J</th>
+				<th>S</th>
+				<th>C</th>
+			</tr>
+			</table>
+		</th>
+	</tr>
+	<tr>
+		
+			
+			<td>{{course_details.course_code}}</td>
+			<td>{{ course_details.course_name }}</td>
+			<td colspan="6">
+				<table border="1" width="100%" style="text-align:center">
+<tr>
+					<td width="16.666%">{{ course_details.L }}</td>
+					<td>{{ course_details.T }}</td>
+					<td>{{ course_details.P }}</td>
+					<td>{{ course_details.J }}</td>
+					<td>{{ course_details.S }}</td>
+					<td>{{ course_details.C }}</td>
+				</tr>
+				</table>
+			</td>
+	</tr>
+	<tr>
+
+		<td>Course Owner</td>
+		<td>{{course_owner.to_user__dept_code__dept_inst}}</td>
+		<td colspan="2">Syllabus version</td>
+		<td colspan="4" width="20%">1.0</td>
+	</tr>
+	<tr>
+
+		<td>Course Pre-requisite(s)</td>
+		   <td>{% if course_pre_requisite %}Yes{%else%}No{% endif %}</td>
+		<td colspan="2">Contact hours</td>
+		<td colspan="4">{{ course_details.total_no_of_contact_hours }}</td>
+	</tr>
+	<tr>
+
+		<td>Course Co-requisite(s)</td>
+		<td>{% if course_co_requisite %}Yes{%else%}No{% endif %}</td>
+		<td colspan="2">BoS Approved</td>
+		<td colspan="4">-</td>
+	</tr>
+	
+	<tr>
+		<td></td>
+		<td></td>
+		<td colspan="2">DoAA Approved</td>
+		<td colspan="4">-</td>
+	</tr>
+</table>

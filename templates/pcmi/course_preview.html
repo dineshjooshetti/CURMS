@@ -1,0 +1,277 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <style type="text/css">
+       
+        .copo_td {
+            border-top: 1px solid #000000;
+            border-bottom: 1px solid #000000;
+            border-left: 1px solid #000000;
+            border-right: 1px solid #000000
+        }
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+    </style>
+    <style>
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000 !important;
+        }
+
+        .hover {
+            color: #6b7480 !important;
+        }
+
+        .hover.active {
+            color: white !important;
+        }
+    </style>
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                {% if program.program_type_id == 6 %}
+                                    <li class="breadcrumb-item"><a href="/pcmi/pcmi_minor_program_detail/{{p_id}}">Program Details</a></li>
+                                {% else %}
+                                    <li class="breadcrumb-item"><a href="/pcmi/pcmi_program_detail/{{p_id}}">Program Details</a></li>
+                                {% endif %}
+                                <li class="breadcrumb-item"><a href="/pcmi/po_pso_mapping/{{p_id}}/{{c_id}}">Programme POs PSOs</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Course Preview</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-3">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+                <div class="row">
+                       <div class="col-lg-4">
+                            <h2 class="mb-0 pt-1">Program : {{program.name}}</h2>
+                            <h3 class="mb-0 pt-1">Course : {{course_details.course_name}}</h3>
+                       </div>
+                        <div class="col-lg-4">
+
+                       </div>
+                       <div class="col-lg-4">
+                          <a href="/pcmi/po_pso_mapping/{{p_id}}/{{c_id}}" style="color: black" class="btn btn-cus-yellow ml-8"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+                          </div>
+
+                    </div>
+                <div>
+                    <div >
+                        <div class="col-lg-12" style="color: black;">
+                            <div class="card-wrapper">
+
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="row">
+
+                                            {% if course_details.course_type_id == 1 or course_details.course_type_id == 5 %}
+                                                {% include 'pcmi/forms/theory.html' %}
+                                            {% elif course_details.course_type_id == 2 %}
+                                                {% include 'pcmi/forms/practical.html' %}
+                                            {% elif course_details.course_type_id == 3 or course_details.course_type_id == 6 %}
+                                                {% include 'pcmi/forms/theory_cum_practical.html' %}
+                                            {% elif course_details.course_type_id == 4 %}
+                                                {% include 'pcmi/forms/project_or_internship.html' %}
+                                            {% endif %}
+                                        </div><br>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<!-- forward_bosc Modal-->
+<div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel" style="color: #7f0000">Forward Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h3 style="color: black">Are you sure to forward to BOSC? </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/csmi/course_forward_to_bosc/{{ course_id }}" method="POST">{% csrf_token %}
+                    <input type="hidden" id="administration_del" name="administration_del" class="btn btn-danger">
+                    <input type="hidden" id="path" name="path" class="path" value="{{request.path}}">
+                    <input type="submit" style="background-color: #7f0000;color: white" class="btn btn-md" value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- forward_bosc End Modal -->
+
+<!-- forward_faculty Modal -->
+<div class="modal fade" id="staticModal2" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Forward Syllabus to Faculty</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/csmi/course_forward_to_faculty/{{ course_id }}" method="POST">{% csrf_token %}
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <span class="form-label">Faculty </span><span style="color: red;font-size: 12px">(can send to a maximum of 10 faculty)</span>
+                                <select class="form-control select2" aria-label=" select example" id="faculty" name="faculty" multiple>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- forward_faculty End Modal -->
+
+<!-- Modal pdf-->
+    <div class="modal fade" id="modal02" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w3-modal-content w3-animate-zoom">
+                        <iframe id="frame" width="100%" height="600px"></iframe>
+{#                        <embed id="frame"   type="application/pdf"  width="100%" height="600px" />#}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal PDF -->
+
+<script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+<script>
+$("#forward_bosc").on("click",function() {
+    $("#staticModal1").modal('show')
+});
+
+$("#forward_faculty").on("click",function() {
+    $("#staticModal2").modal('show')
+});
+$("#faculty").select2({
+        placeholder: 'Select Faculty Member',
+        minimumInputLength: 1,
+        maximumSelectionLength: 10,
+        language: {
+            maximumSelected: function (e) {
+                var t = "You can only select " + e.maximum + " Faculty Member";
+                return t
+
+            }
+        },
+
+        ajax: {
+            url: '/pcmi/get_csm_incharges',
+            dataType: 'json',
+            type: "POST",
+            quietMillis: 50,
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
+            processResults: function (data) {
+
+                //console.log(data)
+                return{
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.first_name+'|'+item.username+'|'+item.email,id:item.id
+                        }
+                    })
+                };
+
+            }
+        }
+    });
+</script>
+<script>
+    function getExtension(filename) {
+        return filename.split('.').pop().toLowerCase();
+    }
+
+    $(".preview").on("click", function(){
+        var c=$(this).data('value');
+        var extension=getExtension(c);
+        switch(extension) {
+            case 'pdf':
+
+               onClick_pdf(c);
+                $("#modal02").modal('show');
+                break;
+
+        }
+    });
+
+    function onClick_pdf(element){
+       var str1 = "/media/user/instruction_plan/";
+        var str2 = element;
+        var res = str1.concat(str2);
+        //window.open(res, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+        document.getElementById("frame").src = res+"#toolbar=0";
+    }
+</script>
+{% endblock %}
+

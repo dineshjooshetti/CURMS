@@ -1,0 +1,150 @@
+{% extends 'doaa/base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/buttons.dataTables.min.css' %}">
+    <style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            height:44px !important;
+
+        }
+        .card .table td, .card .table th {
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
+        }
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/doaa"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page">Program Details</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {#    <div class="container">#}
+        <div class="card shadow">
+            <div class="card-body">
+                <form  enctype="multipart/form-data" action="/doaa/dept_index" method="GET" >
+{#                    {% csrf_token %}#}
+                    <!--                                            <div class="card fileUpload">-->
+
+                    <div class="card-body">
+                    <div class="row">
+                    <div class="col-md-2">
+                    <span class="form-label">Select Department</span>
+                    </div>
+                    <div class="col-md-6" >
+{#                        <span class="form-label">Select Department</span>#}
+                        <select class="form-control" aria-label="Default select example" name="department" id="dept_search" required>
+
+                            <option value="" disabled selected>Select Department</option>
+
+                            {% for l in department %}
+                                <option value="{{ l }}"{% if l == dept_id %} selected {% endif %}>{{ l }}</option>
+                            {% endfor %}
+                        </select><br>
+                    </div>
+                    <div class="col-md-4" >
+{#                        <div class="input-group mb-1">#}
+{#                            <div class="input-group-append">#}
+                                <button class="btn btn-success" type="submit" id="">Submit</button>
+{#                            </div>#}
+{#                        </div>#}
+                    </div>
+                    </div>
+                </div>
+                    <!--                                            </div>-->
+
+                </form>
+
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel">
+
+{# {% if  programs%}#}
+
+                                <div class="table-responsive py-4">
+                                    <table id="example1" class="table table-bordered ">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Name of Programme</th>
+                                            <th>Programme Type</th>
+                                            <th>Status of Structure</th>
+                                            {#                                            <th>Action</th>#}
+											<th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for a in programs %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/doaa/curriculum_status_program_details/{{a.encrypt_id}}">{{ a.program__name }}</a></td>
+                                                <td>{{ a.program__program_type__type }}</td>
+                                                <td>{{ a.program_status_level__title }}</td>
+                                                {#                                            <td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pcmi/pcmi_program_detail/{{ a.encrypt_id }}">#}
+                                                {#                                                    <i class="fa fa-eye" style="color:green"></i></a>#}
+                                                {#                                            </td>#}
+												<td><a href="/doaa/render/pdf/{{ a.encrypt_id }}"><img src="{% static 'assets/img/pdf.png' %}" style="height:25px;"></a></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+
+{#                        {% endif %}#}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    {#    </div>#}
+    </div>
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+      <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+        $(document).ready(function() {
+            $('#example1').DataTable( {
+
+                "ordering":false,
+            } );
+        } );
+		$("#dept_search").select2({
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'staff/base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style type="text/css">
+        .copo_td{
+            border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000
+        }
+    </style>
+    <style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+            margin-left: 37%;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+    </style>
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                {#                                <li class="breadcrumb-item"><a href="/staff/course_preview_staff/{{ course_id }}">Course Structure</a></li>#}
+                                <li class="breadcrumb-item" aria-current="page">Course Preview</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="card">
+			<div class="card-header text-center">
+				<h4><i class="fa fa-file-alt mr-2"></i>COURSE PREVIEW</a></h4>
+			</div>
+            <div class="card-body">
+				<div class="col-lg-12">
+					 {% include 'forms/preview/header.html' %}
+					{% if course_details.course_type_id == 1  %}
+						{% include 'forms/preview/theory.html' %}
+					{% elif course_details.course_type_id == 2 %}
+						{% include 'forms/preview/practical.html' %}
+					{% elif course_details.course_type_id == 3 or course_details.course_type_id == 6 %}
+						{% include 'forms/preview/theroy_practical.html' %}
+					{% elif course_details.course_type_id == 4  %}
+						{% include 'forms/preview/project_or_internship.html' %}
+						
+					{% elif course_details.course_type_id == 5%}	
+						{%if  course_details.form_type == 1 %}
+							{% include 'forms/preview/theory.html' %}
+						{% elif course_details.form_type == 2  %}
+							{% include 'forms/preview/project_or_internship.html' %}
+						{%endif%}
+					{% endif %}
+				</div>
+				{% if user_course_mapping.is_edit == 1 %}
+					<div class="actions clearfix mt-3">
+						<button id="forward"  class="btn btn-md bg_gitam text-white deny_post" style="color: black;float: right;width: 150px;height: 50px;margin-left: 5px;">Suggestions</button>
+					</div>
+				{% endif %}
+			</div>
+
+		</div>
+	</div>
+
+    <!-- deny-modal -->
+    <div class="modal fade" id="staticModal2" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Submit Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/staff/staff_suggestion/{{ course_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control faculty_suggestions" placeholder="Enter your Suggestion....." rows="6" required name="message" id="message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(".deny_post").click(function(){
+            var str = this.id;
+            $("#staticModal2").modal('show')
+        })
+
+        $(".faculty_suggestions").focus(function() {
+            if(document.getElementById('message').value === ''){
+                document.getElementById('message').value +='• ';
+            }
+        });
+        $("#message").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('message').value +='• ';
+            }
+            var txtval = document.getElementById('message').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('message').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+    </script>
+    <!---assign-pab modal--->
+
+{% endblock %}
+

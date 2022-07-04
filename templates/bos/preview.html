@@ -1,0 +1,277 @@
+{% extends 'bos/base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style type="text/css">
+        {#body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:"Arial"; }#}
+        {#a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  } #}
+        {#a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  } #}
+        {#comment { display:none;  }#}
+        .copo_td{
+            border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000
+        }
+    </style>
+    <style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+    </style>
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="/bos/bos_program_detail/{{ p_id }}">Program Structure</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Course Preview</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="fa fa-file-alt mr-2"></i>COURSE PREVIEW</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="far fa-comment-dots mr-2"></i>SUGGESTIONS & TIMELINE</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+
+                        <div class="col-lg-12">
+                            <div class="">
+                                <div class="">
+                                    <div class="">
+                                        <div class="row">
+{#                                            {% if is_edit == 1 %}#}
+{#                                                <div class="actions clearfix">#}
+{#                                                    <button id="forward"  class="btn btn-md btn-cus-yellow btn-sm mb-2 message_post" >Approve</button>#}
+{##}
+{#                                                    <button id="forward"  class="btn btn-md btn-cus-yellow btn-sm mb-2 deny_post" >Suggestions</button>#}
+{#                                                </div>#}
+{#                                            {% endif %}#}
+                                            {% if course_details.course_type_id == 1 or course_details.course_type_id == 5 %}
+                                                {% include 'csmi/theory.html' %}
+                                            {% elif course_details.course_type_id == 2 %}
+                                                {% include 'csmi/practical.html' %}
+                                            {% elif course_details.course_type_id == 3 or course_details.course_type_id == 6 %}
+                                                {% include 'csmi/theory_cum_practical.html' %}
+                                            {% elif course_details.course_type_id == 4 %}
+                                                {% include 'csmi/project_or_internship.html' %}
+                                            {% endif %}
+                                        </div><br>
+                                        <div class="row" style="margin-left: 40%">
+                                            {% if is_edit == 1 %}
+                                                <div class="actions clearfix">
+                                                    <button id="forward"  class="btn btn-md btn-cus-yellow btn-sm mb-2 message_post" >Approve</button>
+
+                                                    <button id="forward"  class="btn btn-md btn-cus-yellow btn-sm mb-2 deny_post" >Suggestions</button>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade show" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                        <h2 style="color:#7f0000;text-align: center">Timeline</h2>
+                        <hr>
+                        <!-- timeline -->
+                        <div class="timeline">
+
+
+                            {% for t in course_timeline %}
+                                <div class="timeline__event  animated fadeInUp delay-1s timeline__event--type2">
+                                    <div class="timeline__event__icon">
+                                        <img src="{% if forloop.counter == 1  %}{{ t.to_user__image }}{% else %}{{ t.user__image }}{% endif %}" class="timeline-userimg">
+                                    </div>
+                                    <div class="timeline__event__date">
+                                        {% if forloop.counter == 1  %}{{ t.created }}{% else %}{{ t.created }}{% endif %}
+                                    </div>
+                                    <div class="timeline__event__content" style="width:75%">
+                                        <div class="timeline__event__title">
+                                            {% if forloop.counter == 1 %}{{ t.to_user__first_name }} <br><span style="font-size: 14px">{{ t.to_user_group__description }}{% else %}{{ t.user__first_name }} <br><span style="font-size: 14px">{{ t.user_group__description }}</span>{% endif %}<span class="status">{% if forloop.counter == 1 %}<span>Pending</span>{% else %}{{ t.course_status_level__title }}{% endif %}</span>
+                                            {#								<br>#}
+                                            {#								<span class="designation">HOI  -VSP -GIT  -EECE</span>#}
+                                        </div>
+                                        {% if forloop.counter == 1 %}
+
+                                        {% else %}
+                                            <div class="timeline__event__description">
+                                                <p>TO: {{ t.to_user__first_name }} | {{ t.to_user_group__description }}</p>
+                                                {% if t.comment %}
+                                                    <p>{{ t.comment }}</p>
+                                                {%  endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+
+                        </div>
+                        <!--- end timeline-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Submit Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    <center>Do you want to approve this Course?</center>
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/bos/course_structure_approve/{{ course_id }}" method="POST">{% csrf_token %}
+                        {#                        <input type="hidden" id="course_id" name="course_id" value="{{ course_id }}">#}
+                        {#                            <input type="hidden" id="csmi_user_id" name="csmi_user_id" value="{{ program_assign_details.user_id }}">#}
+                        {#                        <input type="hidden" name="path" value="{{request.path}}">#}
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(".message_post").click(function(){
+            var str = this.id;
+            $("#staticModal").modal('show')
+        })
+    </script>
+    <!-- deny-modal -->
+    <div class="modal fade" id="staticModal2" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Submit Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/bos/course_structure_need_more/{{ course_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control" placeholder="Enter your Suggestion....." rows="6" required name="bos_message" id="bos_message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        {#                        <input type="hidden" id="course_id" name="course_id" value="{{ course_id }}">#}
+                        {#                        <input type="hidden" name="path" value="{{request.path}}">#}
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(".deny_post").click(function(){
+            var str = this.id;
+            $("#staticModal2").modal('show')
+        })
+    </script>
+    <!---assign-pab modal--->
+
+	<!-- Modal pdf-->
+    <div class="modal fade" id="modal02" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w3-modal-content w3-animate-zoom">
+                        <iframe id="frame" width="100%" height="600px"></iframe>
+{#                        <embed id="frame"   type="application/pdf"  width="100%" height="600px" />#}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal PDF -->
+	<script>
+    function getExtension(filename) {
+        return filename.split('.').pop().toLowerCase();
+    }
+
+    $(".preview").on("click", function(){
+        var c=$(this).data('value');
+        var extension=getExtension(c);
+        switch(extension) {
+            case 'pdf':
+
+               onClick_pdf(c);
+                $("#modal02").modal('show');
+                break;
+
+        }
+    });
+
+    function onClick_pdf(element){
+       var str1 = "/media/user/instruction_plan/";
+        var str2 = element;
+        var res = str1.concat(str2);
+        //window.open(res, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+        document.getElementById("frame").src = res+"#toolbar=0";
+    }
+</script>
+{% endblock %}
+

@@ -1,0 +1,586 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+    {% load static %}
+    <style>
+		select.error{
+			color:#8898aa !important;
+		}
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+            margin-left: 37%;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+        /*.select2-container--default .select2-selection--single{*/
+            /*height:45px!important;*/
+        /*}*/
+    /*.select2-selection__rendered {*/
+    /*line-height: 44px!important;*/
+    /*}*/
+	.select2-container .select2-selection--single{
+		height:43px !important;
+	
+	}
+	.select2-container .select2-selection--single .select2-selection__rendered{
+		padding-top: 10px;
+	}
+	.select2-container--default .select2-selection--single .select2-selection__arrow{
+		top:9px !important;
+	}
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.datatables.net/fixedcolumns/4.1.0/css/fixedColumns.dataTables.min.css" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="/pcmi/pcmi_program_detail/{{enc_program_id}}">Program Details</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Baskets</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid ">
+        <div class="nav-wrapper">
+
+        </div>
+        <div class="card shadow">
+			<div class="card-header">
+				<div class="row">
+				  <div class="col-md-4"><h3 class="text-left text-default"> {{course_category.category}} - Baskets</h3></div>
+				  <div class="col-md-4"> </div>
+				  <div class="col-md-4 text-right">
+					  <button class="btn  btn-sm bg_gitam text-white add_basket_button" id="{{j.id}}">Add Basket </button>
+
+					  <a href="/pcmi/pcmi_program_detail/{{program_id}}" class="btn btn-sm btn-default text-white"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+				   </div>
+				</div>
+			</div>
+            <div class="card-body">
+				<div class="table-responsive py-2" >
+					<table id="example{{forloop.counter}}" class="table table-bordered table-striped">
+                             
+						<thead>
+							<tr>
+								<th>Sno</th>
+								<th>Basket Name</th>
+								<th>Basket Type</th>
+							   <th>Level</th>
+								<th>L</th>
+								<th>T</th>
+								<th>P</th>
+								<th>S</th>
+								<th>J</th>
+								<th>C</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for i in all_baskets %}
+							<tr>
+								<td>{{ forloop.counter }}</td>
+								<td>{{ i.basket_name }}</td>
+								<td>{{ i.course_type__name }}</td>
+
+								<td>{% if i.level_of_course__level %}{{ i.level_of_course__level }}{%else%}-{%endif%}</td>
+								<td>{{ i.L }}</td>
+								<td>{{ i.T}}</td>
+								<td>{{ i.P}}</td>
+								<td>{{ i.S}}</td>
+								<td>{{ i.J}}</td>
+								<td>{{ i.C}}</td>
+								<td>
+									<button title="Delete" data-toggle="tooltip" class="delete_basket_button" id="{{i.encrypt_id}}" data-placement="top" style="color: #7f0000">&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button>
+									<a title="Edit" class="edit_basket" data-toggle="tooltip" data-row="{{i.id}}" id="{{ i.basket_name }}-{{ i.choice_count }}-{{ i.course_type_id }}-{{ i.level_of_course_id }}-{{i.L}}-{{ i.T}}-{{ i.P}}-{{ i.S}}-{{ i.J}}-{{ i.C}}-{{i.id}}" data-placement="top" href="javascript:void(0)" style="color: #7f0000">&nbsp;<i class="fa fa-edit" aria-hidden="true"></i></a>
+									
+								 </td>
+
+							</tr>
+
+						{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+            </div>
+        </div>
+    </div>
+<!-- Add Basket Modal popup -->
+<div class="modal fade" id="add_basket_popup" tabindex="-1" role="dialog" aria-labelledby="staticModalLabelbasket" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabelbasket">Create New Basket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+			<form action="/pcmi/add_basket" id="add_basket_form" method="POST">{% csrf_token %}
+			<div class="modal-body">
+
+                    <input type="hidden" name="course_category_id" id="course_category_id" value="{{ category_id }}">
+                    <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                    <input type="hidden" id="basket_id" name="basket_id">
+
+                    <div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<div>
+									<span class="form-label">Basket Name</span>
+									<input type="text" class="form-control" placeholder="Basket Name" id="basket_name" name="basket_name" required>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<div>
+									<span class="form-label">Required Course Count</span>
+									<input type="number" class="form-control" placeholder="Required Course Count" id="choice_count" name="choice_count" required>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<div>
+									<span class="form-label">Course Type</span>
+									<select class="form-control" aria-label="select example" id="course_type" name="course_type" required>
+										<option value="" selected disabled>Select Course Type</option>
+										{%for i in course_type %}
+										<option value="{{i.id}}">{{i.name}}</option>
+										{%endfor%}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<div>
+									<span class="form-label">Course Level</span>
+									<select class="form-control" aria-label="select example" id="course_level" name="course_level" required>
+										<option value="" selected disabled>Select Course Level</option>
+										{%for i in levels %}
+										<option value="{{i.level_id}}">{{i.level__level}}</option>
+										{%endfor%}
+									</select>
+								</div>
+							</div>
+						 </div>
+                    </div>
+					 <div class="row">
+                       <div class="col-md-2">
+                            <span class="form-label">L</span>
+                            <div>
+                                <input type="text" name="L" id="L" value="" class="form-control budget_count" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">T</span>
+                            <div>
+                                <input type="text" name="T" id="T" value="" class="form-control budget_count" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">P</span>
+                            <div>
+                                <input type="text" name="P" id="P" value="" class="form-control budget_count" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">S</span>
+                            <div>
+                                <input type="text" name="S" id="S" value="" class="form-control budget_count" >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="form-label">J</span>
+                            <div>
+                                <input type="text" name="J" id="J" value="" class="form-control budget_count" >
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <span class="form-label">C</span>
+                            <div>
+                                <input type="text" name="C" id="C"  class="form-control" readonly >
+                            </div>
+                        </div>
+                    </div>
+					<div class="py-5" >
+                                <table id="add_basket_button" class="table table-bordered table-striped">
+                                <thead >
+                                  <tr>
+                                    <th>Sno</th>
+									<th>Select</th>
+									<th>Course Code</th>
+                                    <th >Course Name</th>
+                                    <th>Course Type</th>
+
+                                    <th>Level</th>
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>P</th>
+
+                                    <th>S</th>
+                                     <th>J</th>
+                                    <th>C</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in program_course_cat_mapp %}
+
+                                  <tr class="row_{{i.basket_id}}" {%if i.course_id in basket_course_mapped_ids%} style="display:none" {%endif%}>
+                                    <td>{{ forloop.counter }}</td>
+									<td><input type="checkbox" name="course_id" class="course_id" value="{{i.course_id}}" ></td>
+
+									 <td>{% if i.course__course_code %}{{ i.course__course_code }}{%else%}XXXXXX{%endif%}</td>
+
+                                    <td><a title="View Syllabus" data-toggle="tooltip" data-placement="top" href="/pcmi/course_preview_by_pcmi/{{program_id}}/{{i.encrypt_id}}">{{ i.course__course_name }}{%if i.course__faculty is False %}^{%endif%}{%if i.course__group_symbol%}{{i.course__group_symbol}} {%endif%}</a></td>
+                                    <td>{{ i.course__course_type__name }}</td>
+
+                                    <td>{% if i.course__level_of_course__level %}{{ i.course__level_of_course__level }}{%else%}-{%endif%}</td>
+                                    <!--td>{{ i.course__program_type__type }}</td-->
+                                    <td>{{ i.course__L }}</td>
+                                    <td>{{ i.course__T}}</td>
+                                    <td>{{ i.course__P}}</td>
+                                    <td>{{ i.course__S}}</td>
+                                    <td>{{ i.course__J}}</td>
+                                    <td>{{ i.course__C}}{%if i.course__pass_fail is True%}<span>*</span>{%endif%}</td>
+                                    <!--td>{% if i.csmi_name%}{{ i.csmi_name }}{% else %}-{% endif %}</td>
+                                    <td>{% if i.csmm_name%}{{ i.csmm_name }}{% else %}-{% endif %}</td>
+                                    <td>{{i.course_status}}</td-->
+
+
+                                  </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                              </table>
+
+                            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+
+
+                </div>
+				</form>
+                <div class="row">
+                <div class="col-md-12">
+                    <!--ul>
+                    <li><span class="form-label">CSM Incharge : Course Syllabus Modification committee Incharge</span></li>
+                    <li><span class="form-label">CSM Member : Course Syllabus Modification committee Member</span></li>
+                    </ul-->
+                </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+<!-- Add Basket popup -->
+<!-- Delete Basket Modal popup -->
+<div class="modal fade" id="staticModal_delete" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h3 style="color: black">Are you sure want to Delete ?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/pcmi/basket_delete" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="del_basket_id" name="basket_id" >
+                    <input type="hidden" id="p_id" name="p_id" value="{{ p_id }}" >
+                    <input type="hidden" name="return_path" value="{{request.path}}">
+                    <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Delete Basket Modal popup -->
+
+<script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+<script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
+   <script src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+<script>
+$(".delete_basket_button").click(function(){
+    $("#del_basket_id").val(this.id)
+    $("#staticModal_delete").modal('show')
+
+})
+$('.add_basket_button').click(function(){
+	//alert('add_basket_popup')
+	$('#add_basket_form')[0].reset();
+	$("#staticModalLabelbasket").html('Create New Basket');
+	$("#add_basket_popup").modal('show')
+
+})
+$('#add_basket_button').dataTable({
+	"paging": false,"bInfo": false,
+});
+//basket edit
+$(".edit_basket").click(function(){
+		var id = this.id;
+		//alert(this.attr("data-row"))
+		var array = id.split('-');
+		$("#basket_name").val(array[0])
+		$("#choice_count").val(array[1])
+		$("#course_type").val(array[2]).trigger('change');
+		$("#course_level").val(array[3])
+		$("#L").val(array[4])
+		$("#T").val(array[5])
+		$("#P").val(array[6])
+		$("#S").val(array[7])
+		$("#J").val(array[8])
+		$("#C").val(array[9])
+		$("#basket_id").val(array[10])
+		$("#staticModalLabelbasket").html('Edit Basket');
+		$("#add_basket_popup").modal('show')
+		$(".row_"+$(this).attr('data-row')).show()
+		$(".row_"+$(this).attr('data-row')+" input").prop('checked',true)
+})
+$.validator.addMethod("roles", function(value, elem, param) {
+   return $(".course_id:checkbox:checked").length > 20;
+},"You must select at least one!");
+// Add basket
+        $("#add_basket_form" ).validate({
+          rules: {
+            basket_name: {
+              required: true,
+              maxlength: 100,
+            },
+
+             choice_count: {
+              required: true,
+                number:true,
+             },
+			L: {
+		number: true,
+		range: [0, 4],
+		required: true,
+		},
+		T: {
+			number: true,
+			range: [0, 4],
+          required: true,
+
+        },
+		P: {
+			number: true,
+			range: [0, 6],
+          required: true,
+
+        },
+		J: {
+
+          required: true,
+
+        },
+		S: {
+			number: true,
+			range: [0, 9],
+			required: true,
+
+        },
+          },
+
+          errorElement : 'div',
+            errorPlacement: function(error, element) {
+              var placement = $(element).data('error');
+              if (placement) {
+                $(placement).append(error)
+              } else {
+                $(element).closest('div').after(error)
+              }
+            },
+			submitHandler: function (form) {
+              	if ($('.course_id:checkbox:checked').length >= $("#choice_count").val()){
+                   form.submit();
+			  	}else{
+                  alert('Select atleast '+$("#choice_count").val()+" courses")
+					return false;
+				}
+
+
+
+          }
+
+        });
+
+
+$('#example1').dataTable({
+	"paging": false,"bInfo": false,
+});
+
+
+$(".budget_count").keyup(function() {
+            $(".cutom_error").remove();
+            budget_error = false;
+            sum = 0;
+            mul = 0;
+            console.log(this.id);
+            course_type=$("#course_type").val()
+			if (course_type!=6){
+				if(this.id == 'L' && $(this).val()>4){
+					alert('L value should be less then 5');
+					$(this).val('')
+					return false;
+				}
+				else if(this.id== 'T' && $(this).val()>4){
+					 alert('T value should be less then 5');
+					 $(this).val('')
+					return false;
+				}
+				else if(this.id == 'P' && ($(this).val()!=2 && $(this).val()!=4 && $(this).val()!=6)){
+					 alert('P value should be 2 or 4 or 6');
+					 $(this).val('')
+					return false;
+				}
+				else if(this.id=='J' && $(this).val()>19){
+					 alert('J value should be less then 20');
+					 $(this).val('')
+					return false;
+				}
+				else if(this.id=='S' && $(this).val()>9){
+					 alert('S value should be less then 10');
+					 $(this).val('')
+					return false;
+				}
+			}
+            if(course_type == 1){
+                if ((Number($("#L").val())+Number($("#T").val()))> 4 ){
+                    alert('L+T value should be less then 5');
+                    $(this).val('')
+                    return false;
+                }else{
+                    $("#C").val(Number($("#L").val())+Number($("#T").val()))
+                }
+            }else if(course_type ==2){
+
+                 $("#C").val(Number($("#P").val())*0.5)
+            }else if(course_type ==3){
+                l = $("#L").val();
+                t = $("#T").val();
+                p = $("#P").val();
+                sum = (Number(l) + Number(t)) + Number(p*0.5)
+                $("#C").val(sum)
+
+            }
+			//else if(course_type ==4){
+            //    $("#C").val(Number($("#J").val())/4)
+            //}
+			else if(course_type ==5){
+                $("#C").val(Number($("#S").val()))
+            }
+			else if(course_type ==6){
+                $("#C").val(0)
+            }
+    })
+	$("#course_type").change(function () {
+		onchangeTypeCourse($(this).val())
+	})
+	function onchangeTypeCourse(course_type) {
+		pass_fail=$('input[name="pass_fail"]:checked').val();
+		if (pass_fail==1){
+		     $("#T,#P,#J,#L,#S").prop("disabled", false);
+            $("#T,#P,#J,#L,#S").prop("readonly", false);
+			$("#C").prop("readonly", true);
+            $("#C").val(0)
+            return false
+        }
+		if(course_type != 4){
+			$("#C").prop("readonly", true);
+		}else{
+			$("#C").prop("readonly", false);
+		}
+        if(course_type == 1){
+
+            $("#L,#T").prop("disabled", false);
+            $("#P,#J,#S").prop("disabled", true);
+            $("#C").val(Number($("#L").val())+Number($("#T").val()))
+        }else if(course_type ==2){
+            $("#P").prop("disabled", false);
+            $("#L,#T,#J,#S").prop("disabled", true);
+            $("#C").val(Number($("#P").val())*0.5)
+        }else if(course_type ==3){
+            $("#L,#T,#P").prop("disabled", false);
+            $("#J,#S").prop("disabled", true);
+            l = $("#L").val();
+            t = $("#T").val();
+            p = $("#P").val();
+            sum = (Number(l) + Number(t)) + Number(p*0.5)
+            $("#C").val(sum)
+        }
+		else if(course_type ==4){
+			$("#C").prop("readonly", false);
+			$("#L,#T,#P,#S").prop("disabled", true);
+            $("#J").prop("disabled", false);
+            $("#J").prop("readonly", true);
+            $("#J").val(1);
+
+        }
+		else if(course_type ==5){
+
+			$("#T,#P,#J,#L").prop("disabled", true);
+			$("#J").prop("readonly", false);
+            $("#S").prop("disabled", false);
+            $("#C").val(Number($("#S").val()))
+        }
+		else if(course_type ==6){
+            $("#T,#P,#J,#L,#S").prop("disabled", false);
+            $("#T,#P,#J,#L,#S").prop("readonly", false);
+			$("#C").prop("readonly", true);
+            $("#C").val(0)
+        }
+    }
+
+
+
+
+    </script>
+{% endblock %}

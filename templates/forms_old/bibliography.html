@@ -1,0 +1,850 @@
+{% load static %}
+<style>
+    .mc {
+        border: 0 solid #ebebeb !important;
+    }
+    label{
+        text-align: left;
+    }
+</style>
+<div class="fieldset-content">
+{% if course_details.course_type_id == 1 or course_details.course_type_id == 5 %}
+    <input type="hidden" name="cours_id" value="{{ course_details.id }}">
+    <div class="pb-4">
+        <u><center><span style="font-size: 20px;color: #7f0000"><b>Book</b></span></center></u>
+    </div>
+    <div>
+        {% if course_book_details %}
+            {% for j in course_book_details %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="name" class="form-label">Title</label>
+{#                        <div>#}
+                            <input type="text" name="book_title" id="book_title" placeholder="Title"
+                                   value="{% if j.title %}{{ j.title }}{% endif %}" style="font-style: italic;width: 80%;">
+{#                        </div>#}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Author</label>
+                        <div>
+                            <input type="hidden" name="book_id" id="book_id" placeholder=""
+                                   value="{% if j.id %}{{ j.id }}{% endif %}" >
+
+                            <input type="text" name="book_author" id="book_author" placeholder="Author"
+                                   value="{% if j.author %}{{ j.author }}{% endif %}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Year</label>
+                        <input size="2" type="number" name="book_year" id="book_year" placeholder="Year"
+                               value="{% if j.year %}{{ j.year }}{% endif %}" style="width: 20%;margin-left: -100px;">
+                        <label for="emp_id" class="form-label">Edition</label>
+                        <input size="2" type="text" name="book_edition" id="book_edition" placeholder="Edition"
+                               value="{% if j.edition %}{{ j.edition }}{% endif %}" style="width: 40%;margin-left: -104px;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Publisher</label>
+                        <div>
+                            <input type="text" name="book_publisher" id="book_publisher" placeholder="Publisher"
+                                   value="{% if j.publisher %}{{ j.publisher }}{% endif %}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Place of Publication</label>
+                        <input type="text" name="book_publication" id="book_publication"
+                               placeholder="Place of Publication"
+                               value="{% if j.place_of_publication %}{{ j.place_of_publication }}{% endif %}">
+                    </div>
+                </div>
+                <div id="newEntrySection2"></div>
+              <div class="row mt-3">
+                      <div class="col-lg-12">
+                          <span  id="bibilo_book"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                      </div>
+              </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="name" class="form-label">Title</label>
+                        <input type="text" name="book_title" id="book_title" placeholder="Title" value=""
+                               style="font-style: italic;width: 80%">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="name" class="form-label">Author</label>
+                    <div>
+                        <input type="text" name="book_author" id="book_author" placeholder="Author" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="emp_id" class="form-label">Year</label>
+                    <input type="number" name="book_year" id="book_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;">
+                    <label for="emp_id" class="form-label">Edition</label>
+                    <input type="text" name="book_edition" id="book_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="name" class="form-label">Publisher</label>
+                    <div>
+                        <input type="text" name="book_publisher" id="book_publisher" placeholder="Publisher" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="emp_id" class="form-label">Place of Publication</label>
+                    <input type="text" name="book_publication" id="book_publication" placeholder="Place of Publication"
+                           value="">
+                </div>
+            </div>
+            <div id="newEntrySection2"></div>
+              <div class="row mt-3">
+                      <div class="col-lg-12">
+                          <span  id="bibilo_book"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                      </div>
+              </div>
+            <hr>
+        {% endif %}
+        </div>
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Reference</b></span></center></u>
+        </div>
+        <div>
+            {% if references_details %}
+                {% for i in references_details %}
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="name" class="form-label">Title</label>
+{#                            <div>#}
+                                <input type="text" name="ref_title" id="ref_title" placeholder="Title"
+                                       value="{% if i.title %}{{ i.title }}{% endif %}" style="font-style: italic;width: 80%;">
+{#                            </div>#}
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="form-label">Author</label>
+                            <div>
+                                <input type="text" name="ref_id" id="ref_id" placeholder=""
+                                       value="{% if i.id %}{{ i.id }}{% endif %}" hidden>
+                                <input type="text" name="ref_author" id="ref_author" placeholder="Author"
+                                       value="{% if i.author %}{{ i.author }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emp_id" class="form-label">Year</label>
+                            <input type="number" name="ref_year" id="ref_year" placeholder="Year"
+                                   value="{% if i.year %}{{ i.year }}{% endif %}" style="width: 20%;margin-left: -100px;">
+                            <label for="emp_id" class="form-label">Edition</label>
+                            <input type="text" name="ref_edition" id="ref_edition" placeholder="Edition"
+                                   value="{% if i.edition %}{{ i.edition }}{% endif %}" style="width: 40%;margin-left: -104px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="form-label">Publisher</label>
+                            <div>
+                                <input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher"
+                                       value="{% if i.place_of_publication %}{{ i.publisher }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emp_id" class="form-label">Place of Publication</label>
+                            <input type="text" name="ref_publication" id="ref_publication"
+                                   placeholder="Place of Publication"
+                                   value="{% if i.publisher %}{{ i.place_of_publication }}{% endif %}">
+                        </div>
+                    </div>
+                    {% if references_details|length > 1 %}<hr>{% endif %}
+                {% endfor %}
+                <div id="newEntrySection3"></div>
+                  <div class="row mt-3">
+                          <div class="col-lg-12">
+                              <span  id="bibilo_reference"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                          </div>
+                  </div>
+            {% else %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="name" class="form-label">Title</label>
+                            <input type="text" name="ref_title" id="ref_title" placeholder="Title" value=""
+                                   style="font-style: italic;width: 80%">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Author</label>
+                        <div>
+                            <input type="text" name="ref_author" id="ref_author" placeholder="Author" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Year</label>
+                        <input type="number" name="ref_year" id="ref_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;">
+                        <label for="emp_id" class="form-label">Edition</label>
+                        <input type="text" name="ref_edition" id="ref_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Publisher</label>
+                        <div>
+                            <input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Place of Publication</label>
+                        <input type="text" name="ref_publication" id="ref_publication"
+                               placeholder="Place of Publication" value="">
+                    </div>
+                </div>
+                <div id="newEntrySection3"></div>
+                  <div class="row mt-3">
+                          <div class="col-lg-12">
+                              <span  id="bibilo_reference"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                          </div>
+                  </div>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Instruction Plan</b></span></center></u>
+        </div>
+        <div class="row">
+            <label for="methodology" class="form-label" style="text-align: right;">Instruction Plan </label>
+
+            <div class="form-file">
+                <input type="hidden" id="c_id" name="c_id" value="{{ course_details.id }}">
+                <input type="file" id="instruction_plan"  accept="application/pdf" name="instruction_plan" value="{{ course.0.instruction_plan }}" data-value="{{ course.0.instruction_plan}}" class="custom-file-input mc" style="cursor: pointer" />
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="err">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-right">
+                    </div>
+                </div>
+                <span class='file_val' id="val">{{ course.0.instruction_plan }}</span>
+                <input type="hidden" name="instruction_paln_file" id="instruction_paln_file" value="{{ course.0.instruction_plan }}">
+                <span class='file_button' id="button" style="color: black">Select File</span>
+                <a target="_blank" href="{% static 'sample_files/instructional_plan_format_theory.xlsx' %}">Download sample file</a>
+            </div>
+            <span class="file_label_sub" style="margin-left: 4px;margin-top: 14px">Upload only PDF files and Max file size 2MB</span>
+        </div>
+{% elif course_details.course_type_id == 2 %}
+    <input type="hidden" name="cours_id" value="{{ course_details.id }}">
+    <div class="pb-4">
+        <u><center><span style="font-size: 20px;color: #7f0000"><b></b></span></center></u>
+    </div>
+    {% if course_details.practical_referance %}
+        <div class="row">
+            {% for i in course_details.practical_referance %}
+            <div class="form-group col-md-10">
+                <label for="name" class="form-label">Reference</label>
+                    <input type="text" name="practical_referance" value="{{ i.referacne }}" id="practical_referance" placeholder="Reference" style="width: 80%;margin-left: -100px;">
+            </div>
+            {% endfor %}
+            {% for j in course_details.practical_topic_mapping %}
+            <div class="form-group col-md-2">
+                <label for="name" class="form-label" style="margin-left: -130px;">Topic Mapping</label>
+                <div>
+                    <input type="text" name="prctical_topic_mapping" value="{{ j.topic_mapping }}" id="prctical_topic_mapping" placeholder="Topic Mapping" style="margin-left: -17px;width: 90%;">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="form-group col-md-10">
+                <label for="name" class="form-label">Reference</label>
+                    <input type="text" name="practical_referance" id="practical_referance" placeholder="Reference" style="width: 80%;margin-left: -100px;">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="name" class="form-label" style="margin-left: -130px;">Topic Mapping</label>
+                <div>
+                    <input type="text" name="prctical_topic_mapping" id="prctical_topic_mapping" placeholder="Topic Mapping" style="margin-left: -17px;width: 90%;">
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+    <div id="newEntrySectionPractical_1"></div>
+      <div class="row mt-3">
+              <div class="col-lg-12">
+                  <span  id="practical_add_more1"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+              </div>
+      </div>
+      <hr>
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Instruction Plan</b></span></center></u>
+        </div>
+        <div class="row">
+            <label for="methodology" class="form-label" style="text-align: right;">Instruction Plan </label>
+
+            <div class="form-file">
+                <input type="hidden" id="c_id" name="c_id" value="{{ course_details.id }}">
+                <input type="file"  accept="application/pdf" id="instruction_plan_practical" name="instruction_plan_practical" value="{{ course.0.instruction_plan_practical }}" data-value="{{ course.0.instruction_plan_practical}}" class="custom-file-input mc" style="cursor: pointer" />
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="err">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-right">
+                    </div>
+                </div>
+                <span class='file_val' id="val">{% if course.0.instruction_plan_practical %}{{ course.0.instruction_plan_practical }}{% endif %}</span>
+                <span class='file_button' id="button" style="color: black">Select File</span>
+                <a target="_blank" href="{% static 'sample_files/instructional_plan_format_practical.xlsx' %}">Download sample file</a>
+            </div>
+            <span class="file_label_sub" style="margin-left: 4px;margin-top: 14px">Upload only PDF files and Max file size 2MB</span>
+        </div>
+{% elif course_details.course_type_id == 3 %}
+    <input type="hidden" name="cours_id" value="{{ course_details.id }}">
+    <div class="pb-4">
+        <u><center><span style="font-size: 20px;color: #7f0000"><b>Book</b></span></center></u>
+    </div>
+    <div>
+        {% if course_book_details %}
+            {% for j in course_book_details %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="name" class="form-label">Title</label>
+{#                        <div>#}
+                            <input type="text" name="book_title" id="book_title" placeholder="Title"
+                                   value="{% if j.title %}{{ j.title }}{% endif %}" style="font-style: italic;width: 80%;">
+{#                        </div>#}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Author</label>
+                        <div>
+                            <input type="hidden" name="book_id" id="book_id" placeholder=""
+                                   value="{% if j.id %}{{ j.id }}{% endif %}" >
+
+                            <input type="text" name="book_author" id="book_author" placeholder="Author"
+                                   value="{% if j.author %}{{ j.author }}{% endif %}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Year</label>
+                        <input size="2" type="number" name="book_year" id="book_year" placeholder="Year"
+                               value="{% if j.year %}{{ j.year }}{% endif %}" style="width: 20%;margin-left: -100px;">
+                        <label for="emp_id" class="form-label">Edition</label>
+                        <input size="2" type="text" name="book_edition" id="book_edition" placeholder="Edition"
+                               value="{% if j.edition %}{{ j.edition }}{% endif %}" style="width: 40%;margin-left: -104px;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Publisher</label>
+                        <div>
+                            <input type="text" name="book_publisher" id="book_publisher" placeholder="Publisher"
+                                   value="{% if j.publisher %}{{ j.publisher }}{% endif %}">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Place of Publication</label>
+                        <input type="text" name="book_publication" id="book_publication"
+                               placeholder="Place of Publication"
+                               value="{% if j.place_of_publication %}{{ j.place_of_publication }}{% endif %}">
+                    </div>
+                </div>
+                <div id="newEntrySection2"></div>
+              <div class="row mt-3">
+                      <div class="col-lg-12">
+                          <span  id="bibilo_book"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                      </div>
+              </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="name" class="form-label">Title</label>
+                        <input type="text" name="book_title" id="book_title" placeholder="Title" value=""
+                               style="font-style: italic;width: 80%">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="name" class="form-label">Author</label>
+                    <div>
+                        <input type="text" name="book_author" id="book_author" placeholder="Author" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="emp_id" class="form-label">Year</label>
+                    <input type="number" name="book_year" id="book_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;">
+                    <label for="emp_id" class="form-label">Edition</label>
+                    <input type="text" name="book_edition" id="book_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="name" class="form-label">Publisher</label>
+                    <div>
+                        <input type="text" name="book_publisher" id="book_publisher" placeholder="Publisher" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="emp_id" class="form-label">Place of Publication</label>
+                    <input type="text" name="book_publication" id="book_publication" placeholder="Place of Publication"
+                           value="">
+                </div>
+            </div>
+            <div id="newEntrySection2"></div>
+              <div class="row mt-3">
+                      <div class="col-lg-12">
+                          <span  id="bibilo_book"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                      </div>
+              </div>
+            <hr>
+        {% endif %}
+        </div>
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Reference</b></span></center></u>
+        </div>
+        <div>
+            {% if references_details %}
+                {% for i in references_details %}
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="name" class="form-label">Title</label>
+{#                            <div>#}
+                                <input type="text" name="ref_title" id="ref_title" placeholder="Title"
+                                       value="{% if i.title %}{{ i.title }}{% endif %}" style="font-style: italic;width: 80%;">
+{#                            </div>#}
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="form-label">Author</label>
+                            <div>
+                                <input type="text" name="ref_id" id="ref_id" placeholder=""
+                                       value="{% if i.id %}{{ i.id }}{% endif %}" hidden>
+                                <input type="text" name="ref_author" id="ref_author" placeholder="Author"
+                                       value="{% if i.author %}{{ i.author }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emp_id" class="form-label">Year</label>
+                            <input type="number" name="ref_year" id="ref_year" placeholder="Year"
+                                   value="{% if i.year %}{{ i.year }}{% endif %}" style="width: 20%;margin-left: -100px;">
+                            <label for="emp_id" class="form-label">Edition</label>
+                            <input type="text" name="ref_edition" id="ref_edition" placeholder="Edition"
+                                   value="{% if i.edition %}{{ i.edition }}{% endif %}" style="width: 40%;margin-left: -104px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="form-label">Publisher</label>
+                            <div>
+                                <input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher"
+                                       value="{% if i.place_of_publication %}{{ i.publisher }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emp_id" class="form-label">Place of Publication</label>
+                            <input type="text" name="ref_publication" id="ref_publication"
+                                   placeholder="Place of Publication"
+                                   value="{% if i.publisher %}{{ i.place_of_publication }}{% endif %}">
+                        </div>
+                    </div>
+                    {% if references_details|length > 1 %}<hr>{% endif %}
+                {% endfor %}
+                <div id="newEntrySection3"></div>
+                  <div class="row mt-3">
+                          <div class="col-lg-12">
+                              <span  id="bibilo_reference"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                          </div>
+                  </div>
+            {% else %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="name" class="form-label">Title</label>
+                            <input type="text" name="ref_title" id="ref_title" placeholder="Title" value=""
+                                   style="font-style: italic;width: 80%">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Author</label>
+                        <div>
+                            <input type="text" name="ref_author" id="ref_author" placeholder="Author" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Year</label>
+                        <input type="number" name="ref_year" id="ref_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;">
+                        <label for="emp_id" class="form-label">Edition</label>
+                        <input type="text" name="ref_edition" id="ref_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Publisher</label>
+                        <div>
+                            <input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Place of Publication</label>
+                        <input type="text" name="ref_publication" id="ref_publication"
+                               placeholder="Place of Publication" value="">
+                    </div>
+                </div>
+                <div id="newEntrySection3"></div>
+                  <div class="row mt-3">
+                          <div class="col-lg-12">
+                              <span  id="bibilo_reference"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                          </div>
+                  </div>
+            {% endif %}
+        </div>
+        <hr>
+    <div class="pb-4">
+        <u><center><span style="font-size: 20px;color: #7f0000"><b></b></span></center></u>
+    </div>
+    {% if course_details.practical_referance %}
+        <div class="row">
+            {% for i in course_details.practical_referance %}
+            <div class="form-group col-md-10">
+                <label for="name" class="form-label">Referance</label>
+                    <input type="text" name="practical_referance" value="{{ i.referacne }}" id="practical_referance" placeholder="Referance" style="width: 80%;margin-left: -100px;">
+            </div>
+            {% endfor %}
+            {% for j in course_details.practical_topic_mapping %}
+            <div class="form-group col-md-2">
+                <label for="name" class="form-label" style="margin-left: -130px;">Topic Mapping</label>
+                <div>
+                    <input type="text" name="prctical_topic_mapping" value="{{ j.topic_mapping }}" id="prctical_topic_mapping" placeholder="Topic Mapping" style="margin-left: -17px;width: 90%;">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="form-group col-md-10">
+                <label for="name" class="form-label">Referance</label>
+                    <input type="text" name="practical_referance" id="practical_referance" placeholder="Referance" style="width: 80%;margin-left: -100px;">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="name" class="form-label" style="margin-left: -130px;">Topic Mapping</label>
+                <div>
+                    <input type="text" name="prctical_topic_mapping" id="prctical_topic_mapping" placeholder="Topic Mapping" style="margin-left: -17px;width: 90%;">
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+    <div id="newEntrySectionPractical"></div>
+      <div class="row mt-3">
+              <div class="col-lg-12">
+                  <span  id="practical_add_more1"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+              </div>
+      </div>
+    <hr>
+    <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Instruction Plan Theory</b></span></center></u>
+        </div>
+        <div class="row">
+            <label for="methodology" class="form-label" style="text-align: right;">Instruction Plan </label>
+
+            <div class="form-file">
+                <input type="hidden" id="c_id" name="c_id" value="{{ course_details.id }}">
+                <input type="file"  accept="application/pdf" id="instruction_plan" name="instruction_plan" value="{{ course.0.instruction_plan }}" data-value="{{ course.0.instruction_plan}}" class="custom-file-input mc" style="cursor: pointer" />
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="err">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-right">
+                    </div>
+                </div>
+                <span class='file_val' id="val">{{ course.0.instruction_plan }}</span>
+                <span class='file_button' id="button" style="color: black">Select File</span>
+                <a target="_blank" href="{% static 'sample_files/instructional_plan_format_theory.xlsx' %}">Download sample file</a>
+            </div>
+            <span class="file_label_sub" style="margin-left: 4px;margin-top: 14px">Upload only PDF files and Max file size 2MB</span>
+        </div>
+    <hr>
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Instruction Plan Practical</b></span></center></u>
+        </div>
+        <div class="row">
+            <label for="methodology" class="form-label" style="text-align: right;">Instruction Plan </label>
+
+            <div class="form-file">
+                <input type="hidden" id="c_id" name="c_id" value="{{ course_details.id }}">
+                <input type="file"  accept="application/pdf" id="instruction_plan_practical" name="instruction_plan_practical" value="{{ course.0.instruction_plan_practical }}" data-value="{{ course.0.instruction_plan_practical}}" class="custom-file-input mc" style="cursor: pointer" />
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="err">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-right">
+                    </div>
+                </div>
+                <span class='file_val' id="val">{% if course.0.instruction_plan_practical %}{{ course.0.instruction_plan_practical }}{% endif %}</span>
+                <span class='file_button' id="button" style="color: black">Select File</span>
+                <a target="_blank" href="{% static 'sample_files/instructional_plan_format_practical.xlsx' %}">Download sample file</a>
+            </div>
+            <span class="file_label_sub" style="margin-left: 4px;margin-top: 14px">Upload only PDF files and Max file size 2MB</span>
+        </div>
+{% elif course_details.course_type_id == 4 %}
+    <input type="hidden" name="cours_id" value="{{ course_details.id }}">
+    <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Reference</b></span></center></u>
+        </div>
+        <div>
+            {% if references_details %}
+                {% for i in references_details %}
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="name" class="form-label">Title</label>
+{#                            <div>#}
+                                <input type="text" name="ref_title" id="ref_title" placeholder="Title"
+                                       value="{% if i.title %}{{ i.title }}{% endif %}" style="font-style: italic;width: 80%;">
+{#                            </div>#}
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="form-label">Author</label>
+                            <div>
+                                <input type="text" name="ref_id" id="ref_id" placeholder=""
+                                       value="{% if i.id %}{{ i.id }}{% endif %}" hidden>
+                                <input type="text" name="ref_author" id="ref_author" placeholder="Author"
+                                       value="{% if i.author %}{{ i.author }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emp_id" class="form-label">Year</label>
+                            <input type="number" name="ref_year" id="ref_year" placeholder="Year"
+                                   value="{% if i.year %}{{ i.year }}{% endif %}" style="width: 20%;margin-left: -100px;">
+                            <label for="emp_id" class="form-label">Edition</label>
+                            <input type="text" name="ref_edition" id="ref_edition" placeholder="Edition"
+                                   value="{% if i.edition %}{{ i.edition }}{% endif %}" style="width: 40%;margin-left: -104px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="form-label">Publisher</label>
+                            <div>
+                                <input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher"
+                                       value="{% if i.place_of_publication %}{{ i.publisher }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emp_id" class="form-label">Place of Publication</label>
+                            <input type="text" name="ref_publication" id="ref_publication"
+                                   placeholder="Place of Publication"
+                                   value="{% if i.publisher %}{{ i.place_of_publication }}{% endif %}">
+                        </div>
+                    </div>
+                    {% if references_details|length > 1 %}<hr>{% endif %}
+                {% endfor %}
+                <div id="newEntrySection3"></div>
+                  <div class="row mt-3">
+                          <div class="col-lg-12">
+                              <span  id="bibilo_reference"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                          </div>
+                  </div>
+            {% else %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="name" class="form-label">Title</label>
+                            <input type="text" name="ref_title" id="ref_title" placeholder="Title" value=""
+                                   style="font-style: italic;width: 80%">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Author</label>
+                        <div>
+                            <input type="text" name="ref_author" id="ref_author" placeholder="Author" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Year</label>
+                        <input type="number" name="ref_year" id="ref_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;">
+                        <label for="emp_id" class="form-label">Edition</label>
+                        <input type="text" name="ref_edition" id="ref_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Publisher</label>
+                        <div>
+                            <input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="emp_id" class="form-label">Place of Publication</label>
+                        <input type="text" name="ref_publication" id="ref_publication"
+                               placeholder="Place of Publication" value="">
+                    </div>
+                </div>
+                <div id="newEntrySection3"></div>
+                  <div class="row mt-3">
+                          <div class="col-lg-12">
+                              <span  id="bibilo_reference"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                          </div>
+                  </div>
+            {% endif %}<hr>
+    <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Online Resources</b></span></center></u>
+        </div>
+        {% if course_details.online_resources %}
+            {% for i in course_details.online_resources %}
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <span class="form-label">Online Resources-{{ forloop.counter }}</span>
+                        <input type="url" name="online_resources" value="{{ i.online_resouces }}" id="online_resources" placeholder="URL" style="width: 100%;">
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="row">
+            <div class="form-group col-md-12">
+                <span class="form-label">Online Resources</span>
+                    <input type="url" name="online_resources" id="online_resources" placeholder="URL" style="width: 100%;">
+            </div>
+        </div>
+        {% endif %}
+        <div id="newEntrySectionOnline"></div>
+        <div class="row mt-3">
+              <div class="col-lg-12">
+                  <span  id="resources_add_more"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+              </div>
+        </div>
+
+{% endif %}
+    </div>
+
+    <div class="fieldset-footer">
+        <span>Step 5 of 6</span>
+    </div>
+
+<script>
+    var addedCountResources = 1;
+	$("#resources_add_more").click(function(){
+		addedCountResources++;
+		let ademic_details_add_more_div = '<div class="resources_add_more"><div class="row mt-4"><div class="col-md-11"><input type="url" name="online_resources" id="online_resources" placeholder="URL" style="width: 100%;"></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryResources" onclick="removeThisEntryResources(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+		$("#newEntrySectionOnline").append(ademic_details_add_more_div);
+		if (addedCountResources==5){
+		    $("#resources_add_more").hide()
+        }
+
+
+	});
+	function removeThisEntryResources(entry){
+		$(entry).closest(".resources_add_more").remove();
+		addedCountResources--;
+		if(addedCountResources==4){
+		    $("#resources_add_more").show()
+        }
+
+	}
+
+</script>
+
+<script>
+    var addedCountPractical_1 = 1;
+	$("#practical_add_more1").click(function(){
+        addedCountPractical_1++;
+		let practical_add_more1 = '<div class="remove"><div class="commity_add_more"><div class="row"><div class="form-group col-md-9"><label for="name" class="form-label">Referance</label><input type="text" name="practical_referance" id="practical_referance" placeholder="Referance" style="width: 80%;margin-left: -100px;"></div><div class="form-group col-md-2"><label for="name" class="form-label" style="margin-left: -106px;">Topic Mapping</label><div><input type="text" name="prctical_topic_mapping" id="prctical_topic_mapping" placeholder="Topic Mapping" style="margin-left: -17px;width: 90%;"></div></div><div class="col-md-1"><div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry2" onclick="removeThisEntry2(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div></div></div></div></div>'
+		$("#newEntrySectionPractical_1").append(practical_add_more1);
+		if (addedCountPractical_1==5){
+		    $("#practical_add_more1").hide()
+         }
+
+
+	});
+	function removeThisEntry2(entry){
+		$(entry).closest(".remove").remove();
+		addedCountPractical_1--;
+		if(addedCountPractical==4){
+		    $("#practical_add_more1").show()
+        }
+			{#removeAcRecord(acQualificationId)#}
+
+	 }
+</script>
+<script>
+    var addedCount = {% if course_book_details %}{{ course_book_details|length }}{% else %}1{% endif %};
+	$("#bibilo_book").click(function(){
+		addedCount++;
+		{#let ademic_details_add_more_div = '<div class="remove"><hr/><div class="commity_add_more"><div class="row"><div class="col-md-10"><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Author</label><div><input type="text" name="book_author" id="book_author" placeholder="Author" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Year</label><input type="number" name="book_year" id="book_year" placeholder="Year" value=""></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Title</label><div><input type="text" name="book_title" id="book_title" placeholder="Title" value=""style="font-style: italic"></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Edition</label><input type="text" name="book_edition" id="book_edition" placeholder="Edition" value=""></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Publisher</label><div><input type="text" name="book_publisher" id="book_publisher" placeholder="Publisher" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Place of Publication</label><input type="text" name="book_publication" id="book_publication" placeholder="Place of Publication"value=""></div></div></div><div class="col-md-2"><div style="border-left: 3px solid #7f0000;height: 200px;"><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry1" onclick="removeThisEntry1(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div></div></div></div></div>'#}
+		let ademic_details_add_more_div = '<div class="remove"><hr/><div class="commity_add_more"><div class="row"><div class="col-md-10"><div class="row"><div class="form-group col-md-12"><label for="name" class="form-label">Title</label><input type="text" name="ref_title" id="ref_title" placeholder="Title" value="" style="font-style: italic;width: 160%"></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Author</label><div><input type="text" name="ref_author" id="ref_author" placeholder="Author" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Year</label><input type="number" name="ref_year" id="ref_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;"><label for="emp_id" class="form-label">Edition</label><input type="text" name="ref_edition" id="ref_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;"></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Publisher</label><div><input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Place of Publication</label><input type="text" name="ref_publication" id="ref_publication" placeholder="Place of Publication" value=""></div></div></div><div class="col-md-2"><div style="border-left: 3px solid #7f0000;height: 200px;"><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry1" onclick="removeThisEntry1(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div></div></div></div></div>'
+		$("#newEntrySection2").append(ademic_details_add_more_div);
+		if (addedCount==5){
+		    $("#bibilo_book").hide()
+        }
+
+
+	});
+	function removeThisEntry1(entry){
+		$(entry).closest(".remove").remove();
+		addedCount--;
+		if(addedCount==4){
+		    $("#bibilo_book").show()
+        }
+			{#removeAcRecord(acQualificationId)#}
+
+	}
+</script>
+<script>
+    var addedCount = {% if references_details %}{{ references_details|length }}{% else %}1{% endif %};
+	$("#bibilo_reference").click(function(){
+		addedCount++;
+		{#let bibilo_refer = '<div class="remove"><hr/><div class="commity_add_more"><div class = "row"><div class="col-md-10"><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Author</label><div><input type="text" name="ref_author" id="ref_author" placeholder="Author" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Year</label><input type="number" name="ref_year" id="ref_year" placeholder="Year" value=""></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Title</label><div><input type="text" name="ref_title" id="ref_title" placeholder="Title" value=""style="font-style: italic"></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Edition</label><input type="text" name="ref_edition" id="ref_edition" placeholder="Edition" value=""></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Publisher</label><div><input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Place of Publication</label><input type="text" name="ref_publication" id="ref_publication"placeholder="Place of Publication" value=""></div></div></div><div class="col-md-2"><div style="border-left: 3px solid #7f0000;height: 200px;"><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry1" onclick="removeThisEntry1(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div></div></div></div></div>'#}
+		let bibilo_refer = '<div class="remove"><hr/><div class="commity_add_more"><div class="row"><div class="col-md-10"><div class="row"><div class="form-group col-md-12"><label for="name" class="form-label">Title</label><input type="text" name="ref_title" id="ref_title" placeholder="Title" value="" style="font-style: italic;width: 157%"></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Author</label><div><input type="text" name="ref_author" id="ref_author" placeholder="Author" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Year</label><input type="number" name="ref_year" id="ref_year" placeholder="Year" value="" style="width: 20%;margin-left: -100px;"><label for="emp_id" class="form-label">Edition</label><input type="text" name="ref_edition" id="ref_edition" placeholder="Edition" value="" style="width: 40%;margin-left: -104px;"></div></div><div class="row"><div class="form-group col-md-6"><label for="name" class="form-label">Publisher</label><div><input type="text" name="ref_publisher" id="ref_publisher" placeholder="Publisher" value=""></div></div><div class="form-group col-md-6"><label for="emp_id" class="form-label">Place of Publication</label><input type="text" name="ref_publication" id="ref_publication" placeholder="Place of Publication" value=""></div></div></div><div class="col-md-2"><div style="border-left: 3px solid #7f0000;height: 200px;"><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry1" onclick="removeThisEntry1(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div></div></div></div></div>'
+		$("#newEntrySection3").append(bibilo_refer);
+		if (addedCount==5){
+		    $("#bibilo_reference").hide()
+        }
+
+
+	});
+	function removeThisEntry1(entry){
+		$(entry).closest(".remove").remove();
+		addedCount--;
+		if(addedCount==4){
+		    $("#bibilo_reference").show()
+        }
+			{#removeAcRecord(acQualificationId)#}
+
+	}
+</script>
+

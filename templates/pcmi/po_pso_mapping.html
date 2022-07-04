@@ -1,0 +1,853 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+{% load static %}
+    <style>
+    .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+        }
+    </style>
+    <style>
+.table input {
+    height: 40px;
+    border: 1px solid black;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+.table thead th {
+    font-size: 14px ;
+    text-align: center;
+}
+.table tbody th {
+    font-size: 14px ;
+    text-align: center;
+}
+.card {
+    margin-bottom: 0px !important;
+}
+.table th, .table td{
+    padding:0px;
+    width:30px;
+}
+    .table thead th{
+        text-transform:none;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+ <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                {% if program.program_type_id == 6 %}
+                                <li class="breadcrumb-item"><a href="/pcmi/pcmi_minor_program_detail/{{p_id}}">Program Details</a></li>
+                                {% else %}
+                                <li class="breadcrumb-item"><a href="/pcmi/pcmi_program_detail/{{p_id}}">Program Details</a></li>
+                                {% endif %}
+
+                                <li class="breadcrumb-item" aria-current="page">Programme POs PSOs</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+ <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                               <div class="row">
+                                   <div class="col-lg-4">
+                                        <h2 class="mb-0 pt-1">Program : {{program.name}}</h2>
+                                        <h3 class="mb-0 pt-1">Course : {{course.course_name}}</h3>
+                                   </div>
+                                    <div class="col-lg-4">
+                                         <a href="/pcmi/course_preview_by_pcmi/{{p_id}}/{{c_id}}" style="color: black" class="btn btn-cus-yellow ml-8"><i class="fas fa-eye"></i>&nbsp;Preview</a>
+
+                                   </div>
+                                   <div class="col-lg-4">
+                                        {% if program.program_type_id == 6 %}
+                                          <a href="/pcmi/pcmi_minor_program_detail/{{p_id}}" style="color: black" class="btn btn-cus-yellow ml-8"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+                                        {% else %}
+                                          <a href="/pcmi/pcmi_program_detail/{{p_id}}" style="color: black" class="btn btn-cus-yellow ml-8"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+                                        {% endif %}
+                                      </div>
+
+                                </div>
+                               <br>
+                                <form id="po_pso_create" action="" method="post">{%csrf_token%}
+                                <div class="row mt-4">
+                                     <div class="col-md-6">
+                                    {% if program_course_outcome %}
+                                         <div class="col-md-12">
+                                        <div class="input_fields_wrap">
+
+                                    {% for c in program_course_outcome %}
+                                            <div class="co">
+                                                <span class="form-label">Program outcomes - {{ forloop.counter }}</span>
+                                                <div style="margin-top: 10px; margin-bottom: 20px;">
+                                                    <input type="hidden" name="program_outcome_id" value="{{ c.id }}">
+                                                    <input type="text" {% if not forloop.counter == 1 %} style="width:90%;" {% endif %} name="program_outcome" value="{{ c.po }}" id="program_outcome" class="form-control" placeholder="Program Outcome"/>
+                                                    {% if not forloop.counter == 1 %}
+                                                        <div style="margin-left:94%;margin-top:-34px"><span class="delete_program_course_outcome" id="{{c.id}}"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        </div> </div>
+                                    {% else %}
+                                        <div class="col-md-12 input_fields_wrap">
+                                            <span class="form-label">Program Outcome(s)</span>
+                                            <div>
+                                                <input type="hidden" name="program_outcome_id" value="">
+                                                <input type="text" name="program_outcome" id="course_outcome" class="form-control" placeholder="Program Outcome"/>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                        <div class="col-md-12">
+                                            {% if program_outcome|length < 12 %}
+                                                <button style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px" class="add_field_button btn btn-primary "  >+ Add More POs</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                                    {% if program_specific_outcome %}
+                                                        <div class="col-md-12">
+                                                         <div class="input_fields_pso">
+                                                             {% for p in program_specific_outcome %}
+                                                                     <div class="pso">
+
+                                                                 <span class="form-label">Program specific outcomes (PSOs) - {{ forloop.counter }}</span>
+                                                                 <div style="margin-top: 10px; margin-bottom: 20px;">
+                                                                     <input type="hidden" name="pso_id" value="{{ p.id }}">
+                                                                     <input type="text" {% if not forloop.counter == 1  %} style ="width:90%" {%endif%} name="pso" value="{{ p.pso }}" id="pso" class="form-control" placeholder="PSO"/>
+                                                                    {% if not forloop.counter == 1  %}
+                                                                        <div style="margin-left:94%;margin-top:-34px"><span class="delete_program_course_specific_outcome" id="{{p.id}}"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div>
+                                                                    {% endif %}
+                                                                 </div>
+                                                                     </div>
+                                                             {% endfor %}
+                                                         </div>
+                                                         </div>
+                                                    {% else %}
+                                                        <div class="col-md-12 input_fields_pso">
+                                                            <span class="form-label">Program specific outcomes (PSOs)</span>
+                                                            <div>
+                                                                <input type="text" name="pso" id="pso" class="form-control" placeholder="PSO"/>
+                                                                <input type="hidden" name="pso_id" value="">
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                     {% if pso|length < 4 %}
+                                                        <button class="add_field_pso btn btn-primary " style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px"  >+ Add More PSOs</button>
+                                                    {% endif %}
+                                                </div>
+
+
+                                </div>
+                                <div class="row mt-2">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4 ml-6 mt-2">
+                                       <button type="submit" class="form-control btn-cus-yellow" style="width:150px">Submit</button>
+                                </div>
+                                 <div class="col-lg-4"></div>
+                            </div>
+                            </form>
+
+                                </div>
+                               </div>
+                    <hr>
+                     <div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                               <div class="row">
+                                   <div class="col-lg-6">
+                            <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">COs</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                                {% for c in course_outcomes %}
+                                    <span>{{ forloop.counter }} &nbsp;{{ c.course_outcome }}</span>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">POs</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                               {% for c in program_course_outcome %}
+                                    <span>{{ forloop.counter }} &nbsp;{{ c.po }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                                </div>
+                                <div class="row">
+                                   <div class="col-lg-6">
+                                   <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">PSOs</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;font-size: 13px;color: black;">
+                                 {% for p in program_specific_outcome %}
+                                    <span>{{ forloop.counter }}  &nbsp;{{ p.pso }}</span>
+                                {% endfor %}
+                            </div>
+                                    </div>
+                                   <div class="col-lg-6">
+                                   <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">Level of correlation</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black;font-size: 13px">
+                                <span>1  &nbsp;Low</span>
+                                <span>2  &nbsp;Medium</span>
+                                <span>3  &nbsp;High</span>
+                            </div>
+                                    </div>
+                                </div>
+                         </div>
+                   </div>
+               </div>
+           </div>
+                    <div class="table-responsive py-4">
+                      <form action="/pcmi/pcmi_co_po_pso_save/{{c_id}}" method="POST">
+
+                            <table id="table" class="table table-bordered">
+                              <thead class="text-center">
+                                <tr>
+                                  <th scope="col"></th>
+                                  <th colspan="{{program_course_outcome|length}}">POs</th>
+                                  <th colspan="{{ program_specific_outcome|length }}">PSOs</th>
+                                </tr>
+                              </thead>
+                              <thead>
+                                <tr>
+                                  <th scope="col">CO</th>
+                                  {% for p in program_course_outcome %}
+                                        <th scope="col">{{forloop.counter}}</th>
+                                  {%endfor%}
+
+                                  {% for p in program_specific_outcome %}
+                                      <th scope="col">{{ forloop.counter }}</th>
+                                  {% endfor %}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <input type="hidden" name="course_id" value="{{ course.id }}">
+                                <input type="hidden" name="program_id" value="{{ program.id }}">
+                                {% for c in course_outcomes %}
+                                <input type="hidden" name="co_id" value="{{ c.id}}">
+                                <tr>
+                                  <th scope="row">{{ forloop.counter }}<input type="hidden" name="co" value="{{ forloop.counter }}"></th>
+                                      {% for p in program_course_outcome %}
+                                         <input type="hidden" name="po_id" value="{{ p.id}}">
+                                    <td><input class="form-control po_{{forloop.counter}}" name="po" type="number" contenteditable value="{% for l in co_po_map %}{% if l.co_id == c.id and l.po_id == p.id %}{{l.po_points}}{%endif%}{%endfor%}"></td>
+                                    {%endfor%}
+
+                                    {% for p in program_specific_outcome %}
+                                     <input type="hidden" name="pso_id" value="{{ p.id}}">
+                                        <td><input class="form-control pso_{{ forloop.counter }}" name="pso" type="number" value="{% for l in co_pso_map %}{% if l.co_id == c.id and l.pso_id == p.id %}{{l.pso_points}}{%endif%}{%endfor%}" contenteditable></td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                  <th scope="row">Avg</th>
+                                    {% for p in program_course_outcome %}
+                                       <td><input class="form-control" id="po_total_{{forloop.counter}}" type="number" contenteditable></td>
+                                    {%endfor%}
+                                    {% for p in program_specific_outcome %}
+                                        <td><input class="form-control" id="pso_total_{{ forloop.counter }}" type="number" contenteditable></td>
+                                    {% endfor %}
+                                </tr>
+                              </tbody>
+                            </table>
+                        <input type="hidden" value="{{request.path}}" name="path">
+                        <div class="row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4 ">  <input type="submit" class="form-control btn-cus-yellow ml-4" style="width:150px" value="Submit"></div>
+                          <div class="col-md-4 ">
+                             <a href="/pcmi/course_preview_by_pcmi/{{p_id}}/{{c_id}} style="color: black" class="btn btn-cus-yellow mr-4"><i class="fas fa-eye"></i>&nbsp;Preview</a>
+
+                            </div>
+                         </div>
+                        </form>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Modal -->
+
+
+<!-- Delete Program Course outcome Modal popup -->
+<div class="modal fade" id="delete_program_course_outcome_modal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h3 style="color: black">Are you sure want to Delete PO?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/pcmi/program_course_outcome_delete" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="pk" name="pk" >
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Delete Course outcome Modal popup -->
+
+<!-- Delete Program Course outcome Modal popup -->
+<div class="modal fade" id="delete_program_course_specific_outcome_modal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h3 style="color: black">Are you sure want to Delete PSO?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/pcmi/program_course_specific_outcome_delete" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="pso_pk" name="pso_pk" >
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Delete Course outcome Modal popup -->
+
+<script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+<script>
+
+ // Data Table
+ $('#datatable-buttons1').DataTable( {
+    "bPaginate" : $('#datatable-buttons1 tbody tr').length>10,
+    language: {
+		searchPlaceholder: 'Name/Type/Status',
+       paginate: {
+         previous: "<i class='fa fa-angle-left'>",
+         next: "<i class='fa fa-angle-right'>"
+       }
+     }
+
+} );
+
+$(".delete_program_course_outcome").click(function(){
+    $("#pk").val(this.id)
+    $("#delete_program_course_outcome_modal").modal('show')
+})
+$(".delete_program_course_specific_outcome").click(function(){
+    $("#pso_pk").val(this.id)
+    $("#delete_program_course_specific_outcome_modal").modal('show')
+})
+
+
+$(document).ready(function() {
+	var max_fields      = 12; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
+	var add_button      = $(".add_field_button"); //Add button ID
+
+	var x = {% if program_outcome %}{{ program_outcome|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+			$(wrapper).append('<div class="mt-2 co"><input type="text" style="width: 90%" name="program_outcome" class="form-control" placeholder="Program outcomes "+x+" /><input type="hidden" name="program_outcome_id" value=""><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+		    if (x==12){
+		        $(this).hide();
+            }
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	    $(this).closest(".co").remove();x--
+        if (x <12){
+            $(".add_field_button").show()
+        }
+		{#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+
+$(document).ready(function() {
+	var max_fields      = 4; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_pso"); //Fields wrapper
+	var add_button      = $(".add_field_pso"); //Add button ID
+
+	var x = {% if pso %}{{ pso|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+            $(wrapper).append('<div class="mt-2 pso"><input type="text" name="pso" style="width: 90%" class="form-control" placeholder="PSO" /><input type="hidden" name="pso_id" value=""><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+			{#$(wrapper).prepend('<span class="form-label">Program specific outcomes (PSOs)</span><div><input type="text" name="pso" class="form-control" placeholder="PSO" /></div>'); //add input box#}
+		        if (x==4){
+		        $(this).hide();
+            }
+
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+		$(this).closest(".pso").remove();x--
+        if (x < 4){
+            $(".add_field_pso").show()
+        }
+	    {#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+
+
+
+
+
+jQuery.extend(jQuery.validator.messages, {
+    required: "This field is required.",
+    remote: "Please fix this field.",
+    email: "Please enter a valid email address.",
+    url: "Please enter a valid URL.",
+    date: "Please enter a valid date.",
+    dateISO: "Please enter a valid date (ISO).",
+    number: "Please enter a valid number.",
+    digits: "Please enter only digits.",
+    creditcard: "Please enter a valid credit card number.",
+    equalTo: "Please enter the same value again.",
+    accept: "Please enter a value with a valid extension.",
+    maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+    minlength: jQuery.validator.format("Please enter at least {0} characters."),
+    rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+    range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+    max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+    min: jQuery.validator.format("Please enter a value greater than or equal to {0}."),
+    alpha_space:jQuery.validator.format("Please enter alphabets only"),
+
+});
+//ceritification_form js
+$( "#po_pso_create" ).validate({
+      rules: {
+
+          program_outcome: {
+
+          required: true,
+
+        },
+		pso: {
+
+          required: true,
+
+        },
+
+      },
+      errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            $(element).closest('div').after(error)
+          }
+        },
+
+    });
+
+});
+ </script>
+
+<script>
+$(".po_1").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    console.log(this.id)
+    total_count = 0
+    $('.po_1').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    console.log(total_count)
+
+    $("#po_total_1").val(Math.floor(sum1/total_count))
+});
+
+$(".po_2").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_2').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_2").val(Math.floor(sum1/total_count))
+});
+
+$(".po_3").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_3').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_3").val(Math.floor(sum1/total_count))
+});
+
+$(".po_4").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_4').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_4").val(Math.floor(sum1/total_count))
+});
+
+$(".po_5").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_5').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_5").val(Math.floor(sum1/total_count))
+});
+
+$(".po_6").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_6').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_6").val(Math.floor(sum1/total_count))
+});
+
+$(".po_7").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_7').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_7").val(Math.floor(sum1/total_count))
+});
+
+$(".po_8").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_8').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_8").val(Math.floor(sum1/total_count))
+});
+
+$(".po_9").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_9').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_9").val(Math.floor(sum1/total_count))
+});
+
+$(".po_10").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_10').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_10").val(Math.floor(sum1/total_count))
+});
+
+$(".po_11").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_11').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+
+    $("#po_total_11").val(Math.floor(sum1/total_count))
+});
+
+$(".po_12").keyup(function() {
+	$(".cutom_error1").remove()
+    budget_error=false
+    sum1 = 0
+    mul = 0
+    total_count = 0
+    console.log(this.id)
+    $('.po_12').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value between 1 and 3')
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    })
+    $("#po_total_12").val(Math.floor(sum1/total_count))
+});
+
+
+{% for p in program_course_outcome %}
+    sum1 = 0
+    total_count = 0
+    $('.po_'+{{forloop.counter}}).each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            $(this).val('')
+        }
+        else{
+            if ($(this).val() != ''){
+                total_count = total_count + 1
+            }
+         sum1 += Number($(this).val());
+
+        }
+    });
+    $("#po_total_"+{{forloop.counter}}).val(Math.floor(sum1/total_count))
+
+{% endfor %}
+
+
+{% for p in program_specific_outcome %}
+	avg_poso_total_count=0
+	avg_sum=0
+	$("input[name='pso{{ forloop.counter }}']").each(function () {
+		if ($(this).val() != ''){
+            avg_poso_total_count = avg_poso_total_count + 1
+       }
+		avg_sum += Number($(this).val());
+
+	})
+	$("#pso_total_{{ forloop.counter }}").val(avg_sum/avg_poso_total_count)
+
+    $(".pso_{{ forloop.counter }}").keyup(function() {
+		$(".cutom_error1").remove()
+        budget_error=false
+        sum1 = 0
+        mul = 0
+        total_count = 0
+        console.log(this.id)
+        $('.pso_{{ forloop.counter }}').each(function () {
+            if (Number($(this).val()) > 3){
+            budget_error=true
+                alert('Please enter value between 1 and 3')
+                $(this).val('')
+            }
+            else{
+                if ($(this).val() != ''){
+                    total_count = total_count + 1
+                }
+             sum1 += Number($(this).val());
+
+            }
+        })
+        $("#pso_total_{{ forloop.counter }}").val(sum1/total_count)
+    });
+{% endfor %}
+
+
+{% for p in program_specific_outcome %}
+    avg_poso_total_count=0
+	avg_sum=0
+  $('.pso_'+{{forloop.counter}}).each(function () {
+		if ($(this).val() != ''){
+            avg_poso_total_count = avg_poso_total_count + 1
+       }
+		avg_sum += Number($(this).val());
+
+	})
+$("#pso_total_{{ forloop.counter }}").val(Math.floor(avg_sum/avg_poso_total_count))
+{% endfor %}
+</script>
+{% endblock %}

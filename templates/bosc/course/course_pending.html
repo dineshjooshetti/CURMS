@@ -1,0 +1,249 @@
+<!-- MAIN CONTENT-->
+{% extends 'bosc/base.html' %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/custom_datatable.css' %}">
+
+<style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+            margin-left: 37%;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+        .table thead {
+            background-color: #928e8e!important;
+            color: #fff !important;
+        }
+		table.dataTable{
+		margin-bottom:0 !important;
+		}
+		.dataTables_scrollBody::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar {
+    width: 8px;
+	height:10px;
+    background-color: #F5F5F5;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 10px;
+}
+/*.main-content{
+margin-top:106px !important;
+}*/
+.dataTables_scrollHeadInner{
+		height:auto !important;
+	}
+	.dt-buttons{
+	float:left;
+	padding-top:20px;
+	}
+	.dataTables_info{
+		float:right;
+		padding-top:20px;
+	}
+	.table.dataTable thead th,{
+		/*padding:0px !important;*/
+	}
+    </style>
+<!-- Page plugins -->
+
+
+    <!-- Header -->
+    <div class="header pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item active"><a href="/">Course Pending</a></li>
+                </ol>
+              </nav>
+            </div>
+           
+          </div>
+      
+		
+      </div>
+    </div>
+	</div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h3 class="mb-0">Course Pending</h3>
+
+            </div>
+          <div class="card-body">
+              <div class="table-responsive py-4">
+                <table id="example" class="table table-bordered table-striped display nowrap" style="width:100%">
+                <thead >
+                  <tr>
+                   <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Course Type</th>
+                    <th>Course Level</th>
+					 <th>Admitted Batch</th>
+                    <th>Program</th>
+                    <th>L</th>
+                    <th>T</th>
+                    <th>P</th>
+                    <th>S</th>
+                    <th>J</th>
+                    <th>C</th>
+                    <th>CSMI</th>
+                    <th>CSMM</th>
+                         <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for i in courses %}
+                  <tr>
+					<td>{% if i.course_code %} {{ i.course_code }}{%else%}XXXXXX {%endif%}</td>
+                   
+					<td>{% if i.status_id in course_status %}<a href="/bosc/course_preview/{{ i.encrypt_id }}">{{i.course_name}}{%if i.faculty is False%}^{%endif%}</a>{%else%}{{i.course_name}}{%if i.faculty is False%}^{%endif%}{%endif%}</td>
+                    <td>{{ i.course_type__name }}</td>
+                    <td>{% if i.level_of_course__level %} {{ i.level_of_course__level }} {%endif%}</td>
+					 <td>{% if i.admitted_batch__name %} {{ i.admitted_batch__name }} {% else %}-{%endif%}</td>
+                    <td>{{ i.program_type__type }}</td>
+                    <td>{{ i.L }}</td>
+                    <td>{{ i.T}}</td>
+                    <td>{{ i.P}}</td>
+                    <td>{{ i.S}}</td>
+                    <td>{{ i.J}}</td>
+                    <td>{{ i.C}}{%if i.pass_fail is True%}*{%endif%}</td>
+                    <td>{{ i.csmi_name }}</td>
+                    <td>{{ i.csmm_name }}</td>
+                    <td>{{ i.status__title }}</td>
+                    <td><a class="item" style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Edit" href="/bosc/course_edit/{{ i.encrypt_id }}">
+                            <i class="fa fa-edit" style="color:#3a3872"></i></a>
+                        <a  class="btn btn-sm delete_confirm" title="Delete" data-toggle="tooltip" data-placement="top" id="{{ i.encrypt_id }}" ><i class="fa fa-trash" style="color: #7f0000;"></i></button>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+
+
+            </div>
+           
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Delete Course Modal popup -->
+    <div class="modal fade" id="staticModal_delete" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    <h3 style="color: black">Are you sure to Delete ?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/bosc/course_del" method="POST">
+						{% csrf_token %}
+                        <input type="hidden" id="course_del" name="course_del" >
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Delete Course Modal popup -->
+
+
+
+
+<!-- Optional JS -->
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jszip.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/pdfmake.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/vfs_fonts.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.html5.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.print.min.js' %}"></script>
+
+
+  <script>
+
+
+
+    $(".delete_confirm").click(function(){
+            var str = this.id;
+            $("#course_del").val(str)
+            $("#staticModal_delete").modal('show')
+        })
+
+   
+   $(document).ready(function (){
+    table=$('#example').DataTable({
+	dom: 'Bfrtip',
+        buttons: [
+             { extend: 'excel', text: 'Download' }
+        ],
+        paging:   false,
+        // info:false,
+        // ordering:false,
+        scrollY: 400,
+        scrollX: true
+    } );
+
+ $('.dt-buttons .buttons-html5, .buttons-print').removeClass('dt-button').addClass('btn-sm btn-default');
+     $('#example-select-all').on('click', function(){
+
+		// Get all rows with search applied
+      var rows = table.rows({ 'search': 'applied' }).nodes();
+	  // Check/uncheck checkboxes for all rows in the table
+      $('input[type="checkbox"]', rows).prop('checked', this.checked);
+   });
+
+   
+});
+
+  </script>
+
+{% endblock %}

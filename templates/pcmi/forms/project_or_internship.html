@@ -1,0 +1,270 @@
+<div class="col-lg-12" style="color: black;">
+<style>
+	table tr td{
+		padding-left:10px;
+	}
+	table tr th{
+		padding-left:10px;
+		font-size:14px;
+	}
+	#table{
+		font-size:14px;
+	}
+</style>
+    <div class="">
+        <table border="1" style="font-size: 14px !important;margin-top:15px;" width="100%">
+            <tr>
+                <th rowspan="6"><img style="height: 120px;margin-left: 6px;margin-right: -31px;" src="/static/gitam-logo.jpg"></th>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>L</th>
+                <th>T</th>
+                <th>P</th>
+                <th>J</th>
+                <th>S</th>
+                <th>C</th>
+            </tr>
+            <tr>
+
+                <td>XXXXXXXX</td>
+                <td>{{ course_details.course_name }}</td>
+                <td>{{ course_details.L }}</td>
+                <td>{{ course_details.T }}</td>
+                <td>{{ course_details.P }}</td>
+                <td>{{ course_details.J }}</td>
+                <td>{{ course_details.S }}</td>
+                <td>{{ course_details.C }}</td>
+            </tr>
+            <tr>
+
+                <td>Course Owner</td>
+                <td>{{course_owner.to_user__dept_code__dept_inst}}</td>
+                <td colspan="4">Syllabus version</td>
+                <td colspan="2">1.0</td>
+            </tr>
+            <tr>
+
+                <td>Course Pre-requisite(s)</td>
+                <td>{% if course_pre_requisite %}YES{%else%}NO{% endif %}</td>
+                <td colspan="4">Contact hours</td>
+                <td colspan="2">{{ course.0.total_no_of_contact_hours }}</td>
+            </tr>
+            <tr>
+
+                <td>Course Co-requisite(s)</td>
+                <td>{% if course_details.co_requisite1 %}{{ course_details.co_requisite1 }}{% endif %}{% if course_details.co_requisite2 %},{{ course_details.co_requisite2 }}{% endif %}{% if course_details.co_requisite3 %},{{ course_details.co_requisite3 }}{% endif %}{% if course_details.co_requisite4 %},{{ course_details.co_requisite4 }}{% endif %}{% if course_details.co_requisite5 %},{{ course_details.co_requisite5 }}{% endif %}</td>
+                <td colspan="4">Date Approved</td>
+                <td colspan="2">-</td>
+            </tr>
+            <tr>
+                <td>Alternate Exposure</td>
+                <td colspan="7">{{ course_details.alternative_exposure }}</td>
+            </tr>
+        </table>
+        <p style="text-align: justify;margin-top:15px;">
+            {{ course_details.course_descrption }}
+        </p>
+        <h4>Course Objectives</h4>
+        <div style="margin-left:30px;">
+            {{ course_details.specific_instruction_objectives|linebreaks }}
+        </div>
+        <h4>Course Pre-requisite(s)</h4>
+        {% for i in course_pre_requisite %}
+            <div>
+                <p>{{ forloop.counter }}.&nbsp;{{ i.prerequesti__course_name }}</p>
+            </div>
+        {% endfor %}
+        <h4>Topics</h4>
+		<ol>
+		{% for practical in course.0.project_topic %}
+			<li>{{ practical.project_topic }}</li>
+
+				
+		   
+		{% endfor %}
+		</ol>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Texbook(s)</b></td>
+                <td><b>Topics</b></td>
+            </tr>
+           
+                {% for j in course_book_details %}
+				 <tr>
+                    <td><p>{{ forloop.counter }}.&nbsp;{{ j.author }},'{{ j.title }}',{{ j.edition }},{{ j.publisher }},{{ j.place_of_publication }},{{ j.year }},{{ j.isbn }}</p>
+                    </td>
+                    <td>{{ j.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Additional Reading(s)</b></td>
+                <td><b>Topics</b></td>
+            </tr>
+                {% for i in references_details %}
+				<tr>
+            
+                    <td>
+                        <p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.edition }},{{ i.publisher }},{{ i.place_of_publication }},{{ i.year }},{{ i.isbn }}</p>
+                    </td>
+                    <td>{{ i.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Journal(s)</b></td>
+                <td><b>Topics</b></td>
+            </tr>
+            
+                {% for i in journal_details %}
+				<tr>
+                    <td>
+                        <p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.year }},{{ i.pages }}</p>
+                    </td>
+                    <td>{{ i.unit_mapping }}</td>
+				</tr>	
+                {% endfor %}
+            
+        </table>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Website(s)</b></td>
+                <td><b>Topics</b></td>
+            </tr>
+                {% for i in website_details %}
+				<tr>
+            
+                    <td>
+                        <p>{{ forloop.counter }}.&nbsp;{{ i.name_website }},{{ i.last_accessed }},{{ i.website_url }}</p>
+                    </td>
+                    <td>{{ i.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+       <div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="">
+                        <div class="">
+                               <div class="row">
+                                   <div class="col-lg-6">
+                            <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">COs</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                                {% for c in course_outcomes %}
+                                    <span>{{ forloop.counter }} &nbsp;{{ c.course_outcome }}</span>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">POs</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                               {% for c in program_course_outcome %}
+                                    <span>{{ forloop.counter }} &nbsp;{{ c.po }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                                </div>
+                                <div class="row">
+                                   <div class="col-lg-6">
+                                   <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">PSOs</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;font-size: 13px;color: black;">
+                                 {% for p in program_specific_outcome %}
+                                    <span>{{ forloop.counter }}  &nbsp;{{ p.pso }}</span>
+                                {% endfor %}
+                            </div>
+                                    </div>
+                                   <div class="col-lg-6">
+                                   <div class="card-header text-center" style="margin-bottom: -15px">
+                                <span style="font-size: 18px ;">Level of correlation</span>
+                            </div>
+                            <div class="card" style="border: 2px solid #cccccc;padding: 10px;color: black;font-size: 13px">
+                                <span>1  &nbsp;Low</span>
+                                <span>2  &nbsp;Medium</span>
+                                <span>3  &nbsp;High</span>
+                            </div>
+                                    </div>
+                                </div>
+                         </div>
+                   </div>
+               </div>
+           </div>  <h4>CO POs PSOs </h4>
+                   {%if program_course_outcome and program_specific_outcome %}
+                    <div class="table-responsive py-4">
+
+                            <table id="table" border="1" class="table table-bordered">
+                              <thead class="text-center">
+                                <tr>
+                                  <th scope="col"></th>
+                                  <th colspan="{{program_course_outcome|length}}">POs</th>
+                                  <th colspan="{{ program_specific_outcome|length }}">PSOs</th>
+                                </tr>
+                              </thead>
+                              <thead>
+                                <tr>
+                                  <th scope="col">CO</th>
+                                  {% for p in program_course_outcome %}
+                                        <th scope="col">{{forloop.counter}}</th>
+                                  {%endfor%}
+
+                                  {% for p in program_specific_outcome %}
+                                      <th scope="col">{{ forloop.counter }}</th>
+                                  {% endfor %}
+                                </tr>
+                              </thead>
+                              <tbody>
+
+                                {% for c in course_outcomes %}
+                                <tr>
+                                  <th scope="row">{{ forloop.counter }}<input type="hidden" name="co" value="{{ forloop.counter }}"></th>
+                                      {% for p in program_course_outcome %}
+                                    <td>{% for l in co_po_map %}{% if l.co_id == c.id and l.po_id == p.id %}{{l.po_points}}{%endif%}{%endfor%}</td>
+                                    {%endfor%}
+
+                                    {% for p in program_specific_outcome %}
+                                        <td>{% for l in co_pso_map %}{% if l.co_id == c.id and l.pso_id == p.id %}{{l.pso_points}}{%endif%}{%endfor%}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                  <th scope="row">Avg</th>
+                                    {% for p in po_co_average %}
+                                       <td>{{p}}</td>
+                                    {%endfor%}
+                                    {% for p in pso_co_average %}
+                                        <td>{{p}}</td>
+                                    {% endfor %}
+                                </tr>
+                              </tbody>
+                            </table>
+
+
+                    </div>
+                    {%else%}
+                     <center><h3 class="mt-5" style="text-align: center;">No Data Available</h3></center>
+                    {%endif%}
+                        </div>
+        <center><h3 class="mt-5" style="text-align: center;">Instructional Plan</h3></center>
+        {% if course_details.instruction_plan %}
+            <embed src="/media/user/instruction_plan/{{ course_details.instruction_plan }}#toolbar=0"  type="application/pdf"  width="100%" height="600px" />
+        {% else %}
+            <span>No file uploaded</span>
+        {% endif %}
+        <br>
+
+        
+        </div>
+    </div>
+
+

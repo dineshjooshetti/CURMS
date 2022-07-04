@@ -1,0 +1,257 @@
+<div class="col-lg-12" style="color: black;">
+<style>
+	table tr td{
+		padding-left:10px;
+	}
+	table tr th{
+		padding-left:10px;
+		font-size:14px;
+	}
+	#table{
+		font-size:14px;
+	}
+</style>
+    <div class="">
+        <table border="1" style="font-size: 14px !important;margin-top:15px;" width="100%">
+            <tr>
+                <th rowspan="6"><img style="height: 120px;margin-left: 6px;margin-right: -31px;" src="/static/gitam-logo.jpg"></th>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>L</th>
+                <th>T</th>
+                <th>P</th>
+                <th>J</th>
+                <th>S</th>
+                <th>C</th>
+            </tr>
+            <tr>
+
+                <td>XXXXXXXX</td>
+                <td>{{ course_details.course_name }}</td>
+                <td>{{ course_details.L }}</td>
+                <td>{{ course_details.T }}</td>
+                <td>{{ course_details.P }}</td>
+                <td>{{ course_details.J }}</td>
+                <td>{{ course_details.S }}</td>
+                <td>{{ course_details.C }}</td>
+            </tr>
+            <tr>
+
+                <td>Course Owner</td>
+                <td>{{course_owner.to_user__dept_code__dept_inst}}</td>
+                <td colspan="4">Syllabus version</td>
+                <td colspan="2">1.0</td>
+            </tr>
+            <tr>
+
+                <td>Course Pre-requisite(s)</td>
+                  <td>{% if course_pre_requisite %}YES{%else%}NO{% endif %}</td>
+                <td colspan="4">Contact hours</td>
+                <td colspan="2">{{ course.0.total_no_of_contact_hours }}</td>
+            </tr>
+            <tr>
+
+                <td>Course Co-requisite(s)</td>
+                <td>{% if course_details.co_requisite1 %}{{ course_details.co_requisite1 }}{% endif %}{% if course_details.co_requisite2 %},{{ course_details.co_requisite2 }}{% endif %}{% if course_details.co_requisite3 %},{{ course_details.co_requisite3 }}{% endif %}{% if course_details.co_requisite4 %},{{ course_details.co_requisite4 }}{% endif %}{% if course_details.co_requisite5 %},{{ course_details.co_requisite5 }}{% endif %}</td>
+                <td colspan="4">Date Approved</td>
+                <td colspan="2">-</td>
+            </tr>
+            <tr>
+                <td>Alternate Exposure</td>
+                <td colspan="7">{{ course_details.alternative_exposure }}</td>
+            </tr>
+        </table>
+        <p style="text-align: justify;margin-top:15px;">
+            {{ course_details.course_descrption }}
+        </p>
+        <h4>Course Objectives</h4>
+        <div style="margin-left:30px;">
+            {{ course_details.specific_instruction_objectives|linebreaks }}
+        </div>
+         <h4>Course Pre-requisite(s)</h4>
+        {% for i in course_pre_requisite %}
+            <div>
+                <p>{{ forloop.counter }}.&nbsp;{{ i.prerequesti__course_name }}</p>
+            </div>
+        {% endfor %}
+{% for syllabus in course_syllabus %}
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <h4>
+                        <span style="float: left">Unit {{ forloop.counter }}&nbsp;&nbsp;&nbsp;&nbsp; {{ syllabus.short_title }}</span>
+                        <span style="float: right;margin-right: 40px;">No of Hours : {{ syllabus.number_of_contact_hours }}</span>
+                    </h4><br>
+                    <p style="text-align: justify">{{ syllabus.unit_name }}</p>
+                    <h5>Learning Outcomes</h5>
+
+                    <div style="margin-left:30px;">
+                        <span style="font-size:14px;">After completion of this unit, the student will be able to</span>
+                        <table style="font-size:14px !important;" width="100%">
+                            <tr>
+                                <td width="95%">
+                                    <li>{{ syllabus.outcome_1 }}</li>
+                                </td>
+                                <td><span>{{ syllabus.level_1 }}</span></td>
+                            </tr>
+                            <tr>
+                                <td width="95%">
+                                    <li>{{ syllabus.outcome_2 }}</li>
+                                </td>
+                                <td><span>{{ syllabus.level_2 }}</span></td>
+                            </tr>
+                            <tr>
+                                <td width="95%">
+                                    <li>{{ syllabus.outcome_3 }}</li>
+                                </td>
+                                <td><span>{{ syllabus.level_3 }}</span></td>
+                            </tr>
+                            {% if syllabus.outcome_4 %}
+                                <tr>
+                                    <td width="95%">
+                                        <li>{{ syllabus.outcome_4 }}</li>
+                                    </td>
+                                    <td><span>{{ syllabus.level_4 }}</span></td>
+                                </tr>
+                            {% endif %}
+                            {% if syllabus.outcome_5 %}
+                                <tr>
+                                    <td width="95%">
+                                        <li>{{ syllabus.outcome_5 }}</li>
+                                    </td>
+                                    <td><span>{{ syllabus.level_5 }}</span></td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <div style="display: inline-flex;">
+                        <h5>Pedagogy tools:&nbsp;</h5>
+                        {% for p in pedagogy_tools %}
+                            {% for j in syllabus.pedagogy_tools %}
+                                {% if j.p_id == p.id %}
+                                    <span style="float: left;font-size: 14px;">{{ p.name }}
+                                            {% if not syllabus.pedagogy_tools|length == forloop.counter %}
+                                                ,&nbsp;{% endif %}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}<br>
+
+		<table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+               <td><b>Texbook(s)</b></td>
+                                        <td><b>Topics</b></td>
+            </tr>
+            
+                {% for j in course_book_details %}
+					<tr>
+                    <td><p>{{ forloop.counter }}.&nbsp;{{ j.author }},'{{ j.title }}',{{ j.edition }},{{ j.publisher }},{{ j.place_of_publication }},{{ j.year }},{{ j.isbn }}</p>
+                    </td>
+                    <td>{{ j.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Additional Reading(s)</b></td>
+                                        <td><b>Topics</b></td>
+            </tr>
+            
+                {% for i in references_details %}
+				<tr>
+                    <td>
+                        <p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.edition }},{{ i.publisher }},{{ i.place_of_publication }},{{ i.year }},{{ i.isbn }}</p>
+                    </td>
+                    <td>{{ i.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Journal(s)</b></td>
+                                        <td><b>Topics</b></td>
+            </tr>
+                {% for i in journal_details %}
+				<tr>
+            
+                    <td>
+                        <p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.year }},{{ i.pages }}</p>
+                    </td>
+                    <td>{{ i.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+        <table style="font-size:14px !important;"  border="1" width="100%">
+            <tr>
+                <td><b>Website(s)</b></td>
+                                        <td><b>Topics</b></td>
+            </tr>
+           
+                {% for i in website_details %}
+				 <tr>
+                    <td>
+                        <p>{{ forloop.counter }}.&nbsp;{{ i.name_website }},{{ i.last_accessed }},{{ i.website_url }}</p>
+                    </td>
+                    <td>{{ i.unit_mapping }}</td>
+					</tr>
+                {% endfor %}
+            
+        </table>
+		<br>
+		<h4>Practical Experiment</h4>
+			<table style="font-size:14px !important;"  border="1" width="100%">
+				<tr>
+					<td style="color: #7f0000" align="center"><b>Topic</b> </td>
+					<td style="color: #7f0000" align="center"><b>Type</b> </td>
+				</tr>
+				{% for practical in practical_syllabus %}
+					<tr>
+						<td  width="140px" >{{ practical.topic }}</td>
+
+						<td  width="140px">{{ practical.syllabus_type__name }}</td>
+					</tr>
+				{% endfor %}
+			</table><br><br>
+            <div class="row">
+                <div class="col-lg-6">
+                <div class="card-header text-center" style="margin-bottom: -15px">
+                    <span style="font-size: 18px ;">Course Outcomes(COs)</span>
+                </div>
+                <div class="card"
+                     style="border: 2px solid #cccccc;padding: 10px;color: black; font-size: 13px;">
+                    {% for c in course_outcome %}
+                        <span>{{ forloop.counter }} &nbsp;{{ c.course_outcome }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            </div>
+        <center><h3 class="mt-5" style="text-align: center;">Instructional Plan</h3></center>
+        {% if course_details.instruction_plan %}
+            <embed src="/media/user/instruction_plan/{{ course_details.instruction_plan }}#toolbar=0"  type="application/pdf"  width="100%" height="600px" />
+        {% else %}
+            <span>No file uploaded</span>
+        {% endif %}
+        <br>
+     <center><h3 class="mt-5" style="text-align: center;">Instructional Plan Practical</h3></center>
+                                {% if course_details.instruction_plan_practical %}
+                                    <embed src="/media/user/instruction_plan/{{ course_details.instruction_plan_practical }}#toolbar=0"  type="application/pdf"  width="100%" height="600px" />
+
+
+                                    {#                                    <span class="preview" data-value="{{ course_details.instruction_plan_practical }}" id="/media/user/instruction_plan/"><i class="fas fa-binoculars" style="color: #7f0000;font-size:20px;cursor: pointer" data-toggle="tooltip" data-placement="top" title="View Attachment"></i></span>#}
+                                {% else %}
+                                    <span>No file uploaded</span>
+                                {% endif %}
+                                <br>
+
+
+        </div>
+    </div>
+
+

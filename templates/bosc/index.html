@@ -1,0 +1,176 @@
+{% extends 'bosc/base.html' %}
+{% block body %}
+{% load static %}
+    <style>
+    .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+        }
+		.icon {
+    width: 4rem;
+    height: 4rem;
+}
+.display-4,.display-5,.card-title{
+color:#525f7f !important;
+}
+    </style>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+ <div class="container-fluid mt-3">
+		<div class="row">
+                <div class="col-lg-12">
+                   <div class="row mb-2">
+                       <div class="col-lg-4"><a href="/bosc/programme">
+                          <div class="card">
+                             <!-- Card body -->
+                             <div class="card-body">
+                                <div class="row">
+                                   <div class="col">
+                                      <h3 class="card-title text-muted text-uppercase mb-0">Programme offered</h3>
+                                      <span class="display-4">{{programs}}</span>
+                                   </div>
+                                   <div class="col-auto">
+                                      <div class="icon icon-shape text-white rounded-circle shadow">
+                                        <img class="icon" src="/static/assets/img/dash_widgets/programme.png">
+                                      </div>
+                                   </div>
+                                </div>
+                                <!--p class="mt-3 mb-0 text-sm">
+                                   <span class="text-success mr-2"></span>
+                                   <span class="text-nowrap">Since last month</span>
+                                </p-->
+                             </div>
+                          </div></a>
+                       </div>
+                       <div class="col-lg-4"><a href="/bosc/view_pab">
+                          <div class="card">
+                             <!-- Card body -->
+                             <div class="card-body">
+                                <div class="row">
+                                   <div class="col">
+                                      <h4 class="card-title text-muted text-uppercase mb-0">Programme advisory Board</h4>
+                                     <div class="display-4">{{pab}}</div>
+                                   </div>
+                                   <div class="col-auto">
+                                      <div class="icon icon-shape text-white rounded-circle shadow">
+                                       <img class="icon" src="/static/assets/img/dash_widgets/adb.png">
+                                      </div>
+                                   </div>
+                                </div>
+                                <!--p class="mt-3 mb-0 text-sm">
+                                   <span class="text-success mr-2"></span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p-->
+                             </div>
+                          </div></a>
+                       </div>
+					   <div class="col-lg-4"><a href="/bosc/course_list">
+                          <div class="card ">
+                             <!-- Card body -->
+                             <div class="card-body">
+                                <div class="row">
+                                   <div class="col">
+                                      <h3 class="card-title text-muted text-uppercase mb-0">Courses offered </h3>
+                                      <div class="display-4">{{courses}}</div>
+                                   </div>
+                                   <div class="col-auto">
+                                      <div class="icon icon-shape text-white rounded-circle shadow">
+                                       <img class="icon" src="/static/assets/img/dash_widgets/courses.png">
+                                      </div>
+                                   </div>
+                                </div>
+                                <!--p class="mt-3 mb-0 text-sm">
+                                   <span class="text-success mr-2"></span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p-->
+                             </div>
+                          </div></a>
+                       </div>
+					   
+		 <div class="col-lg-3">
+             <div class="card card-pricing border-0 text-center mb-4">
+                 <div class="card-body">
+
+                     <h3 class="card-title text-muted text-uppercase mb-0" >CSM Member Level</h3>
+					 <div class="row mt-4">
+						<div class="col-lg-6" style="border-right: 1px solid #ccc">
+							<div class="display-4">{{csmm_completd}}</div>
+							<div class="display-5 ">Completed</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="display-4">{{csmm_pending}}</div>
+							<div class="display-5 ">Pending</div>
+						</div>
+					 </div>
+                 </div>
+             </div>
+         </div>
+		 <div class="col-lg-3">
+             <div class="card card-pricing border-0 text-center mb-4">
+                 <div class="card-body">
+
+                     <h3 class="card-title text-muted text-uppercase mb-0" >CSM Incharge Level</h3>
+					 <div class="row mt-4">
+						<div class="col-lg-6" style="border-right: 1px solid #ccc">
+							<div class="display-4">{{csmi_completd}}</div>
+							<div class="display-5 ">Approved</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="display-4">{{csmi_pending}}</div>
+							<div class="display-5 ">Pending</div>
+						</div>
+					 </div>
+                 </div>
+             </div>
+         </div>
+		 <div class="col-lg-6">
+             <div class="card card-pricing border-0 text-center mb-4">
+                 <div class="card-body">
+
+                     <h3 class="card-title text-muted text-uppercase mb-0" >BoS Co-Chair Level</h3>
+					 <div class="row mt-4">
+						<div class="col-lg-3" style="border-right: 1px solid #ccc">
+							<a href="/bosc/course_assigned">
+							<div class="display-4">{{bosc_assigned}}</div>
+							<div class="display-5 ">Assigned</div>
+							</a>
+						</div>
+						<div class="col-lg-3" style="border-right: 1px solid #ccc">
+							<a href="/bosc/course_unassigned">
+							<div class="display-4">{{bosc_unassigned}}</div>
+							<div class="display-5 ">Unassigned</div>
+							</a>
+						</div>
+						<div class="col-lg-3" style="border-right: 1px solid #ccc">
+							<a href="/bosc/course_approved">
+							<div class="display-4">{{bosc_completd}}</div>
+							<div class="display-5 ">Approved</div>
+							</a>
+						</div>
+						<div class="col-lg-3">
+							<a href="/bosc/course_pending">
+							<div class="display-4">{{bosc_pending}}</div>
+							<div class="display-5 ">Pending</div>
+							</a>
+						</div>
+						
+					 </div>
+                 </div>
+             </div>
+         </div>
+                    </div>
+                    
+                </div>
+               
+
+
+        </div>
+ 
+        
+</div>
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+</script>
+
+{% endblock %}

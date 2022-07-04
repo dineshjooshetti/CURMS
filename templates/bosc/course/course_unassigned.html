@@ -1,0 +1,371 @@
+<!-- MAIN CONTENT-->
+{% extends 'bosc/base.html' %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/custom_datatable.css' %}">
+<style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+            margin-left: 37%;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+        .table thead {
+            background-color: #928e8e!important;
+            color: #fff !important;
+        }
+		table.dataTable{
+		margin-bottom:0 !important;
+		}
+		.dataTables_scrollBody::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar {
+    width: 8px;
+	height:10px;
+    background-color: #F5F5F5;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 10px;
+}
+/*.main-content{
+margin-top:106px !important;
+}*/
+.dataTables_scrollHeadInner{
+		height:auto !important;
+	}
+	.dt-buttons{
+	float:left;
+	padding-top:20px;
+	}
+	.dataTables_info{
+		float:right;
+		padding-top:20px;
+	}
+	
+	#example thead th{
+		/*padding:0px !important;*/
+	}
+    </style>
+<!-- Page plugins -->
+
+
+    <!-- Header -->
+    <div class="header pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item active"><a href="/">Course Unassigned</a></li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+                  
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h3 class="mb-0">Courses Unassigned</h3>
+
+            </div>
+          <div class="card-body">
+               <form action="/bosc/bosc_course_final_submit" method="POST" id="form_csmi_csmc">{% csrf_token %}
+            <input type="hidden" value="{{request.path}}" name="rerurn_url">
+			<div class="table-responsive py-4">
+                <table id="example" class="table table-bordered table-striped display nowrap" style="width:100%">
+                <thead >
+                  <tr>
+                    <th><input type="checkbox" name="student_id" value="1" id="example-select-all"></th>
+                    <!--<th>ID</th>-->
+					<th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Course Type</th>
+                    <th>Course Level</th>
+					 <!--th>Degree</th-->
+                    <th>Admitted Batch</th>
+                    <th>Program</th>
+                    <!--th>Campus</th>
+                    <th>Institution</th>
+                    <th>Offered to Department</th-->
+                    <th>L</th>
+                    <th>T</th>
+                    <th>P</th>
+                    <th>S</th>
+                    <th>J</th>
+                    <th>C</th>
+                    <th>CSMI</th>
+                    <th>CSMM</th>
+                         <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for i in courses %}
+                  <tr>
+
+                    <td><input class="abc" type="checkbox" name="course_id" value={{i.id}} {% if i.status_id != 19 %}checked disabled{%endif%}></td>
+                    <!--<td>{{ forloop.counter }}</td>-->
+                     <td>{% if i.course_code %} {{ i.course_code }}{%else%}XXXXXX {%endif%}</td>
+                   
+					<td>{% if i.status_id in course_status %}<a href="/bosc/course_preview_bosc/{{ i.encrypt_id }}">{{i.course_name}}{%if i.faculty is False%}^{%endif%}</a>{%else%}{{i.course_name}}{%if i.faculty is False%}^{%endif%}{%endif%}</td>
+                    <td>{{ i.course_type__name }}</td>
+                    <td>{% if i.level_of_course__level %} {{ i.level_of_course__level }} {%endif%}</td>
+					<!--td>{% if i.degree__name %} {{ i.degree__name }} {% else %}-{%endif%}</td-->
+                    <td>{% if i.admitted_batch__name %} {{ i.admitted_batch__name }} {% else %}-{%endif%}</td>
+                    <td>{{ i.program_type__type }}</td>
+                    <!--td>{% if i.campus_detail%}{% for c in i.campus_detail %}{{ c }}<br>{% endfor %}{% else %}-{% endif %}</td>
+                    <td>{% if i.inst_detail%}{% for c in i.inst_detail %}{{ c }}<br>{% endfor %}{% else %}-{% endif %}</td>
+                    <td>{% if i.depart_detail%}{% for c in i.depart_detail %}{{ c }}<br>{% endfor %}{% else %}-{% endif %}</td-->
+                    <td>{{ i.L }}</td>
+                    <td>{{ i.T}}</td>
+                    <td>{{ i.P}}</td>
+                    <td>{{ i.S}}</td>
+                    <td>{{ i.J}}</td>
+                    <td>{{ i.C}}{%if i.pass_fail is True%}*{%endif%}</td>
+                    <td>{{ i.csmi_name }}</td>
+                    <td>{{ i.csmm_name }}</td>
+                    <td>{{ i.status__title }}</td>
+                    <td><a class="item" style="text-align: center;" data-toggle="tooltip" data-placement="top" title="Edit" href="/bosc/course_edit/{{ i.encrypt_id }}">
+                            <i class="fa fa-edit" style="color:#3a3872"></i></a>
+                        <a  class="btn btn-sm delete_confirm" title="Delete" data-toggle="tooltip" data-placement="top" id="{{ i.encrypt_id }}" ><i class="fa fa-trash" style="color: #7f0000;"></i></button>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <span class="form-label"></span>
+                    <a  class="btn btn-md bg_gitam message_post text-white">Send to CSMI & CSMM</a>
+                </div>
+            </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Delete Course Modal popup -->
+    <div class="modal fade" id="staticModal_delete" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    <h3 style="color: black">Are you sure to Delete ?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/bosc/course_del" method="POST">
+						{% csrf_token %}
+                        <input type="hidden" id="course_del" name="course_del" >
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Delete Course Modal popup -->
+
+
+<!-- Program Forward Modal popup -->
+<div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="staticModalLabel">Forward Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="font-size: 20px;display: none" id="inst_dept_modal_body">
+                        <h3 style="color: black;text-align: center;">Please map the Campus, Institution and Department for the following Course(s).
+									You can map this by clicking on the edit button (<i class="fa fa-edit" style="color:dodgerblue"></i>) in the action tab   </h3>
+                        <div id="inst_dept_modal_data"></div>
+                    </div>
+                    <div class="modal-body" style="font-size: 20px;display: none" id="ltpjsc_modal_body">
+                        <h3 style="color: black;text-align: center;">Please check LTPJSC for the following Course(s)</h3>
+                         <div id="ltpjs_course_modal_data"></div>
+                    </div>
+                    <div class="modal-body" style="text-align: center;display: none" id="final_submit">
+                          <h3 style="color: black">Are you sure to Submit</h3>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                        <input type="button" id="csmi_csmc_confirmation" class="btn btn-md" style="background-color: #7f0000;color: white;display: none" value="Submit">
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Program Forward Modal popup -->
+
+<!-- Optional JS -->
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jszip.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/pdfmake.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/vfs_fonts.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.html5.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.print.min.js' %}"></script>
+
+
+  <script>
+
+
+
+    $(".delete_confirm").click(function(){
+            var str = this.id;
+            $("#course_del").val(str)
+            $("#staticModal_delete").modal('show')
+        })
+
+   $(".message_post").click(function(){
+       $('#inst_dept_modal_body').hide()
+       $('#inst_dept_modal_data').hide()
+       $('#ltpjsc_modal_body').hide()
+        $('#ltpjs_course_modal_data').hide()
+         $('#final_submit').hide()
+        $('#csmi_csmc_confirmation').hide()
+       if ($("#form_csmi_csmc input:checkbox:checked:not(:disabled)").length == 0){
+           alert('Plase Select atleast one Course');
+           return false;
+       }
+
+       $.ajax ({
+            url: '/bosc/validate_ltpjs_dept_inst_camp',
+            type: 'POST',
+            data: $('input[name="course_id"]:checked').serialize(),
+            success: function(data){
+				console.log(data)
+                if(data.status==200) {
+                    if (data.dept_inst_course.length>0){
+                         $('#inst_dept_modal_data').empty();
+                        for (i=0;i<data.dept_inst_course.length;i++){
+                            $('#inst_dept_modal_data').append('<li>'+data.dept_inst_course[i]+'</li>')
+                        }
+                        $('#inst_dept_modal_body').show()
+                        $('#inst_dept_modal_data').show()
+                    }
+                    else if (data.ltpjs_course.length>0){
+                        $('#ltpjs_course_modal_data').empty();
+                        for (i=0;i<data.ltpjs_course.length;i++){
+                            $('#ltpjs_course_modal_data').append('<li>'+data.ltpjs_course[i]+'</li>')
+                        }
+                        $('#ltpjsc_modal_body').show()
+                        $('#ltpjs_course_modal_data').show()
+                    }else{
+                        $('#final_submit').show()
+                        $('#csmi_csmc_confirmation').show()
+                    }
+                     $("#staticModal").modal('show')
+                    console.log(data);
+                } else if(data.status==500) {
+                    console.log("error");
+                }
+            },
+
+        });
+
+    })
+    $('#csmi_csmc_confirmation').click(function(){
+            $("#staticModal").modal('hide');
+           $('#form_csmi_csmc').submit();
+    })
+
+   $(document).ready(function (){
+    table=$('#example').DataTable({
+	dom: 'frtipB',
+        buttons: [
+             { extend: 'excel', text: 'Download and verify' }
+        ],
+        paging:   false,
+        // info:false,
+        // ordering:false,
+        scrollY: 400,
+        scrollX: true
+    } );
+
+ $('.dt-buttons .buttons-html5, .buttons-print').removeClass('dt-button').addClass('btn-sm btn-default');
+     $('#example-select-all').on('click', function(){
+
+		// Get all rows with search applied
+      var rows = table.rows({ 'search': 'applied' }).nodes();
+	  // Check/uncheck checkboxes for all rows in the table
+      $('input[type="checkbox"]', rows).prop('checked', this.checked);
+   });
+
+   // Handle click on checkbox to set state of "Select all" control
+   $('#example tbody').on('change', 'input[type="checkbox"]', function(){
+      // If checkbox is not checked
+      if(!this.checked){
+         var el = $('#example-select-all').get(0);
+         // If "Select all" control is checked and has 'indeterminate' property
+         if(el && el.checked && ('indeterminate' in el)){
+            // Set visual state of "Select all" control
+            // as 'indeterminate'
+            el.indeterminate = true;
+         }
+      }
+   });
+   //$("#example thead").remove()
+});
+
+  </script>
+
+{% endblock %}

@@ -1,0 +1,331 @@
+{% extends 'bosc/base.html' %}
+{% load static %}
+{% block body %}
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height:44px !important;
+    }
+    .err{
+        color:red;
+        font-size:12px;
+    }
+
+</style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+
+     <div class="header pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-8 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item" aria-current="page">Create Programme</li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+        </div>
+      </div>
+   </div>
+
+<div class="container-fluid mt--6">
+
+    <div class="card">
+        <div class="card-body">
+    <form action="/bosc/create_program" method="post" id="create_program">
+        {% csrf_token %}
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <span class="form-label">Programme Name</span>
+            <div>
+            <input type="text" autocomplete="off" name="p_name" id="p_name" placeholder="Programme Name..."   class="form-control">
+            </div>
+        </div>
+        <!--div class="form-group col-md-6">
+            <span class="form-label">Program Category</span>
+                <div>
+                <select class="form-control" aria-label="Default select example" id="program_category" name="program_category">
+                    <option selected disabled >Select Program Category</option>
+
+                    {% for c in categories %}
+                        <option value="{{ c.id }}" >{{ c.name }}</option>
+                     {% endfor %}
+                </select>
+                </div>
+        </div-->
+        <div class="form-group col-md-6">
+            <span class="form-label">Programme Type</span>
+            <div>
+            <select class="form-control" onchange="get_chapter(this);" aria-label="Default select example" name="p_type">
+              <option selected disabled>Select Programme Type</option>
+                {% for t in ptype %}
+                    {% if t.status == 1 %}<option value="{{ t.id }} "  >{{ t.type }}</option>{% endif %}
+                {% endfor %}
+
+            </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="form-group col-md-6">
+            <span class="form-label">Level of the course (We can select Multiple Levels)</span>
+                <div>
+                <select id="plevel" class="form-control select2 fav_clr" aria-label="Default select example" name="p_level" multiple>
+					
+                </select>
+                </div>
+        </div>
+        <div class="form-group col-md-6">
+            <span class="form-label">Campus</span>
+                <div>
+                <select class="form-control select2 campus" aria-label="Default select example" id="campus" name="campus" multiple>
+                    {% for c in campus %}
+                        <option value="{{ c.id }}" >{{ c.name }}</option>
+                     {% endfor %}
+                </select>
+                </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+
+        <div class="form-group col-md-6">
+            <span class="form-label">Institution</span>
+            <div>
+            <select class="form-control select2 inst"  id="inst" name="inst" multiple>
+
+                <option  disabled>Select Institution</option>
+                {% for i in inst %}
+                    <option value="{{ i}}" >{{ i }}</option>
+
+                {% endfor %}
+            </select>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <span class="form-label">Department</span>
+            <div>
+            <select class="form-control select2 dept"  id="dept" name="dept" multiple  ></select>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <span class="form-label">PCM Incharge</span>
+                <div>
+                <select class="form-control select2" aria-label="Default select example" id="pcmi" name="pcmi" multiple>
+
+                </select>
+                </div>
+        </div>
+        <div class="form-group col-md-6">
+            <span class="form-label">PCM Member</span>
+                <div>
+                <select class="form-control select2" aria-label="Default select example" id="pcmc" name="pcmc" multiple>
+
+                </select>
+                    </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <button class="btn btn-md" style="background-color: #7f0000;color: white;float: right" id="sub">Submit</button>
+      </div>
+    </div><br>
+	<div class="row mt-2">
+      <div class="col-md-12">
+        <ul><li>PCM Incharge : Programme Curriculum Modification Committee Incharge </li>
+			<li>PCM Member   : Programme Curriculum Modification Committee Member </li>
+		</ul>
+      </div>
+    </div><br>
+     </form>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/validations/create_program.js' %}?v=2"></script>
+<script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+    $("#campus").select2({
+        placeholder: 'Select Campus',
+        maximumSelectionLength: 3,
+        language: {
+            maximumSelected: function (e) {
+                var t = "You can only select " + e.maximum + " campuses";
+                return t
+
+            }
+        }
+    })
+})
+</script>
+<script>
+$(document).ready(function() {
+    $("#plevel").select2({
+        placeholder: 'Select level of the course',
+
+    })
+	$('#plevel').on("select2:select", function (e) { 
+           var data = e.params.data.text;
+           if(data=='All'){
+            $("#plevel > option").prop("selected","selected");
+            $("#plevel").trigger("change");
+           }
+      });
+})
+</script>
+
+<script>
+function get_chapter(obj) {
+        $.ajax({
+            method: "POST",
+            url: '/bosc/get_levels_by_ptype',
+            data: {p_type: obj.value },
+			success: function (result) {
+            $("#plevel").html('<option value="" disabled>Select Program Level</option>');
+			                //$("#plevel").append('<option value="all">All</option>');
+            for (var i = 0; i < result.length; i++) {
+                $("#plevel").append('<option value="' + result[i]["id"] + '">' +  result[i]["level"] + '</option>');
+            }
+        }
+        });
+    }
+</script>
+
+<script>
+$("#inst").select2({});
+$("#dept").select2({});
+$(".campus").on('change',function(){
+    a=(this)
+    if (a.val === '') {
+        return false;
+    }
+    $.ajax({
+        method: "POST",
+        url: '/pcmi/get_institution_by_campus',
+        data: "campus=" + $('.campus').val(),
+        success: function (result) {
+            console.log(result);
+            $("#inst").html('<option value="" disabled >' + 'Select Institution' + '</option>');
+            for (var i = 0; i < result.inst.length; i++) {
+                $("#inst").append('<option value="' + result.inst[i]["institution"] + '" >' + result.inst[i]["institution"] + '</option>');
+            }
+        }
+    });
+})
+$(".inst").on('change',function(){
+    a=(this)
+    if (a.val === '') {
+        return false;
+    }
+    $.ajax({
+        method: "GET",
+        url: '/pcmi/get_dept_by_institution?inst='+$(".inst").val()+'&campus='+$(".campus").val(),
+        success: function (result) {
+            console.log(result);
+            $("#dept").html('<option value="" disabled >' + 'Select Department' + '</option>');
+            for (var i = 0; i < result.dept.length; i++) {
+                $("#dept").append('<option value="' + result.dept[i]["dept_code__dept_code"] + '" >' +result.dept[i]["dept_code__dept_inst"]+' - '  + result.dept[i]["dept_code__dept_code"] + '</option>');
+            }
+        }
+    });
+})
+$( document ).ready(function() {
+
+   $("#pcmc").select2({
+    placeholder: 'Select PCM Member',
+    minimumInputLength: 3,
+    maximumSelectionLength: 3,
+         language: {
+        maximumSelected: function (e) {
+            var t = "You can only select " + e.maximum + " PCM Members";
+            return t
+
+        }
+    },
+
+    ajax: {
+        url: '/bosc/get_pcm_coordinators',
+        dataType: 'json',
+        type: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            return {
+                term: term.term
+            };
+        },
+        processResults: function (data) {
+
+            //console.log(data)
+            return{
+               results: $.map(data, function (item) {
+                    return {
+                        {#text: item.first_name+'|'+item.username+'|'+item.campus+'|'+item.institution,id:item.id#}
+                        text: item.first_name+'|'+item.username+'|'+item.email,id:item.id
+                    }
+                })
+            };
+
+        }
+    }
+});
+})
+</script>
+<script>
+    $( document ).ready(function() {
+
+   $("#pcmi").select2({
+    placeholder: 'Select PCM Incharge',
+    minimumInputLength: 3,
+    maximumSelectionLength: 1,
+         language: {
+        maximumSelected: function (e) {
+            var t = "You can only select " + e.maximum + " PCM Incharge";
+            return t
+
+        }
+    },
+
+    ajax: {
+        url: '/bosc/get_pcm_incharges',
+        dataType: 'json',
+        type: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            return {
+                term: term.term
+            };
+        },
+        processResults: function (data) {
+
+            //console.log(data)
+            return{
+               results: $.map(data, function (item) {
+                    return {
+                        {#text: item.first_name+'|'+item.username+'|'+item.campus+'|'+item.institution,id:item.id#}
+                        text: item.first_name+'|'+item.username+'|'+item.email,id:item.id
+                    }
+                })
+            };
+
+        }
+    }
+});
+})
+</script>
+{% endblock %}
+
+
+

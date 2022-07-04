@@ -1,0 +1,475 @@
+{%load static%}
+<style>
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 1px solid #dee2e6;
+    outline: 0;
+    height: 43px;
+}
+    .select2{
+        width:100% !important;
+    }
+    .select2-container--default.select2-container--focus .select2-selection--multiple{
+        border:solid #dee2e6 1px !important;
+    }
+</style>
+<link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <div class="fieldset-content" xmlns="http://www.w3.org/1999/html">
+        <input type="hidden" name="course_id" value="{{ course_details.id }}">
+        <input type="hidden" name="course_theory_id" value="{{ course_theory.0.id }}">
+        <input type="hidden" name="course_type_id" value="{{ course_details.course_type_id }}">
+			<div class="row">
+				<div class="col-md-6">
+					<span class="form-label">Course Title</span>
+					<div>
+						<input disabled type="text" name="course_title" id="course-title" value="{% if course_details.course_name %}{{ course_details.course_name }}{% endif %}" class="form-control" placeholder="Course Title" >
+					</div>
+	
+				</div>
+				 <div class="col-md-6">
+					<span class="form-label">Type of course</span>
+					<div>
+
+						<input type="text" name="type_of_course" value="{{ course_details.course_type.name }}" disabled class="form-control">
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-1">
+					<span class="form-label">L</span>
+					<div>
+						<input disabled type="text" name="L" id="L" value="{% if course_details.L %}{{ course_details.L }}{% endif %}" class="form-control budget_count" />
+					</div>
+				</div>
+				<div class="col-md-1">
+					<span class="form-label">T</span>
+					<div>
+						<input disabled type="text" name="T" id="T" value="{% if course_details.T %}{{ course_details.T }}{% endif %}" class="form-control budget_count" />
+					</div>
+				</div>
+				<div class="col-md-1">
+					<span class="form-label">P</span>
+					<div>
+						<input disabled type="text" name="P" id="P" value="{% if course_details.P %}{{ course_details.P }}{% endif %}" class="form-control budget_count"/>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<span class="form-label">S</span>
+					<div>
+						<input disabled type="text" name="S" id="S" value="{% if course_details.S %}{{ course_details.S }}{% endif %}" class="form-control budget_count">
+					</div>
+				</div>
+				 <div class="col-md-1">
+					<span class="form-label">J</span>
+					<div>
+						<input disabled type="text" name="J" id="J" value="{% if course_details.J %}{{ course_details.J }}{% endif %}" class="form-control budget_count"/>
+					</div>
+				</div>
+
+				<div class="col-md-1">
+					<span class="form-label">C</span>
+					<div>
+						<input disabled type="text" name="C" id="total" value="{% if course_details.C %}{{ course_details.C }}{% endif %}" class="form-control" >
+					</div>
+				</div>
+				 <div class="col-md-6">
+					<span class="form-label">Total number of contact hours</span>
+					<div>
+						<input disabled type="text" name="total_hours" id="total_hours" value="{% if course_details.total_no_of_contact_hours %}{{ course_details.total_no_of_contact_hours }}{% endif %}" class="form-control" placeholder="C X 15 Weeks"/>
+					</div>
+				</div>
+			</div><br>
+        
+        <div class="row">
+			<div class="col-md-6">
+				<span class="form-label">Program Type</span>
+				<div>
+					<input type="text" name="program_type" value="{{ course_details.program_type.type }}" disabled class="form-control">
+
+				</div>
+			</div>
+			<div class="col-md-6">
+				<span class="form-label">Department/Institute(course owner)</span>
+
+                <select class="form-control" aria-label="Default select example" name="dept_inst" disabled>
+                  <option selected disabled>Select Department/Institute</option>
+                  {% for d in dept %}
+                      {% if d.id == course_details.dept_code_id or d.id == course_owner.to_user__dept_code_id %}
+                        <option value="{{ d.id }}" selected>{{ d.dept_inst }}</option>
+                      {% else %}
+                        <option value="{{ d.id }}">{{ d.dept_inst }}</option>
+                      {% endif %}
+                  {% endfor %}
+                </select>
+
+			</div>
+			
+        </div><hr>
+		<div class="row">
+            <div class="col-md-12">
+                <span class="form-label">Course description <i style="color: red">(max 300 words)</i></span>
+                <div>
+                    <textarea min-words= "0" max-words="300" rows="3" name="course_description" id="course_description" class="form-control" placeholder="Course Description">{% if course_details.course_descrption %}{{ course_details.course_descrption }}{% endif %}</textarea>
+                </div>
+            </div>
+            <!--div class="col-md-6">
+                <span class="form-label">Course objectives</span>
+                <div>
+                    <textarea rows="3" name="self_objectives" id="self_objectives" placeholder="Course objectives" class="form-control description">{% if course_details.specific_instruction_objectives %}{{ course_details.specific_instruction_objectives }}{% endif %}</textarea>
+                </div>
+            </div-->
+
+        </div><br>
+		<div class="row">
+			<div class="col-md-6">
+				<span class="form-label">Level of course</span>
+				<select class="form-control" aria-label="Default select example" name="level_of_course" >
+				  <option value="" selected>Select Level of course</option>
+				  {%for i in course_levels%}
+				  <option {%if course_details.level_of_course_id == i.id %}selected{%endif%} value="{{i.id}}">{{ i.level }}</option>
+				  {%endfor%}
+
+				</select>
+			</div>
+           <div class="col-md-6">
+                <span class="form-label">Alternate exposure</span>
+                <div>
+                    <input type="text" name="alt_exposure" value="{% if course_details.alternative_exposure %}{{ course_details.alternative_exposure }}{% endif %}" id="alt_exposure" class="form-control" placeholder="Alternate Exposure"/>
+                </div>
+            </div>
+        </div><br>
+        
+        <div class="row">
+
+            <div class="col-md-6">
+                <span class="form-label">Pre-requisites</span>
+                <select class="form-control" aria-label="Default select example" id="pre_requisites" name="pre_requisites">
+                  <option selected disabled>Select Pre-requisites</option>
+                  <option value="Yes" {% if course_details.pre_requisites == "Yes" %}selected{% endif %}>Yes</option>
+                  <option value="No" {% if course_details.pre_requisites == "No" %}selected{% endif %}>No</option>
+                </select><br>
+                 {% if course_details.pre_requisites == "Yes" %}
+                    <div id="pre_requisites_yes_show">
+                        <span class="form-label">If Yes</span>
+                        <div class="input_fields_pre">
+                           <select class="form-control select2"  id="pre_requisites_courses" name="pre_requisites_courses" multiple>
+                                {% for p in pre_requisites_courses %}
+                                    <option value="{{ p.id }}" {%if p.id in pre_requisites_courses_ids%}selected{%endif%} >{{ p.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                 {%else%}
+                 <div id="pre_requisites_yes_show"  style="display: none">
+                    <span class="form-label">If Yes (You can select multiple courses)</span>
+                    <div class="input_fields_pre">
+                    <select class="form-control select2"  id="pre_requisites_courses" name="pre_requisites_courses" multiple>
+                        {% for p in pre_requisites_courses %}
+                            <option value="{{ p.id }}" {%if p.id in pre_requisites_courses_ids%}selected{%endif%} >{{ p.course_name }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+             <div class="col-md-6">
+                <span class="form-label">Co-requisites</span>
+                <select class="form-control" aria-label="Default select example" id="co_requisites" name="co_requisites">
+                  <option selected disabled>Select Co-requisites</option>
+                  <option value="1" {% if course_details.co_requisites is True %}selected{% endif %}>Yes</option>
+                  <option value="0" {% if course_details.co_requisites is False %}selected{% endif %}>No</option>
+                </select><br>
+                 {% if course_details.co_requisites is True %}
+                    <div id="co_requisites_yes_show">
+                        <span class="form-label">If Yes</span>
+                        <div class="input_fields_pre">
+                           <select class="form-control select2"  id="co_requisites_courses" name="co_requisites_courses" multiple>
+                                {% for p in pre_requisites_courses %}
+                                    <option value="{{ p.id }}" {%if p.id in co_requisites_courses_ids%}selected{%endif%} >{{ p.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                 {%else%}
+                 <div id="co_requisites_yes_show"  style="display: none">
+                    <span class="form-label">If Yes (You can select multiple courses)</span>
+                    <div class="input_fields_co">
+                    <select class="form-control select2"  id="co_requisites_courses" name="co_requisites_courses" multiple>
+                        {% for p in pre_requisites_courses %}
+                            <option value="{{ p.id }}" {%if p.id in co_requisites_courses_ids%}selected{%endif%} >{{ p.course_name }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            {% if course_details.course_outcome %}
+				{% for c in course_details.course_outcome %}
+					<div class="co mt-3">
+                        <span class="form-label">Course Outcome(s) - {{ forloop.counter }}</span>
+                        <div>
+							 <input type="text" name="course_outcome" value="{{ c }}" id="course_outcome_{{forloop.counter}}" class="form-control" placeholder="Course Outcome"/>
+                        </div>
+                    </div>
+
+
+                {% endfor %}
+               
+            {% endif %}
+			{% for i in new_outcomes%}
+			<div class="co mt-3">
+				<span class="form-label">Course Outcome(s) - {{i}}</span>
+				<div>
+					
+					<input type="text" name="course_outcome" id="course_outcome" class="form-control" placeholder="Course Outcome"/>
+				</div>
+			</div>
+            {%endfor%}
+               
+            </div>
+			<div class="col-md-6">
+            {% if course_details.course_objectives %}
+				{% for c in course_details.course_objectives %}
+					<div class="co mt-3">
+                        <span class="form-label">Course Objectives(s) - {{ forloop.counter }}</span>
+                        <div>
+							
+                           <input type="text" name="course_objectives" value="{{ c }}" id="course_objectives{{forloop.counter}}" class="form-control" placeholder="Course Objectives"/>
+                        </div>
+                    </div>
+
+
+                {% endfor %}
+               
+            {% endif %}
+			{% for i in new_objectives%}
+			<div class="co mt-3">
+				<span class="form-label">Course Objectives(s) - {{i}}</span>
+				<div>
+					
+					<input type="text" name="course_objectives" id="course_objectives{{i}}" class="form-control" placeholder="Course Objectives"/>
+				</div>
+			</div>
+            {%endfor%}
+               
+            </div>
+
+        </div><br>
+		<div class="row">
+			<div class="col-md-6">
+				 <span class="form-label">SDG(Sustainable development goal)</span>
+				<div class="row" style="border:1px solid #dee2e6;margin-left: 0px;border-radius:4px;"><br>
+					{% for p in sdg %}
+						<div class="col-md-2">
+						<div class="custom-control custom-checkbox mb-3">
+							<input type="checkbox" {%if p in selected_sdg %} checked {%endif%}class="custom-control-input sgd_selectall" id="sdg{{ forloop.counter }}" name="sdg" value="{{ p }}">
+							<label class="custom-control-label" for="sdg{{ forloop.counter }}">{{ p }}</label>
+						</div>
+						</div>
+					{% endfor %}
+					<div class="custom-control custom-checkbox mt-1" style="margin-left: 16px">
+						<input type="checkbox" {% if selected_sdg|length == 17 %}checked{% endif %} class="custom-control-input" onclick="sdg_selectall(this);" id="sgd_selectall">
+						<label class="custom-control-label" for="sgd_selectall">Select All</label>
+					</div>
+			   </div>
+			</div>
+			<div class="col-md-6">
+                <span class="form-label">State How the selected SDG are achieved through this course content</span>
+                <div>
+                    <textarea rows="6" name="sdg_description" id="sdg_description" placeholder="State How the selected SDG are achieved through this course content" class="form-control description">{% if course_details.sdg_description %}{{ course_details.sdg_description }}{% endif %}</textarea>
+                </div>
+            </div>
+		</div>	
+   
+    </div>
+
+<div class="fieldset-footer">
+        <span>Step 3 of 5</span>
+</div>
+
+  <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+<script>
+
+$(document).ready(function() {
+    $("#pre_requisites_courses").select2({
+        placeholder: 'Select Courses',
+    })
+    $("#co_requisites_courses").select2({
+        placeholder: 'Select Courses',
+    })
+})
+$("#pre_requisites").on('change', function () {
+    if (this.value == "Yes"){
+        $("#pre_requisites_yes_show").show()
+    }
+    else {
+        $("#pre_requisites_yes_show").hide()
+        $("#pre_requisites_courses option:selected").remove();
+    }
+});
+$("#co_requisites").on('change', function () {
+    if (this.value == "1"){
+        $("#co_requisites_yes_show").show()
+    }
+    else {
+        $("#co_requisites_yes_show").hide()
+        $("#co_requisites_courses option:selected").remove();
+    }
+});
+$(".description").focus(function() {
+    if(document.getElementById('self_objectives').value === ''){
+        document.getElementById('self_objectives').value +='• ';
+    }
+});
+$("#desc1").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc1').value +='• ';
+    }
+    var txtval = document.getElementById('desc1').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc1').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc2").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc2').value +='• ';
+    }
+    var txtval = document.getElementById('desc2').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc2').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc3").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc3').value +='• ';
+    }
+    var txtval = document.getElementById('desc3').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc3').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc4").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc4').value +='• ';
+    }
+    var txtval = document.getElementById('desc4').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc4').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc5").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc5').value +='• ';
+    }
+    var txtval = document.getElementById('desc5').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc5').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#self_objectives").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('self_objectives').value +='• ';
+    }
+    var txtval = document.getElementById('self_objectives').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('self_objectives').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+
+$(document).ready(function() {
+	var max_fields      = 6; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
+	var add_button      = $(".add_field_button"); //Add button ID
+
+	var x = {% if course_outcome %}{{ course_outcome|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+			$(wrapper).append('<div class="mt-2 co"><input type="text" style="width: 90%" name="course_outcome" class="form-control" placeholder="Course Outcomes "+x+" /><input type="hidden" name="course_outcome_id" value=""><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+		    if (x==6){
+		        $(this).hide();
+            }
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	    $(this).closest(".co").remove();x--
+        if (x <6){
+            $(".add_field_button").show()
+        }
+		{#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+$(document).ready(function() {
+	var max_fields      = 5; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields"); //Fields wrapper
+	var add_button      = $(".add_field"); //Add button ID
+
+	var x = {% if co_requisites %}{{ co_requisites|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+            $(wrapper).append('<div class="mt-2 co_req"><input type="text" style="width: 90%" name="co_requisites" class="form-control" placeholder="Co-requisites" /><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+			{#$(wrapper).prepend('<span class="form-label">Co-requisites</span><div><input type="text" name="co_requisites" class="form-control" placeholder="Co-requisites" /></div>'); //add input box#}
+		    if (x==5){
+		        $(this).hide();
+            }
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	    $(this).closest(".co_req").remove();x--
+        if (x <5){
+            $(".add_field").show()
+        }
+		{#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+function sdg_selectall(obj) {
+        checkbox_class_name=obj.id
+        $('.'+checkbox_class_name).prop('checked',true)
+
+    }
+</script>

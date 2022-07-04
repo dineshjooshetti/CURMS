@@ -1,0 +1,535 @@
+{% extends 'bosc/base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            height:44px !important;
+
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/bosc"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page">Programme Details</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="fa fa-file-alt mr-2"></i>PROGRAMME STRUCTURE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="far fa-comment-dots mr-2"></i>SUGGESTIONS & TIMELINE</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+				<span class="text-center"><h3> {{ program.name }}</h3></span>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+							
+                           {% for j in course_categories %}
+                         <h3 class="text-left"> {{j.category}}</h3>
+                            <div class="table-responsive py-4">
+                                <table id="example{{forloop.counter}}" class="table table-bordered table-striped">
+                                <thead >
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Course Name</th>
+                                    <th>Course Type</th>
+                                    <th>Program Type</th>
+                                    <!--th>Campus</th>
+                                    <th>Institution</th>
+                                    <th>Department</th-->
+                                    <th>L</th>
+                                    <th>T</th>
+                                    <th>P</th>
+                                    <th>J</th>
+                                    <th>S</th>
+                                    <th>C</th>
+                                    <th>CSMI</th>
+                                    <th>CSMM</th>
+                                    <th>Status</th>
+
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in program_course_data %}
+                                {% if j.id == i.course_category_id %}
+                                  <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="/bosc/program_course_preview/{{p_id}}/{{i.encrypt_id}}">{{ i.course_name }}</a></td>
+                                    <td>{{ i.course_type__name }}</td>
+                                    <td>{{ i.program_type__type }}</td>
+                                    <!--td>{% if i.campus_detail%}{% for c in i.campus_detail %}{{ c }}<br>{% endfor %}{% else %}-{% endif %}</td>
+                                    <td>{% if i.inst_detail%}{% for c in i.inst_detail %}{{ c }}<br>{% endfor %}{% else %}-{% endif %}</td>
+                                    <td>{% if i.depart_detail%}{% for c in i.depart_detail %}{{ c }}<br>{% endfor %}{% else %}-{% endif %}</td-->
+                                    <td>{{ i.L }}</td>
+                                    <td>{{ i.T}}</td>
+                                    <td>{{ i.P}}</td>
+                                    <td>{{ i.J}}</td>
+                                    <td>{{ i.S}}</td>
+                                    <td>{{ i.C}}</td>
+                                    <td>{% if i.csmi_name%}{{ i.csmi_name }}{% else %}-{% endif %}</td>
+                                    <td>{% if i.csmm_name%}{{ i.csmm_name }}{% else %}-{% endif %}</td>
+                                    <td>{{i.course_status}}</td>
+
+                                    </td>
+
+                                  </tr>
+                                  {%endif%}
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+
+                        <hr>
+                       {%endfor%}
+                         <h3>Total credit distribution </h3>
+                       <div class="table-responsive py-4" style="width:500px">
+                                <table id="example" class="table table-bordered table-striped">
+                                <thead >
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Type of Course</th>
+                                    <th>Credits</th>
+                                    <th>% of Program (in credits)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in total_credit_distribution %}
+                                  <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ i.category }}</td>
+                                    <td>{{ i.credits }}</td>
+                                    <td>{% if i.percentage == 0.0 %}0{%else%}{{ i.percentage }}%{%endif%}</td>
+
+                                  </tr>
+
+                                {% endfor %}
+                                <tr><td></td> <td>Total</td> <td>{{total }}</td><td></td></tr>
+                                </tbody>
+                              </table>
+                            </div>
+                         <br>
+                            {% if program_assign_details.is_edit == 1  %}
+                                        <div class="actions clearfix" style="margin-left: 33%">
+
+                                            {% if program_assign_details.program_status_level_id == 2 or program_assign_details.program_status_level_id == 5 %}
+												<button id="forward"  class="btn btn-md btn-cus-yellow deny_post">Suggestions </button>&nbsp;&nbsp;&nbsp;
+												<button type="submit" class="btn btn-md btn-cus-yellow program_approve " id="{{ bos_user_id }}"> Approve Curriculum Structure</button>
+
+                                            {% endif %}
+
+                                            {% if program_assign_details.program_status_level_id == 6 or program_assign_details.program_status_level_id == 13 %}
+											    <button id="forward_pcm"  class="btn btn-md btn-cus-yellow sugge_post">Suggestions</button>
+												<button id="forward"  class="btn btn-md btn-cus-yellow assign_pab">Assign PAB</button>
+                                                <button id="forward_bos"  class="btn btn-md btn-cus-yellow bosc_forward_bos">Approve Curriculum and Syllabus</button>
+                                                <br><br>
+												<span style="font-size:14px"><strong>PAB:</strong>Programme advisory board </span>
+                                            {% endif %}
+
+                                        </div>
+                                    {% endif %}
+
+                    </div>
+
+                    <div class="tab-pane fade show" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                        <h2 style="color:#7f0000;text-align: center">Timeline</h2>
+                        <hr>
+                        <!-- timeline -->
+                        <div class="timeline">
+
+                            {% for t in program_timeline %}
+                                <div class="timeline__event  animated fadeInUp delay-1s timeline__event--type2">
+                                    <div class="timeline__event__icon">
+                                        <img src="{% if forloop.counter == 1  %}{{ t.to_user__image }}  {% else %}{{ t.user__image }}{% endif %}" class="timeline-userimg">
+                                    </div>
+                                    <div class="timeline__event__date">
+                                        {% if forloop.counter == 1  %}{{ t.created }}{% else %}{{ t.created }}{% endif %}
+                                    </div>
+                                    <div class="timeline__event__content" style="width:75%">
+                                        <div class="timeline__event__title">
+                                            {% if forloop.counter == 1 %}
+												{{ t.to_user__first_name }} <br>
+												<span style="font-size: 14px">{{ t.to_user_group__description }}</span> 
+											{% else %}
+												{{ t.user__first_name }} <br>
+												<span style="font-size: 14px">{{ t.user_group__description }}</span>
+											{% endif %}
+											<span class="status">
+												{% if forloop.counter == 1 %}
+													<span>Pending</span>
+												{% else %}
+													{{ t.program_status_level__title }}
+												{% endif %}
+											</span>
+
+                                        </div>
+                                        {% if forloop.counter == 1 %}
+
+                                        {% else %}
+                                            <div class="timeline__event__description">
+                                                <p>TO: {{ t.to_user__first_name }} | {{ t.to_user_group__description }}</p>
+                                                {% if t.comment %}
+                                                    <p>{{ t.comment }}</p>
+                                                {%  endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+
+                        </div>
+                        <!--- end timeline-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {#    </div>#}
+    </div>
+    <div class="modal fade" id="program_approve" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Approve Curriculum Structure</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    <h3 style="color: black">Do you want to proceed ?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/bosc/program_structure_approve/{{ p_id }}" method="POST">{% csrf_token %}
+                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                        <input type="hidden" id="pcmi_user_id" name="pcmi_user_id" value="{{ program_assign_details.user_id }}">
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(".program_approve").click(function(){
+            var str = this.id;
+            $("#program_approve").modal('show')
+        })
+    </script>
+    <!-- deny-modal -->
+    <div class="modal fade" id="deny_post" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Enter Suggestions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/bosc/program_structure_need_more/{{ p_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control need_more_info_structure" placeholder="Enter your Suggestion....." rows="6" required name="bosc_message" id="bosc_message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                        <input type="hidden" id="pcmi_user_id" name="pcmi_user_id" value="{{ program_assign_details.user_id }}">
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".deny_post").click(function(){
+            var str = this.id;
+            $("#deny_post").modal('show')
+        })
+    </script>
+    <!---assign-pab modal--->
+    <div class="modal fade" id="staticModal3" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Submit Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/bosc/assign_program_pab/{{ p_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span>Select PAB:</span>
+                                <select class="form-control select2" aria-label="Default select example" id="pab_assigned" name="pab_assigned" multiple>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <span>Comment:</span>
+                                <textarea class="form-control" placeholder="Enter your Suggestion....." rows="3" required name="bosc_message" id="bosc_message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+
+                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                        <input type="hidden" id="pcmi_user_id" name="pcmi_user_id" value="{{ program_assign_details.user_id }}">
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Delete Course Modal popup -->
+    <div class="modal fade" id="staticModal_delete" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span>Are sure want to Delete ?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/course/course_del" method="POST">{% csrf_token %}
+                        <input type="hidden" id="course_del" name="course_del" >
+                        <input type="hidden" id="p_id" name="p_id" value="{{ p_id }}" >
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Delete Course Modal popup -->
+    <!-- Approve Program & Syllabus Modal Popup -->
+    <div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel" style="color: #7f0000">Forward Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    <h3 style="color: black">Are you sure to forward to Chairman, BoS?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/bosc/forward_program_to_bos_by_bosc/{{ p_id }}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        <input type="hidden" id="path" name="path" class="path" value="{{request.path}}">
+                        <input type="submit" style="background-color: #7f0000;color: white" class="btn btn-md" value="Submit">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+	<div class="modal fade" id="sugge_post" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Enter Suggestions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/bosc/program_structure_syllabus_need_more/{{ p_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control need_more_info_structure" placeholder="Enter your Suggestion....." rows="6" required name="bosc_message" id="bosc_message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+
+                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">
+                        <input type="hidden" id="pcmi_user_id" name="pcmi_user_id" value="{{ program_assign_details.user_id }}">
+                        <input type="hidden" name="path" value="{{request.path}}">
+                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Approve Program & Syllabus Modal Popup -->
+	
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+    <!-- Optional JS -->
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jszip.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/pdfmake.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/vfs_fonts.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.html5.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.print.min.js' %}"></script>
+    <script>
+	{% for j in course_categories %}
+        $('#example'+{{forloop.counter}}).dataTable({
+            "paging": false,"bInfo": false,
+        });
+    {%endfor%}
+	$(".sugge_post").click(function(){
+            var str = this.id;
+            $("#sugge_post").modal('show')
+        })
+        $(".assign_pab").click(function(){
+            var str = this.id;
+            $("#staticModal3").modal('show')
+        })
+        $(".delete_confirm").click(function(){
+            var str = this.id;
+            $("#course_del").val(str)
+            $("#staticModal_delete").modal('show')
+        })
+        $(".bosc_forward_bos").click(function(){
+            var str = this.id;
+            $("#staticModal1").modal('show')
+        })
+    </script>
+    <script>
+        $( document ).ready(function() {
+
+            $("#pab_assigned").select2({
+                placeholder: 'Select PAB Members',
+                minimumInputLength: 3,
+                maximumSelectionLength: 3,
+                language: {
+                    maximumSelected: function (e) {
+                        var t = "You can only select " + e.maximum + " PAB Members";
+                        return t
+
+                    }
+                },
+
+                ajax: {
+                    url: '/bosc/get_pab_members',
+                    dataType: 'json',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            term: term.term
+                        };
+                    },
+                    processResults: function (data) {
+
+                        //console.log(data)
+                        return{
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.first_name+'|'+item.email+'|'+item.designation,id:item.id,
+                                }
+                            })
+                        };
+
+                    }
+                }
+            });
+        })
+        $(".need_more_info_structure").focus(function() {
+            if(document.getElementById('bosc_message').value === ''){
+                document.getElementById('bosc_message').value +='• ';
+            }
+        });
+        $("#bosc_message").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('bosc_message').value +='• ';
+            }
+            var txtval = document.getElementById('bosc_message').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('bosc_message').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+    </script>
+{% endblock %}

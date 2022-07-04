@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Welcome to GITAM">
+  <meta name="author" content="Archana Akaram">
+  <title>Welcome to CMS</title>
+    {% load static %}
+    {% load user_tags %}
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{% static 'assets/img/32x32_favicon.png' %}">
+  <!-- Fonts -->
+{#  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">#}
+  <!-- Icons -->
+  <link rel="stylesheet" href="{% static 'assets/vendor/nucleo/css/nucleo.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" type="text/css">
+  <!-- Page plugins -->
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/argon.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'assets/css/meterial.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'assets/vendor/animate.css/animate.min.css' %}" type="text/css">
+    <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+    <style>
+        .error{
+            color:red;
+            font-size:14px
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+    .timeline:before{
+    background-color: #7f0000 !important;
+    }
+    .direction-l .flag:before, .direction-r .flag:before{
+        border:4px solid #f3b71a !important;
+    }
+	.table th{
+		    font-size: 14px;
+    font-weight: 700 !important;
+	}
+    </style>
+</head>
+
+<body>
+  <!-- Sidenav -->
+  <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+      <!-- Brand -->
+      <div class="sidenav-header  d-flex  align-items-center">
+        <a class="navbar-brand" href="/">
+          <img src="{% static 'assets/img/gitam_logo.png' %}" class="navbar-brand-img" alt="...">
+        </a>
+        <div class=" ml-auto ">
+          <!-- Sidenav toggler -->
+          <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-inner">
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+          <!-- Nav items -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="/pab" data-toggle="" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                <i class="ni ni-shop text-primary"></i>
+                <span class="nav-link-text">Dashboard</span>
+              </a>
+            </li>
+{#            <li class="nav-item">#}
+{#              <a class="nav-link" href="/pcmi/programs">#}
+{#                <i class="ni ni-ui-04 text-info"></i>#}
+{#                <span class="nav-link-text">Program</span>#}
+{#              </a>#}
+{#              <div class="collapse" id="navbar-components">#}
+{#                <ul class="nav nav-sm flex-column">#}
+{##}
+{#                <li class="nav-item">#}
+{#                    <a href="/pcmi/programs" class="nav-link">#}
+{#                      <span class="sidenav-mini-icon"> P </span>#}
+{#                      <span class="sidenav-normal">Programs</span>#}
+{#                    </a>#}
+{#                  </li>#}
+{#                  <li class="nav-item">#}
+{#                    <a href="/project/active_projects" class="nav-link">#}
+{#                      <span class="sidenav-mini-icon"> AF </span>#}
+{#                      <span class="sidenav-normal"> Active Projects</span>#}
+{#                    </a>#}
+{#                  </li>#}
+{##}
+{#                    <li class="nav-item">#}
+{#                    <a href="/project/rejected_projects" class="nav-link">#}
+{#                      <span class="sidenav-mini-icon"> RF </span>#}
+{#                      <span class="sidenav-normal"> Rejected Projects </span>#}
+{#                    </a>#}
+{#                  </li>#}
+{#                </ul>#}
+{#              </div>#}
+{#            </li>#}
+
+          </ul>
+
+          <!-- Divider -->
+          <hr class="my-3">
+          <!-- Heading -->
+
+          <!-- Navigation -->
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="main-content" id="panel">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg_gitam border-bottom">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Search form -->
+{#          <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">#}
+{#            <div class="form-group mb-0">#}
+{#              <div class="input-group input-group-alternative input-group-merge">#}
+{#                <div class="input-group-prepend">#}
+{#                  <span class="input-group-text"><i class="fas fa-search"></i></span>#}
+{#                </div>#}
+{#                <input class="form-control" placeholder="Search" type="text">#}
+{#              </div>#}
+{#            </div>#}
+{#            <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">#}
+{#              <span aria-hidden="true">×</span>#}
+{#            </button>#}
+{#          </form>#}
+          <!-- Navbar links -->
+          <ul class="navbar-nav align-items-center  ml-md-auto ">
+          </ul>
+          <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+            <li class="nav-item dropdown">
+              <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="media align-items-center">
+                  <span class="avatar avatar-sm rounded-circle">
+
+                         <img alt="Image placeholder" src="{% static 'assets/img/guest_icon.png' %}">
+
+
+                  </span>
+                  <div class="media-body  ml-2  d-none d-lg-block">
+                    <span class="mb-0 text-sm  font-weight-bold">{{ request.user.first_name }}</span>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-menu  dropdown-menu-right ">
+                <div class="dropdown-header noti-title">
+                  <h6 class="text-overflow m-0">Welcome!</h6>
+                </div>
+                <!--a href="#!" class="dropdown-item">
+                  <i class="ni ni-single-02"></i>
+                  <span>My profile</span>
+                </a-->
+                  {% get_group_data request.user.id as user_roles  %}
+              {% if user_roles|length > 1 %}
+                <div class="dropdown-divider"></div>
+                  <div class="dropdown-header noti-title">
+                  <h6 class="text-overflow m-0">Switch to</h6>
+                </div>
+                  {% for i in user_roles  %}
+                <a {% if i.is_active is False %}href="/user/switch_role/{{ i.group_id }}"{% endif %} class="dropdown-item">
+                  <i class="ni ni-single-02"></i>
+                  <span>{{ i.role }}</span>
+                </a>
+                  {% endfor %}
+                   <div class="dropdown-divider"></div>
+              {% endif %}
+                   <div class="dropdown-divider"></div>
+                <a href="/user/logout" class="dropdown-item">
+                  <i class="ni ni-user-run"></i>
+                  <span>Logout</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+    <!-- Header -->
+  {% block body %}
+  {% endblock %}
+    </div>
+   <!-- Footer -->
+{#      <footer class="footer pt-0">#}
+{#        <div class="row align-items-center justify-content-lg-between">#}
+{#          <div class="col-lg-6">#}
+{#            <div class="copyright text-center  text-lg-left  text-muted">#}
+{#              &copy; 2020 <a href="#" class="font-weight-bold ml-1" target="_blank">GITAM</a>#}
+{#            </div>#}
+{#          </div>#}
+{##}
+{#        </div>#}
+{#      </footer>#}
+
+ <!-- Argon Scripts -->
+  <!-- Core -->
+
+  <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/js-cookie/js.cookie.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
+{#  <!-- Optional JS -->#}
+{#  <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>#}
+{#  <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>#}
+  <!-- Argon JS -->
+  <script src="{% static 'assets/js/argon.min.js' %}"></script>
+  <!-- Demo JS - remove this in your project -->
+{#  <script src="{% static 'assets/js/demo.min.js' %}"></script>#}
+  <script src="{% static 'assets/vendor/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+<script>
+$("body").prop('class','g-sidenav-hidden')
+
+{% for message in messages %}
+        {% if message.tags == "danger" %}
+            <ul class="messages">
+               <div class="alert alert-danger" role="alert">
+                  {{message}}
+                </div>
+            </ul>
+        {% endif %}
+   {% endfor %}
+    {% for message in messages %}
+        {% if message.tags == "success" %}
+            $(document).ready(function() {
+                $.notify({
+                    message:'{{message}}',
+                    hide: false,
+                    styling: 'bootstrap',
+                    closer_hover: false,
+                    sticker_hover: false
+                },{
+            type: '{{message.tags}}',
+             });
+
+        });
+        {% endif %}
+    {% endfor %}
+</script>
+</body>
+
+</html>

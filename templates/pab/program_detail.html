@@ -1,0 +1,229 @@
+{% extends 'pab/base.html' %}
+{% block body %}
+    {% load static %}
+
+
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style>
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000!important;
+        }
+        .hover{
+            color:#6b7480 !important;
+        }
+        .hover.active{
+            color: white !important;
+        }
+		.card .table td, .card .table th {
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+		}
+    </style>
+    <link href="{% static 'assets/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/select2.css' %}" rel="stylesheet">
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page">Programme Details</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid ">
+        
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+						<span class="text-center"><h4>{{ program.name}}</h4></span>
+                        {% if program_structures %}
+                            
+                                    
+                                    {% for i in program_structures %}
+
+                                        <span class="text-center"><h5>Level {{ i.level__level }}</h5></span>
+                                        <div class="table-responsive py-4">
+                                            <table id="example" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Course Title</th>
+                                                    {%  if program_assign_details.program_status_level_id == 3 and  program_assign_details.is_edit == 1 %}
+                                                        <th>Status</th>
+                                                    {% endif %}
+                                                    <th>Course Type</th>
+                                                    <th>Category</th>
+                                                    <th>L</th>
+                                                    <th>T</th>
+                                                    <th>P</th>
+                                                    <th>J</th>
+                                                    <th>S</th>
+                                                    <th>C</th>
+                                                    {#						<th>Action</th>#}
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for j in i.course_structures %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>
+                                                            {% if j.course_status %}
+                                                                <a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pab/course_preview/{{ j.encrypt_id }}">{{ j.course_name }}</a>
+                                                            {% else %}
+                                                                {{ j.course_name }}
+                                                            {% endif %}
+                                                        </td>
+                                                        {%  if program_assign_details.program_status_level_id == 3 and  program_assign_details.is_edit == 1 %}
+                                                            <td>
+                                                                {% if j.course_status %}
+                                                                    {{ j.course_status }}
+                                                                {% else %}
+                                                                    <button type="submit" class="btn btn-sm assign_cms"  id="{{ j.id }}" style="background-color: #7f0000;color: white;float: left">Assign</button>
+                                                                {% endif %}
+                                                            </td>
+                                                        {% endif %}
+                                                        <td>{{ j.course_type__name }}</td>
+                                                        <td>{{ j.course_category__category }}</td>
+                                                        <td>{{ j.L }}</td>
+                                                        <td>{{ j.T }}</td>
+                                                        <td>{{ j.P }}</td>
+                                                        <td>{{ j.J }}</td>
+                                                        <td>{{ j.S }}</td>
+                                                        <td>{{ j.C }}</td>
+                                                        {#						<td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pcmi/program_detail/{{ a.encrypt_id }}">#}
+                                                        {#								<i class="fa fa-eye" style="color:green"></i></a>#}
+                                                        {#						</td>#}
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                    {% endfor %}
+
+                                    
+									<div style="">
+									{% if is_edit == 1 %}
+                                        <!--button class="btn btn-cus-yellow btn-sm mb-2 pab_forward_bosc" id="forward_pcmi">Approve/Forward to BOSC</button-->
+                                        <button class="btn btn-cus-yellow btn-sm mb-2 pab_suggestions" id="forward_pcmi">Suggestions</button>
+                                    {% endif %}
+									</div>
+                              {% endif %}
+                            </div>
+                        
+                    </div>
+                    
+                </div>
+
+            </div>
+        
+
+    <div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel" style="color: #7f0000">Forward Conformation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size: 20px">
+                <p>
+                <center>Are you sure to forward to BOS Co-Chair</center>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/pcmi/forward_program_to_bosc_by_pcmi/{{ program_id }}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <input type="hidden" id="administration_del" name="administration_del" class="btn btn-danger">
+                    <input type="hidden" id="path" name="path" class="path" value="{{request.path}}">
+{#                                <input type="hidden" id="training_id" name="training_id" class="path" value="{{id}}">#}
+                    <input type="submit" style="background-color: #7f0000;color: white" class="btn btn-md" value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="staticModal2" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Suggestions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <form action="/pab/program_structure_need_more/{{ program_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control need_more_info_structure" placeholder="Enter your Suggestion....." rows="6" required name="pab_message" id="pab_message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+{#                        <input type="hidden" id="course_id" name="course_id" value="{{ course_id }}">#}
+{#                        <input type="hidden" name="path" value="{{request.path}}">#}
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="{% static 'assets/vendor/select2/select2.min.js' %}"></script>
+    <script>
+        $(".pab_forward_bosc").click(function(){
+            var str = this.id;
+            $("#staticModal1").modal('show')
+        })
+        $(".pab_suggestions").click(function(){
+            var str = this.id;
+            $("#staticModal2").modal('show')
+        })
+		$(".need_more_info_structure").focus(function() {
+		if(document.getElementById('pab_message').value === ''){
+        document.getElementById('pab_message').value +='• ';
+    }
+});$("#pab_message").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('pab_message').value +='• ';
+    }
+    var txtval = document.getElementById('pab_message').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('pab_message').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+    </script>
+{% endblock %}

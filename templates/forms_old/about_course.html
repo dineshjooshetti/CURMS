@@ -1,0 +1,457 @@
+
+    <div class="fieldset-content" xmlns="http://www.w3.org/1999/html">
+        <input type="hidden" name="course_id" value="{{ course_details.id }}">
+        <input type="hidden" name="course_theory_id" value="{{ course_theory.0.id }}">
+        <input type="hidden" name="course_type_id" value="{{ course_details.course_type_id }}">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="form-label">Course Title</span>
+                <div>
+                    <input disabled type="text" name="course_title" id="course-title" value="{% if course_details.course_name %}{{ course_details.course_name }}{% endif %}" class="form-control" placeholder="course title" >
+                </div>
+{#                <div class="row">#}
+{#                    <div class="err"></div>#}
+{#                </div>#}
+            </div>
+            <div class="col-md-1">
+                <span class="form-label">L</span>
+                <div>
+                    <input disabled type="text" name="L" id="L" value="{% if course_details.L %}{{ course_details.L }}{% endif %}" class="form-control budget_count" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <span class="form-label">T</span>
+                <div>
+                    <input disabled type="text" name="T" id="T" value="{% if course_details.T %}{{ course_details.T }}{% endif %}" class="form-control budget_count" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <span class="form-label">P</span>
+                <div>
+                    <input disabled type="text" name="P" id="P" value="{% if course_details.P %}{{ course_details.P }}{% endif %}" class="form-control budget_count"/>
+                </div>
+            </div>
+             <div class="col-md-1">
+                <span class="form-label">J</span>
+                <div>
+                    <input disabled type="text" name="J" id="J" value="{% if course_details.J %}{{ course_details.J }}{% endif %}" class="form-control budget_count"/>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <span class="form-label">S</span>
+                <div>
+                    <input disabled type="text" name="S" id="S" value="{% if course_details.P %}{{ course_details.P }}{% endif %}" class="form-control budget_count">
+                </div>
+            </div>
+            <div class="col-md-1">
+                <span class="form-label">C</span>
+                <div>
+                    <input disabled type="text" name="C" id="total" value="{% if course_details.C %}{{ course_details.C }}{% endif %}" class="form-control" >
+                </div>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-6">
+                <span class="form-label">Total number of contact hours</span>
+                <div>
+                    <input disabled type="text" name="total_hours" id="total_hours" value="{% if course_details.total_no_of_contact_hours %}{{ course_details.total_no_of_contact_hours }}{% endif %}" class="form-control" placeholder="C X 15 Weeks"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <span class="form-label">Alternate exposure</span>
+                <div>
+                    <input type="text" name="alt_exposure" value="{% if course_details.alternative_exposure %}{{ course_details.alternative_exposure }}{% endif %}" id="alt_exposure" class="form-control" placeholder="alternate exposure"/>
+                </div>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-6">
+                <span class="form-label">Course description <i style="color: red">(max 300 words)</i></span>
+                <div>
+                    <textarea min-words= "0" max-words="300" rows="3" name="course_description" id="course_description" class="form-control" placeholder="course descrption">{% if course_details.course_descrption %}{{ course_details.course_descrption }}{% endif %}</textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <span class="form-label">Specific instructional objectives</span>
+                <div>
+                    <textarea rows="3" name="self_objectives" id="self_objectives" class="form-control description">{% if course_details.specific_instruction_objectives %}{{ course_details.specific_instruction_objectives }}{% endif %}</textarea>
+                </div>
+            </div>
+
+        </div><br>
+        <div class="row">
+            {% if course_outcome %}
+                <div class="col-md-6">
+                    {% for c in course_outcome %}
+                    <span class="form-label">Course outcomes - {{ forloop.counter }}</span>
+                    <div>
+                        <input type="hidden" name="course_outcome_id" value="{{ c.id }}">
+                        <input type="text" name="course_outcome" value="{{ c.course_outcome }}" id="course_outcome" class="form-control" placeholder="course outcome"/>
+                    </div>
+                    {% endfor %}
+                </div><br>
+            {% else %}
+                <div class="col-md-6">
+                    <span class="form-label">Course Outcome</span>
+                    <div>
+                        <input type="text" name="course_outcome" id="course_outcome" class="form-control" placeholder="course outcome"/>
+                    </div>
+                </div>
+            {% endif %}
+            {% if course_details.co_requisite1 %}
+                <div class="col-md-6">
+                    {% if course_details.co_requisite1 %}
+                    <span class="form-label">Co-requisites - 1</span>
+                    <div>
+                        <input type="text" name="co_requisites" value="{{ course_details.co_requisite1 }}" id="co_requisites" class="form-control" placeholder="co-requisites"/>
+                    </div>
+                    {% endif %}
+                    {% if course_details.co_requisite2 %}
+                    <span class="form-label">Co-requisites - 2</span>
+                    <div>
+                        <input type="text" name="co_requisites" value="{{ course_details.co_requisite2 }}" id="co_requisites" class="form-control" placeholder="co-requisites"/>
+                    </div>
+                    {% endif %}
+                    {% if course_details.co_requisite3 %}
+                    <span class="form-label">Co-requisites - 3</span>
+                    <div>
+                        <input type="text" name="co_requisites" value="{{ course_details.co_requisite3 }}" id="co_requisites" class="form-control" placeholder="co-requisites"/>
+                    </div>
+                    {% endif %}
+                    {% if course_details.co_requisite4 %}
+                    <span class="form-label">Co-requisites - 4</span>
+                    <div>
+                        <input type="text" name="co_requisites" value="{{ course_details.co_requisite4 }}" id="co_requisites" class="form-control" placeholder="co-requisites"/>
+                    </div>
+                    {% endif %}
+                    {% if course_details.co_requisite5 %}
+                    <span class="form-label">Co-requisites - 5</span>
+                    <div>
+                        <input type="text" name="co_requisites" value="{{ course_details.co_requisite5 }}" id="co_requisites" class="form-control" placeholder="co-requisites"/>
+                    </div>
+                    {% endif %}
+                </div><br>
+            {% else %}
+                <div class="col-md-6">
+                    <span class="form-label">Co-requisites</span>
+                    <div>
+                        <input type="text" name="co_requisites" id="co_requisites" class="form-control" placeholder="co-requisites"/>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+
+            <div class="col-md-6 input_fields_wrap">
+                {% if course_outcome|length < 6 %}
+                    <button style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px" class="add_field_button btn btn-primary "  >+ Add More COs</button>
+                {% endif %}
+            </div>
+            <div class="col-md-6 input_fields">
+                {% if co_requisites|length < 5 %}
+                    <button class="add_field btn btn-primary " style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px"  >+ Add More</button>
+                {% endif %}
+            </div>
+        </div><br>
+        <div class="row">
+            {% if pso %}
+                 <div class="col-md-6">
+                     {% for p in pso %}
+                         <span class="form-label">Program specific outcomes (PSOs) - {{ forloop.counter }}</span>
+                         <div>
+                             <input type="hidden" name="pso_id" value="{{ p.id }}">
+                             <input type="text" name="pso" value="{{ p.pso }}" id="pso" class="form-control" placeholder="pso"/>
+                         </div>
+                     {% endfor %}
+                 </div>
+            {% else %}
+                <div class="col-md-6">
+                    <span class="form-label">Program specific outcomes (PSOs)</span>
+                    <div>
+                        <input type="text" name="pso" id="pso" class="form-control" placeholder="pso"/>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-md-6">
+                <span class="form-label">Pre-requisites</span>
+                <select class="form-control" aria-label="Default select example" id="pre_requisites" name="pre_requisites">
+                  <option selected disabled>Select Pre-requisites</option>
+                  <option value="Yes" {% if course_details.pre_requisites == "Yes" %}selected{% endif %}>Yes</option>
+                  <option value="No" {% if course_details.pre_requisites == "No" %}selected{% endif %}>No</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 input_fields_pso">
+                {% if pso|length < 4 %}
+                    <button class="add_field_pso btn btn-primary " style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px"  >+ Add More PSOs</button>
+                {% endif %}
+            </div>
+            {% if course_details.pre_requisites == "Yes" %}
+                <div class="col-md-6">
+                    <span class="form-label">If Yes</span>
+                    <div>
+                        {% if course_details.pre_requisites_yes1 %}
+                            <input type="text" name="pre_requisites_yes" value="{{ course_details.pre_requisites_yes1 }}" id="course_codes" class="form-control" placeholder="Enter course codes"/>
+                        {% endif %}<br>
+                        {% if course_details.pre_requisites_yes2 %}
+                            <input type="text" name="pre_requisites_yes" value="{{ course_details.pre_requisites_yes2 }}" id="course_codes" class="form-control" placeholder="Enter course codes"/>
+                        {% endif %}<br>
+                        {% if course_details.pre_requisites_yes3 %}
+                            <input type="text" name="pre_requisites_yes" value="{{ course_details.pre_requisites_yes3 }}" id="course_codes" class="form-control" placeholder="Enter course codes"/>
+                        {% endif %}<br>
+                        {% if course_details.pre_requisites_yes4 %}
+                            <input type="text" name="pre_requisites_yes" value="{{ course_details.pre_requisites_yes4 }}" id="course_codes" class="form-control" placeholder="Enter course codes"/>
+                        {% endif %}<br>
+                        {% if course_details.pre_requisites_yes5 %}
+                            <input type="text" name="pre_requisites_yes" value="{{ course_details.pre_requisites_yes5 }}" id="course_codes" class="form-control" placeholder="Enter course codes"/>
+                        {% endif %}
+                    </div>
+                    <div class="input_fields_pre">
+                    {% if pre_requisites|length < 5 %}
+                        <button class="add_field_pre btn btn-primary " style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px"  >+ Add More</button>
+                    {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-6" style="display: none" id="pre_requisites_yes_show">
+                    <span class="form-label">If Yes</span>
+                    <div>
+                        <input type="text" name="pre_requisites_yes" id="course_codes" class="form-control" placeholder="Enter course codes"/>
+                    </div>
+                    <div class="input_fields_pre">
+                    {% if pre_requisites|length < 5 %}
+                        <button class="add_field_pre btn btn-primary " style="cursor: pointer;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;margin-top: 12px"  >+ Add More</button>
+                    {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    <br>
+    </div>
+
+<div class="fieldset-footer">
+        <span>Step 3 of 6</span>
+</div>
+
+
+<script>
+$("#pre_requisites").on('change', function () {
+    {#alert(this.value)#}
+    if (this.value == "Yes"){
+        $("#pre_requisites_yes_show").show()
+    }
+    else {
+        $("#pre_requisites_yes_show").hide()
+    }
+});
+
+{#$("#pre_requisites_yes").on('click', function () {#}
+{#    $("#pre_requisites_yes_show").show()#}
+{# })#}
+{#$("#pre_requisites_no").on('click', function () {#}
+{#    $("#pre_requisites_yes_show").hide()#}
+{# })#}
+
+$(".budget_count").keyup(function() {
+	$(".cutom_error").remove()
+    budget_error=false
+    sum = 0
+    mul = 0
+    console.log(this.id)
+    $('.budget_count').each(function () {
+        if (Number($(this).val()) > 3){
+            budget_error=true
+            alert('Please enter value below 3')
+            {#$(".budget_count").after(`<div class="cutom_error error">Greater than 3</div>`)#}
+        }
+        else{
+         sum += Number($(this).val());
+         mul = sum * 15
+        }
+    })
+    $("#total").val(sum)
+    $("#total_hours").val(Math.round(mul))
+    {#if (sum > 200000){#}
+    {#    $("#total").next().remove()#}
+    {#    budget_error=true#}
+    {#    $("#total").after(`<div class="cutom_error error">Total amount exceeded 200000</div>`)#}
+    {# }#}
+
+
+});
+$(".description").focus(function() {
+    if(document.getElementById('self_objectives').value === ''){
+        document.getElementById('self_objectives').value +='• ';
+    }
+});
+$("#desc1").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc1').value +='• ';
+    }
+    var txtval = document.getElementById('desc1').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc1').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc2").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc2').value +='• ';
+    }
+    var txtval = document.getElementById('desc2').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc2').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc3").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc3').value +='• ';
+    }
+    var txtval = document.getElementById('desc3').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc3').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc4").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc4').value +='• ';
+    }
+    var txtval = document.getElementById('desc4').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc4').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#desc5").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('desc5').value +='• ';
+    }
+    var txtval = document.getElementById('desc5').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('desc5').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+$("#self_objectives").on("keyup", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // debugger;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        document.getElementById('self_objectives').value +='• ';
+    }
+    var txtval = document.getElementById('self_objectives').value;
+    if(txtval.substr(txtval.length - 1) == '\n'){
+        document.getElementById('self_objectives').value = txtval.substring(0,txtval.length - 1);
+
+    }
+
+});
+
+$(document).ready(function() {
+	var max_fields      = 6; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
+	var add_button      = $(".add_field_button"); //Add button ID
+
+	var x = {% if course_outcome %}{{ course_outcome|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+			{#$(wrapper).prepend('<span class="form-label">Course Outcome</span><div><input type="text" name="course_outcome" class="form-control" placeholder="course outcome" /></div><a href="#" class="remove_field"><i class="fa fa-times-circle fa-2x" style="color:red"></i></a>'); //add input box#}
+			$(wrapper).prepend('<div class="mt-2 co"><input type="text" style="width: 90%" name="course_outcome" class="form-control" placeholder="course outcome" /><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	    $(this).closest(".co").remove();x--
+		{#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+$(document).ready(function() {
+	var max_fields      = 5; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields"); //Fields wrapper
+	var add_button      = $(".add_field"); //Add button ID
+
+	var x = {% if co_requisites %}{{ co_requisites|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+            $(wrapper).prepend('<div class="mt-2 co_req"><input type="text" style="width: 90%" name="co_requisites" class="form-control" placeholder="co requisites" /><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+			{#$(wrapper).prepend('<span class="form-label">Co-requisites</span><div><input type="text" name="co_requisites" class="form-control" placeholder="co requisites" /></div>'); //add input box#}
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	    $(this).closest(".co_req").remove();x--
+		{#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+$(document).ready(function() {
+	var max_fields      = 4; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_pso"); //Fields wrapper
+	var add_button      = $(".add_field_pso"); //Add button ID
+
+	var x = {% if pso %}{{ pso|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+            $(wrapper).prepend('<div class="mt-2 pso"><input type="text" name="pso" style="width: 90%" class="form-control" placeholder="pso" /><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+			{#$(wrapper).prepend('<span class="form-label">Program specific outcomes (PSOs)</span><div><input type="text" name="pso" class="form-control" placeholder="pso" /></div>'); //add input box#}
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+		$(this).closest(".pso").remove();x--
+	    {#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+
+$(document).ready(function() {
+	var max_fields      = 5; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_pre"); //Fields wrapper
+	var add_button      = $(".add_field_pre"); //Add button ID
+
+	var x = {% if pre_requisites %}{{ pre_requisites|length }}{% else %}1{% endif %}; //initlal text box count
+	$(add_button).off('click').on('click', function(e) { //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+            $(wrapper).prepend('<div class="mt-2 pre_req"><input type="text" style="width: 90%" name="pre_requisites_yes" class="form-control" placeholder="Enter course codes" /><div style="margin-left:94%;margin-top:-34px"><span class="remove_field"><i class="fa fa-trash" style="color:red;cursor: pointer;"></i></span></div><br></div>'); //add input box
+			{#$(wrapper).prepend('<span class="form-label">If Yes</span><div><input type="text" name="pre_requisites_yes" class="form-control" placeholder="Enter course codes" /></div>'); //add input box#}
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+		$(this).closest(".pre_req").remove();x--
+	    {#e.preventDefault(); $(this).parent('div').remove(); x--;#}
+	})
+});
+</script>

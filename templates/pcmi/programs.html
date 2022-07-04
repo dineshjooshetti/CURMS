@@ -1,0 +1,112 @@
+{% extends 'pcmi/base.html' %}
+{% block body %}
+{% load static %}
+    <style>
+    .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+        }
+    </style>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+ <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                               <div class="" id="administration" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                               <div class="row">
+                                   <div class="col-lg-6">
+                                        <h2 class="mb-0 pt-1">Programmes</h2>
+                                   </div>
+                                   <div class="col-lg-6">
+                                   </div>
+                                </div>
+                                    <div class="table-responsive mb-2">
+                                      <table class="table table-flush example2" id="datatable-buttons1">
+                                        <thead>
+                                          <tr>
+                                            <th>S.No</th>
+                                            <th>Name of Programme</th>
+                                            <th>Programme Type</th>
+                                            <th>Status of Structure</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          {% for a in programs %}
+                                          <tr>
+                                          <td>{{ forloop.counter }}</td>
+                                          {% if a.program__program_type_id == 6 %}
+                                            <td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pcmi/pcmi_minor_program_detail/{{ a.encrypt_id }}">{{ a.program__name }}</a></td>
+
+                                          {%else%}
+                                            <td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/pcmi/pcmi_program_detail/{{ a.encrypt_id }}">{{ a.program__name }}</a></td>
+
+                                          {%endif%}
+                                            <td>{{ a.program__program_type__type }}</td>
+                                            <td>{{ a.program_status_level__title }}</td>
+
+                                          </tr>
+                                          {% endfor %}
+                                          </tbody>
+                                      </table>
+                                    </div>
+                                </div>
+                               </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Modal -->
+
+    <div class="modal fade" id="staticModal1" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+			 data-backdrop="static">
+				<div class="modal-dialog modal-sm" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="staticModalLabel" style="color: #7f0000">Delete Conformation</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>
+                            <center>Are You Sure Want to Delete</center>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <form action="/administration/administration_roles_delete" method="POST">{% csrf_token %}
+                                <input type="hidden" id="administration_del" name="administration_del" class="btn btn-danger">
+                                <input type="hidden" id="path" name="path" class="path" value="{{request.path}}">
+{#                                <input type="hidden" id="training_id" name="training_id" class="path" value="{{id}}">#}
+                                <input type="submit" style="background-color: #7f0000;color: white" class="btn btn-md" value="Delete">
+                            </form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+<script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+
+ // Data Table
+ $('#datatable-buttons1').DataTable( {
+    "bPaginate" : $('#datatable-buttons1 tbody tr').length>10,
+    language: {
+		searchPlaceholder: 'Name/Type/Status',
+       paginate: {
+         previous: "<i class='fa fa-angle-left'>",
+         next: "<i class='fa fa-angle-right'>"
+       }
+     }
+
+} );
+
+ </script>
+{% endblock %}

@@ -1,0 +1,142 @@
+<!--
+=========================================================
+* Argon Dashboard PRO - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Welcome to GITAM">
+  <meta name="author" content="Srinivas Kommu">
+  <title>Welcome to CMS</title>
+    {% load static %}
+    {% load user_tags %}
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{% static 'assets/img/32x32_favicon.png' %}">
+  <!-- Fonts -->
+{#  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">#}
+  <!-- Icons -->
+  <link rel="stylesheet" href="{% static 'assets/vendor/nucleo/css/nucleo.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" type="text/css">
+  <!-- Page plugins -->
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/argon.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'assets/css/meterial.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'assets/vendor/animate.css/animate.min.css' %}" type="text/css">
+    <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+    <style>
+        .error{
+            color:red;
+            font-size:14px
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+    .timeline:before{
+    background-color: #7f0000 !important;
+    }
+    .direction-l .flag:before, .direction-r .flag:before{
+        border:4px solid #f3b71a !important;
+    }
+	.table th{
+		    font-size: 14px;
+    font-weight: 700 !important;
+	}
+    </style>
+</head>
+
+<body>
+  <div class="main-content" id="panel">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg_gitam border-bottom">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a class="mr-4" href="/">
+               <img src="{% static 'assets/img/gitam_logo.png' %}" class="navbar-brand-img" alt="..." style="height: 60px;">
+          </a>
+          <!-- Navbar links -->
+          <ul class="navbar-nav align-items-center  ml-md-auto ">
+          </ul>
+          <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+           </ul>
+        </div>
+
+      </div>
+    </nav>
+    <!-- Header -->
+  {% block body %}
+			<div class="mt-3" style="padding:50px;">
+				<p>Your Employee ID is to be mapped in the Curriculum Management System.<br>
+					You can write an email to curriculums_support@gitam.edu Or Please contact Directorate of Academic Affairs.</p>
+					
+					<br><b>Contact:</b><br><br>
+
+					<b>Engineering programmes:</b><br>
+
+					Dr P.Srinivasa Rao, 9989590407   <br>    
+
+					Dr Y.Md.Riyazuddin, 9849280786  <br><br>        
+
+
+
+					<b>Science programmes:</b><br>
+
+					Dr Ch. Sudhakar, 9885043115<br><br>
+
+
+
+					<b>Management and Humanities programmes:</b><br>
+
+					Dr N. Lalitha, 9492535242 
+			</div>
+			
+  {% endblock %}
+    </div>
+   <!-- Footer -->
+{#      <footer class="footer pt-0">#}
+{#        <div class="row align-items-center justify-content-lg-between">#}
+{#          <div class="col-lg-6">#}
+{#            <div class="copyright text-center  text-lg-left  text-muted">#}
+{#              &copy; 2020 <a href="#" class="font-weight-bold ml-1" target="_blank">GITAM</a>#}
+{#            </div>#}
+{#          </div>#}
+{##}
+{#        </div>#}
+{#      </footer>#}
+
+ <!-- Argon Scripts -->
+  <!-- Core -->
+
+  <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/js-cookie/js.cookie.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
+  <!-- Optional JS -->
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>
+  <!-- Argon JS -->
+  <script src="{% static 'assets/js/argon.min.js' %}"></script>
+  <!-- Demo JS - remove this in your project -->
+  <script src="{% static 'assets/js/demo.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+<script>
+$("body").prop('class','g-sidenav-hidden')
+
+</script>
+</body>
+
+</html>

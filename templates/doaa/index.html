@@ -1,0 +1,76 @@
+{% extends 'doaa/base.html' %}
+{% block body %}
+{% load static %}
+ <!--    <style>
+    .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+        }
+    </style>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+ <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                               <div class="" id="administration" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                               <div class="row">
+                                   <div class="col-lg-6">
+                                        <h2 class="mb-0 pt-1">Programs</h2>
+                                   </div>
+                                   <div class="col-lg-6">
+                                   </div>
+                                </div>
+                                    <div class="table-responsive mb-2">
+                                      <table class="table table-flush example2" id="datatable-buttons1">
+                                          <thead>
+                                              <tr>
+                                                <th>Sl.No</th>
+                                                <th>Name</th>
+                                                <th>Program Type</th>
+                                                <th>Structure Status</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                              {% for a in programs %}
+                                              <tr>
+                                              <td>{{ forloop.counter }}</td>
+                                                  <td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/doaa/doaa_program_detail/{{ a.encrypt_id }}">{{ a.program__name }}</a></td>
+                                                <td>{{ a.program__program_type__type }}</td>
+                                                <td>{{ a.program_status_level__title }}</td>
+
+                                              </tr>
+                                              {% endfor %}
+                                              </tbody>
+                                      </table>
+                                    </div>
+                                </div>
+                               </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+
+
+ // Data Table
+ $('#datatable-buttons1').DataTable( {
+    "bPaginate" : $('#datatable-buttons1 tbody tr').length>10,
+    language: {
+		searchPlaceholder: 'Name/Type/Status',
+       paginate: {
+         previous: "<i class='fa fa-angle-left'>",
+         next: "<i class='fa fa-angle-right'>"
+       }
+     }
+
+} );
+</script> -->
+
+{% endblock %}

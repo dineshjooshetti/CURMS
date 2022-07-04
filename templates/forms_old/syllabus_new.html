@@ -1,0 +1,492 @@
+<style>
+    hr{
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 0;
+        border-top: 6px solid rgba(0, 0, 0, .1);
+        }
+</style>
+<div class="fieldset-content">
+     <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+    {% if course_syllabus %}
+        {% for cs in course_syllabus %}
+        <div class="row">
+        <div class="form-textarea col-md-12">
+           <span class="form-label">Unit-{{ forloop.counter }}</span>
+
+            <input type="text" name="short_title" id="short_title" placeholder="short title" value="{% if cs.short_title %}{{ cs.short_title }}{% endif %}">
+            <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="{% if cs.number_of_contact_hours %}{{ cs.number_of_contact_hours }}{% endif %}">
+        </div>
+        <div class="form-textarea col-md-12">
+            <input type="hidden" name="unit_no" value="{{ forloop.counter }}">
+            <textarea rows="1" name="unit_name" id="unit_name" class="form-control">{% if cs.unit_name %}{{ cs.unit_name }}{% endif %}</textarea>
+            <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Short Title</span>#}
+{#            <div>#}
+{#            <input type="text" name="short_title" id="short_title" placeholder="short title" value="{% if cs.short_title %}{{ cs.short_title }}{% endif %}">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Number of contact Hours</span>#}
+{#            <input type="text" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="{% if cs.number_of_contact_hours %}{{ cs.number_of_contact_hours }}{% endif %}">#}
+{#        </div>#}
+{#    </div><br>#}
+    <div>
+        <span>Learning Outcomes</span>
+    </div><br>
+    <div>
+
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1">{% if cs.outcome_1 %}{{ cs.outcome_1 }}{% endif %}</textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;">{% if cs.level_1 %}{{ cs.level_1 }}{% endif %}</textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_2" id="learning_outcome_2">{% if cs.outcome_2 %}{{ cs.outcome_2 }}{% endif %}</textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_2" id="level_2" style="text-align: center;">{% if cs.level_2 %}{{ cs.level_2 }}{% endif %}</textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_3" id="learning_outcome_3">{% if cs.outcome_3 %}{{ cs.outcome_3 }}{% endif %}</textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_3" id="level_3" style="text-align: center;">{% if cs.level_3 %}{{ cs.level_3 }}{% endif %}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-label">Pedagogy tools</span>
+            <div>
+                <input type="text" name="pedagogy_tools" id="pedagogy_tools" placeholder="Pedagogy.." class="form-control" value="{% if cs.pedagogy_tools %}{{ cs.pedagogy_tools }}{% endif %}">
+            </div>
+        </div>
+    </div><hr/>
+    {% endfor %}
+    {% else %}
+        <div class="row">
+        <div class="form-textarea col-md-12">
+           <span class="form-label">Unit-1</span>
+            <span style="margin-left: 50px"></span>
+            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">
+            <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">
+        </div>
+        <div class="form-textarea col-md-12">
+            <input type="hidden" name="unit_no" value="1">
+            <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+            <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Short Title</span>#}
+{#            <div>#}
+{#            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Number of contact Hours</span>#}
+{#            <input type="text" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">#}
+{#        </div>#}
+{#    </div><br>#}
+    <div>
+        <span>Learning Outcomes</span>
+    </div><br>
+    <div>
+
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_2" id="learning_outcome_2"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_2" id="level_2" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_3" id="learning_outcome_3"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_3" id="level_3" style="text-align: center;"></textarea>
+            </div>
+        </div>
+    </div>
+{#    <div id="newEntrySection1"></div>#}
+{#      <div class="row mt-3">#}
+{#              <div class="col-lg-12">#}
+{#                  <span  id="commity_add_more"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add one more entry</b></span>#}
+{#              </div>#}
+{#      </div>#}
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-label">Pedagogy tools</span>
+            <div>
+                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">
+            </div>
+        </div>
+    </div><hr/>
+
+    <div class="row">
+        <div class="form-textarea col-md-12">
+           <span class="form-label">Unit-2</span>
+            <span style="margin-left: 50px"></span>
+            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">
+            <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">
+        </div>
+        <div class="form-textarea col-md-12">
+            <input type="hidden" name="unit_no" value="2">
+            <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+            <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Short Title</span>#}
+{#            <div>#}
+{#            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Number of contact Hours</span>#}
+{#            <input type="text" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">#}
+{#        </div>#}
+{#    </div><br>#}
+    <div>
+        <span>Learning Outcomes</span>
+    </div><br>
+    <div>
+
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_2" id="learning_outcome_2"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_2" id="level_2" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_3" id="learning_outcome_3"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_3" id="level_3" style="text-align: center;"></textarea>
+            </div>
+        </div>
+    </div>
+{#    <div id="newEntrySection2"></div>#}
+{#      <div class="row mt-3">#}
+{#              <div class="col-lg-12">#}
+{#                  <span  id="commity_add_more1"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add one more entry</b></span>#}
+{#              </div>#}
+{#      </div>#}
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-label">Pedagogy tools</span>
+            <div>
+                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">
+            </div>
+        </div>
+    </div><hr/>
+
+    <div class="row">
+        <div class="form-textarea col-md-12">
+           <span class="form-label">Unit-3</span>
+            <span style="margin-left: 50px"></span>
+            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">
+            <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">
+        </div>
+        <div class="form-textarea col-md-12">
+            <input type="hidden" name="unit_no" value="3">
+            <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+            <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Short Title</span>#}
+{#            <div>#}
+{#            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Number of contact Hours</span>#}
+{#            <input type="text" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">#}
+{#        </div>#}
+{#    </div><br>#}
+    <div>
+        <span>Learning Outcomes</span>
+    </div><br>
+    <div>
+
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_2" id="learning_outcome_2"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_2" id="level_2" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_3" id="learning_outcome_3"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_3" id="level_3" style="text-align: center;"></textarea>
+            </div>
+        </div>
+    </div>
+{#    <div id="newEntrySection3"></div>#}
+{#      <div class="row mt-3">#}
+{#              <div class="col-lg-12">#}
+{#                  <span  id="commity_add_more2"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add one more entry</b></span>#}
+{#              </div>#}
+{#      </div>#}
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-label">Pedagogy tools</span>
+            <div>
+                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">
+            </div>
+        </div>
+    </div><hr/>
+
+    <div class="row">
+        <div class="form-textarea col-md-12">
+           <span class="form-label">Unit-4</span>
+            <span style="margin-left: 50px"></span>
+            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">
+            <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">
+        </div>
+        <div class="form-textarea col-md-12">
+            <input type="hidden" name="unit_no" value="4">
+            <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+            <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Short Title</span>#}
+{#            <div>#}
+{#            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Number of contact Hours</span>#}
+{#            <input type="text" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">#}
+{#        </div>#}
+{#    </div><br>#}
+    <div>
+        <span>Learning Outcomes</span>
+    </div><br>
+    <div>
+
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_2" id="learning_outcome_2"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_2" id="level_2" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_3" id="learning_outcome_3"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_3" id="level_3" style="text-align: center;"></textarea>
+            </div>
+        </div>
+    </div>
+{#    <div id="newEntrySection4"></div>#}
+{#      <div class="row mt-3">#}
+{#              <div class="col-lg-12">#}
+{#                  <span  id="commity_add_more3"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add one more entry</b></span>#}
+{#              </div>#}
+{#      </div>#}
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-label">Pedagogy tools</span>
+            <div>
+                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">
+            </div>
+        </div>
+    </div><hr/>
+
+    <div class="row">
+        <div class="form-textarea col-md-12">
+           <span class="form-label">Unit-5</span>
+            <span style="margin-left: 50px"></span>
+            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">
+            <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">
+        </div>
+        <div class="form-textarea col-md-12">
+            <input type="hidden" name="unit_no" value="5">
+            <textarea rows="1" name="unit_name" id="unit_name" class="form-control"></textarea>
+            <div class="row">
+               <div class="col-lg-8">
+                  <div class="err">
+
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Short Title</span>#}
+{#            <div>#}
+{#            <input type="text" name="short_title" id="short_title" placeholder="short title" value="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <span class="form-label">Number of contact Hours</span>#}
+{#            <input type="text" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="">#}
+{#        </div>#}
+{#    </div><br>#}
+    <div>
+        <span>Learning Outcomes</span>
+    </div><br>
+    <div>
+
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_2" id="learning_outcome_2"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_2" id="level_2" style="text-align: center;"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11">
+                 <textarea class="form-control" rows="2" name="learning_outcome_3" id="learning_outcome_3"></textarea>
+            </div>
+            <div class="col-md-1">
+                 <textarea class="form-control" rows="2" name="level_3" id="level_3" style="text-align: center;"></textarea>
+            </div>
+        </div>
+    </div>
+{#    <div id="newEntrySection5"></div>#}
+{#      <div class="row mt-3">#}
+{#              <div class="col-lg-12">#}
+{#                  <span  id="commity_add_more4"  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add one more entry</b></span>#}
+{#              </div>#}
+{#      </div>#}
+    <div class="row">
+        <div class="col-md-12">
+            <span class="form-label">Pedagogy tools</span>
+            <div>
+                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">
+            </div>
+        </div>
+    </div><hr/>
+    {% endif %}
+</div>
+
+<div class="fieldset-footer">
+        <span>Step 4 of 6</span>
+</div>
+
+<script>
+    var addedCount = 1;
+	$("#commity_add_more").click(function(){
+		addedCount++;
+		let ademic_details_add_more_div = '<div class="commity_add_more"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control" rows="2" name="learning_outcome_1" id="learning_outcome_1">{% if cs.outcome_1 %}{{ cs.outcome_1 }}{% endif %}</textarea></div><div class="col-md-1"><textarea class="form-control" rows="2" name="level_1" id="level_1" style="text-align: center;">{% if cs.level_1 %}{{ cs.level_1 }}{% endif %}</textarea></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry1" onclick="removeThisEntry1(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+		$("#newEntrySection1").append(ademic_details_add_more_div);
+		if (addedCount==3){
+		    $("#commity_add_more").hide()
+        }
+
+
+	});
+	function removeThisEntry1(entry){
+		$(entry).closest(".commity_add_more").remove();
+		addedCount--;
+		if(addedCount==2){
+		    $("#commity_add_more").show()
+        }
+			{#removeAcRecord(acQualificationId)#}
+
+	}
+
+</script>

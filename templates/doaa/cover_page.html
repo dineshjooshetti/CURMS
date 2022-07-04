@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load user_tags %}
+<head>
+    <title>Program Status</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+
+<style>
+    .hcolor{
+        color:#060707 ;
+    }
+    .shcolor{
+        color: #070707;
+    }
+    .canvas_div_pdf{
+         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    }
+    #essay_questions{
+    color: #080808;font-size: 15px;
+    }
+    .ff{
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+
+</style>
+
+<style>
+    @page {
+            size: A4;
+            margin: 50px;
+            @frame footer_frame {           /* Static frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+
+
+</style>
+<style>
+    th{
+         font-size: 16px; font-family: 'Times New Roman', Times, serif;
+    }
+    tr{
+        font-size: 15px;color:#000000 ;
+    }
+
+    tr, td { 
+
+       padding:2px; word-wrap:break-word;font-size: 15px; font-family: 'Times New Roman', Times, serif;
+
+    }
+
+</style>
+<body>
+
+
+<div class="container-fluid">
+
+    <div style="width: 90%; margin-left: 5%;" >
+
+        <div  style="text-align: center;" class="hidden">
+            <img  src="http://fts.dspsinstitute.com/static/assets/img/icons/gitam_logo.png" width="320px";height="250px;">
+        </div>
+        <br>
+
+        <center><h5 style="margin-top: 100px; font-size: 24px; margin-bottom:5px; color: #b11016;" class="ff"><b>Syllabus</b></h5>
+            <b>of</b>
+            <h5 style="margin-top: 20px; font-size: 24px; margin-bottom:5px; color: #b11016;" class="ff"><b>{{programs.0.name}}</b></h5>
+
+        </center>
+
+        <div  style="text-align: right;align-items: flex-end;padding-top: 400px">
+            <center>
+                (w.e.f 2020-21 admitted batch)
+            </center>
+        </div>
+        <br>
+        <center>
+            <span style="font-size: 16px; ">A University Committed to Excellence</span>
+            <br>
+        </center>
+    </div>
+
+    <pdf:nextframe>
+        <div style="text-align:center; width:90%; clear: both; margin-left: 5%;">
+            <span style="font-size:18px;text-align:center;" class="shcolor ff"><b>Department of {{dept_inst_name.0.dept_inst}}({{depart_detail.0.department}})</b></span><br><br>
+            <span style="font-size:18px;text-align:center;" class="shcolor ff"><b>{{programs.0.name}}</b></span>
+            <!-- <h5 style="text-align:center;" class="shcolor ff">(Effective from the academic year 2020-21 admitted batch)</h5> -->
+
+        
+        </div>
+        
+        <div  style="width:90%; margin-top: 2%;margin-left: 5%; clear: both;">
+            <!-- {{program_structures}} -->
+            {% if program_structures %}
+            {% for i in program_structures %}
+           
+            <h5 style="margin-top: 30px; font-size: 18px; margin-bottom:20px;text-align: center" class="hcolor ff"><b>Level-{{i.level__level}}</b></h5>
+        
+            <table border="0.5" width="100%"  class="ff" style="text-align: center; border-color:rgb(231, 230, 230)">
+                <tr>
+                    <th>S.No</th>
+                    <th>Course Code</th>
+                    <th>Course Title</th>
+                    <th>Category</th>
+                    <th>L</th>
+                    <th>T</th>
+                    <th>P</th>
+                    <th>J</th>
+                    <th>S</th>
+                    <th>C</th>   
+                </tr>
+                {% for j in i.course_structures %}
+                <tr>
+                    <td width="15%">{{ forloop.counter }}</td>
+                    <td width="35%">{{j.course_code}}</td>
+                    <td width="60%">{{ j.course_name }}</td>
+                    <td width="50%">{{ j.course_type__name }}</td>
+                    <td width="10%">{{ j.L }}</td>
+                    <td width="10%">{{ j.T }}</td>
+                    <td width="10%">{{ j.P }}</td>
+                    <td width="10%">{{ j.J }}</td>
+                    <td width="10%">{{ j.S }}</td>
+                    <td width="10%">{{ j.C }}</td>   
+                </tr>
+                {% endfor %}
+            </table>
+            
+            
+            <pdf:nextframe>
+            {% endfor %}
+            {% endif %}
+            
+        </div>
+        
+    <div style="width:90%; clear: both; margin-left: 5%; margin-top: 2%;">
+    {% if program_structures %}
+               
+        {% for i in program_structures %}
+        <h5 style="margin-top: 30px; font-size: 18px; margin-bottom:20px;text-align: center" class="hcolor ff"><b>Level-{{i.level__level}}</b></h5>
+        
+        <table border="0.5" width="100%"  class="ff" style="text-align: center; border-color:rgb(231, 230, 230)">
+            <tr>
+                <th>S.No</th>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>Category</th>
+                <th>L</th>
+                <th>T</th>
+                <th>P</th>
+                <th>J</th>
+                <th>S</th>
+                <th>C</th>   
+            </tr>
+            {% for j in i.course_structures %}
+            <tr>
+                <td width="15%">{{ forloop.counter }}</td>
+                <td width="35%">{{j.course_code}}</td>
+                <td width="60%">{{ j.course_name }}</td>
+                <td width="50%">{{ j.course_type__name }}</td>
+                <td width="10%">{{ j.L }}</td>
+                <td width="10%">{{ j.T }}</td>
+                <td width="10%">{{ j.P }}</td>
+                <td width="10%">{{ j.J }}</td>
+                <td width="10%">{{ j.S }}</td>
+                <td width="10%">{{ j.C }}</td>   
+            </tr>
+            {% endfor %}
+        </table>
+        
+        
+        <pdf:nextframe>  
+            
+            {% for j in i.course_structures %}
+            {% if i.level__level == j.level_of_course__level %} 
+                <h5 style=" font-size: 18px; text-align: center;" class="shcolor ff">{{j.course_name}}</h5>
+                
+                <table align="right" width="20%">
+                    <tr>
+                        <th>L</th>
+                        <th>T</th>
+                        <th>P</th>
+                        <th>J</th>
+                        <th>S</th>
+                        <th>C</th>
+                    </tr>
+                    <tr>
+                        <td align="center">{{j.L}}</td>
+                        <td align="center">{{j.T}}</td>
+                        <td align="center">{{j.P}}</td>
+                        <td align="center">{{j.J}}</td>
+                        <td align="center">{{j.S}}</td>
+                        <td align="center">{{j.C}}</td>
+                    </tr>
+                   
+                </table>
+                <p style="text-align: justify; font-size:16px;" class="bcolor ff"><i>{{j.course_descrption}}</i></p>
+                <h6 style="margin-top: 30px; font-size: 16px; margin-bottom:20px;" class="bcolor ff"><b>Course Objectives:</b></h6>
+                <span style="text-align: justify; font-size:16px;" class="bcolor ff">{{j.specific_instruction_objectives|linebreaks}}</span>
+                 
+                {% if j.unit_title_outcome_level %}
+                    {% for st in j.unit_title_outcome_level %}
+                        <table class="ff" style="font-size:16px; margin-top: 30px" width="100%">
+                            <tr>
+                                <td align="left" width="15%">
+                                    <b>UNIT {% if forloop.counter == 1  %}I{% elif forloop.counter  == 2  %}II{% elif forloop.counter == 3 %}III{% elif forloop.counter == 4 %}IV{% elif forloop.counter == 5 %}V{%endif%}:</b>
+                                </td>
+                                <td style="margin-top: 5px; font-size: 16px;" class="hcolor ff" width="80%">
+                                    <b>{{st.short_title}}</b>
+                                </td>
+                                <td style="vertical-align:center" align="right" width="5%">
+                                   <b>{{st.chours}}L</b>
+                                </td>
+                            </tr>
+                        </table>    
+                        <span style="text-align: justify; font-size:16px;" class="hcolor ff">{{st.unit_name}} </span>
+                        <h6 style="margin-top: 5px; font-size: 16px;" class="hcolor ff"><b>Learning Outcomes:</b></h6>
+                            <span style="text-align: justify; font-size: 16px;" class="hcolor ff">After completion of this unit, the student will be able to</span>
+                            {% if st.ot1 %}
+                            <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{st.ot1}}({{st.l1}})</li>
+                            {% endif %}
+                            {% if st.ot2 %}
+                            <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{st.ot2}}({{st.l2}})</li>
+                            {% endif %}
+                            {% if st.ot3 %}
+                            <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{st.ot3}}({{st.l3}})</li>
+                            {% endif %}
+                            {% if st.ot4 %}
+                            <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{st.ot4}}({{st.l4}})</li>
+                            {% endif %}
+                            {% if st.ot5 %}
+                            <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{st.ot5}}({{st.l5}})</li>
+                            {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if j.course_syl_practical %}
+                <h6 style="margin-top: 30px; font-size: 16px; margin-bottom:20px;" class="hcolor ff"><b>Topics(s):</b></h6>
+                <ol><span>
+                    {% for cp in j.course_syl_practical %}
+                    <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{cp}}</li> 
+                    {% endfor %} 
+                </span></ol>
+                {% endif %}
+                {% if j.course_books %}
+                <h6 style="margin-top: 30px; font-size: 16px; margin-bottom:20px;" class="hcolor ff"><b>Text Book(s):</b></h6>
+                <ol><span>
+                    {% for cb in j.course_books %}
+                    <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{cb.author}}, {{cb.title}}, {{cb.edition}}, {{cb.pub}}, {{cb.year}}.</li>
+                    {% endfor %} 
+                </span></ol>
+                {% endif %}
+                {% if j.course_websites %}
+                <h6 style="margin-top: 30px; font-size: 16px; margin-bottom:20px;" class="hcolor ff"><b>Websites(s):</b></h6>
+                <ol><span>
+                    {% for cw in j.course_websites %}
+                    <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{cw.wurl}}</li> 
+                    {% endfor %} 
+                </span></ol>
+                {% endif %}
+                {% if j.references %}
+                <h6 style="margin-top: 30px; font-size: 16px; margin-bottom:20px;" class="hcolor ff"><b>References:</b></h6>
+                <ol><span>
+                    {% for rf in j.references %}
+                    <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{rf.author}}, {{rf.title}}, {{rf.edition}}, {{rf.pub}}, {{rf.year}}.</li> 
+                    {% endfor %} 
+                </span></ol>
+                {% endif %}
+                {% if j.course_outcome %}
+                <h6 style="margin-top: 30px; font-size: 16px;" class="hcolor ff"><b>Course Outcomes:</b></h6>
+                {% for co in j.course_outcome %}
+                        <li style="text-align: justify; font-size:16px;" class="hcolor ff">{{co}}</li>   
+                {% endfor %}
+                {% endif %}
+            <pdf:nextframe>
+            {% endif %}
+            {% endfor %}
+            
+        {% endfor %}
+    {% endif %}   
+    </div>
+    </div>
+        
+
+</body>
+</html>

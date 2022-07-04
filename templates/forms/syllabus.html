@@ -1,0 +1,606 @@
+<style>
+    hr {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 0;
+        border-top: 6px solid rgba(0, 0, 0, .1);
+    }
+</style>
+{% if course_details.course_type_id == 1 or course_details.course_type_id == 5 or course_details.course_type_id == 3 or  course_details.course_type_id == 6  %}
+    {%  if  course_details.course_type_id == 5 %}
+        <div class="row pb-4">
+			<div class="col-md-3">
+			<label for="10">Unit-wise Syllabus</label>
+			<input type="radio" id="10" name="form_type" {%if not course_details.form_type %} checked {%elif course_details.form_type == 1 %} checked {%endif%} value="1" checked>
+            
+         </div>
+			<div class="col-md-2">	<input class="" name="form_type" {%if course_details.form_type == 2 %} checked {%endif%} value="2" type="radio"><label>Topic-wise Syllabus</label></div>
+		
+        </div><br>
+        {% endif %}
+	<div class="fieldset-content" id="syllabus_units" {%if course_details.course_type_id == 5 %} {%if not course_details.form_type %} style="display:block" {%elif course_details.form_type == 2 %} style="display:none" {%endif%} {%endif%}>
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {%  if  course_details.course_type_id == 3 or  course_details.course_type_id == 6  %}
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Theory</b></span></center></u>
+        </div>
+        {% endif %}
+		 
+		<div id= "unit_wise_div"  >
+        {% if course_syllabus %}
+            {% for cs in course_syllabus %}
+                <div class="new_unit_entry">
+                    <input type="hidden" name="syllabus_id" value="{{ cs.id }}">
+                    <div class="row">
+                        <div class="form-textarea col-md-12">
+                            <span class="form-label" style="width: 5%">Unit-{{ forloop.counter }}</span>
+
+                            <input type="text" name="short_title" id="short_title_{{ forloop.counter }}" style="width: 75%"
+                                   placeholder="Short title" value="{% if cs.short_title %}{{ cs.short_title }}{% endif %}">
+                            <input type="number" name="contact_hours" id="contact_hours{{ forloop.counter }}" style="width: 16%"
+                                   placeholder="No.of contact hours"
+                                   value="{% if cs.number_of_contact_hours %}{{ cs.number_of_contact_hours }}{% endif %}">
+                            {% if forloop.counter > 2 %}
+                            <span class="removeThisEntry" id="remove_{{ forloop.counter }}"  onclick="removeThisUnitEntry(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span>
+                            {% endif %}
+                        </div>
+                        <div class="form-textarea col-md-12">
+                            <input type="hidden" name="unit_no" value="{{ forloop.counter }}">
+                            <textarea rows="1" placeholder="Unit Description(Hyphenated content)" name="unit_name" id="unit_name" class="form-control">{% if cs.unit_name %}{{ cs.unit_name }}{% endif %}</textarea>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="err">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span>Learning Outcomes</span>
+                    </div><br>
+                    <div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-11">
+                                <textarea class="form-control" placeholder="Learning outcome" rows="1" name="learning_outcome_1" id="learning_outcome_1{{ forloop.counter }}">{% if cs.outcome_1 %}{{ cs.outcome_1 }}{% endif %}</textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <input class="form-control"  name="level_1" id="level_1{{ forloop.counter }}"
+                                          style="text-align: center"  placeholder="Level" value="{% if cs.level_1 %}{{ cs.level_1 }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-11">
+                                <textarea class="form-control" placeholder="Learning outcome" rows="1" name="learning_outcome_2" id="learning_outcome_2{{ forloop.counter }}">{% if cs.outcome_2 %}{{ cs.outcome_2 }}{% endif %}</textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <input class="form-control" placeholder="Level" name="level_2" id="level_2{{ forloop.counter }}"
+                                          style="text-align: center" value="{% if cs.level_2 %}{{ cs.level_2 }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-11">
+                                <textarea class="form-control" placeholder="Learning outcome" rows="1" name="learning_outcome_3" id="learning_outcome_3{{ forloop.counter }}">{% if cs.outcome_3 %}{{ cs.outcome_3 }}{% endif %}</textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <input class="form-control" name="level_3" placeholder="Level" id="level_3{{ forloop.counter }}"
+                                          style="text-align: center;" value="{% if cs.level_3 %}{{ cs.level_3 }}{% endif %}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="newEntrySection_{{ forloop.counter }}">
+                    {% if cs.outcome_4 %}
+                        <div class="row mb-3 commity_add_more4">
+                            <div class="col-md-10">
+                                <textarea class="form-control" rows="1" name="learning_outcome_4" id="learning_outcome_4{{ forloop.counter }}">{% if cs.outcome_4 %}{{ cs.outcome_4 }}{% endif %}</textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <input class="form-control" name="level_4" id="level_4{{ forloop.counter }}"
+                                          style="text-align: center;" value="{% if cs.level_4 %}{{ cs.level_4 }}{% endif %}">
+                            </div>
+                            <div class="col-md-1" style="margin-top:17px">
+                                <span class="removeThisEntry" id="remove_4" data-unit_id="{{ forloop.counter }}" onclick="removeThisEn(this)"style="margin-top:10px">
+                                    <i class="fa fa-trash" style="color:red;cursor:pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                        {% if cs.outcome_5 %}
+                        <div class="row mb-3 commity_add_more5">
+                            <div class="col-md-10">
+                                <textarea class="form-control" rows="1" name="learning_outcome_5" id="learning_outcome_4{{ forloop.counter }}">{% if cs.outcome_5 %}{{ cs.outcome_5 }}{% endif %}</textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <input class="form-control" name="level_5" id="level_4{{ forloop.counter }}"
+                                          style="text-align: center;" value="{% if cs.level_5 %}{{ cs.level_5 }}{% endif %}">
+                            </div>
+                            <div class="col-md-1" style="margin-top:17px">
+                                <span class="removeThisEntry" id="remove_5" data-unit_id="{{ forloop.counter }}" onclick="removeThisEn(this)"style="margin-top:10px">
+                                    <i class="fa fa-trash" style="color:red;cursor:pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-12">
+                            <span id="outcomeaddmore_{{ forloop.counter }}" class="outcome_addmore" data-count="{% if cs.outcome_5 %}5{% elif cs.outcome_4 %}4{% else %}3{% endif %}" data-counter="{% if cs.outcome_5 %}5{% elif cs.outcome_4 %}4{% else %}3{% endif %}"
+                                  style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                        </div>
+                    </div>
+                    <span class="form-label">Pedagogy Tools</span><br><br>
+                    <div class="row" style="margin-left: 20px;">
+                        {% for p in pedagogy_tools %}
+                            <div class="col-md-2">
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" {% for j in cs.pedagogy_tools %}{% if j.p_id == p.id %}checked{% endif %}{% endfor %} class="custom-control-input pedagogy_tools{{ forloop.parentloop.counter }}" id="unit{{ forloop.parentloop.counter }}{{ forloop.counter }}" name="pedagogy_tools_{{ forloop.parentloop.counter }}" value="{{ p.id }}">
+                                <label class="custom-control-label" for="unit{{ forloop.parentloop.counter }}{{ forloop.counter }}">{{ p.name }}</label>
+                            </div>
+                            </div>
+                        {% endfor %}
+                        <div class="custom-control custom-checkbox mb-3" style="margin-left: 16px">
+                            <input type="checkbox" {% if cs.pedagogy_tools|length == 13 %}checked{% endif %} class="custom-control-input pedagogy_tools" onclick="unit{{ forloop.counter }}_selectall(this);" id="unit{{ forloop.counter }}selectall">
+                            <label class="custom-control-label" for="unit{{ forloop.counter }}selectall">Select All</label>
+                        </div>
+                        <span id="error_off_line"></span>
+                    </div>
+                    <hr/>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% for j in new_units %}
+            <div class="row">
+                <div class="form-textarea col-md-12">
+                    <span class="form-label" style="width: 5%">Unit-{{ j }}</span>
+                    <span style="margin-left: 50px"></span>
+                    <input type="text"   name="short_title" style="width: 75%" id="short_title{{ j }}" placeholder="Short title"
+                           value="">
+                    <input type="number"  name="contact_hours" style="width: 16%" id="contact_hours{{ j }}"
+                           placeholder="No.of contact hours">
+                </div>
+                <div class="form-textarea col-md-12">
+                    <input type="hidden" name="unit_no" value="{{ j }}">
+                    <textarea rows="1" name="unit_name" id="unit_name" class="form-control {% if j > 2 %}{% endif %}"></textarea>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="err">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>Learning Outcomes</span>
+            </div><br>
+            <div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control learning_outcome" rows="1" name="learning_outcome_1" id="learning_outcome_1{{ j }}"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <input class="form-control"  name="level_1" id="level_1{{ j }}" style="text-align: center;">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control learning_outcome" rows="1" name="learning_outcome_2" id="learning_outcome_2{{ j }}"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" name="level_2" id="level_2{{ j }}" style="text-align: center;">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-11">
+                        <textarea class="form-control learning_outcome" rows="1" name="learning_outcome_3" id="learning_outcome_3{{ j }}"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control"  name="level_3" id="level_3{{ j }}" style="text-align: center;">
+                    </div>
+                </div>
+            </div>
+            <div id="newEntrySection_{{ j }}"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="outcomeaddmore_{{ j }}" data-count="3" class="outcome_addmore" data-counter="3"
+                          style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div><br>
+            <span class="form-label">Pedagogy Tools</span><br><br>
+            <div class="row" style="margin-left: 20px;">
+
+                {% for p in pedagogy_tools %}
+                    <div class="col-md-2">
+                        <div class="custom-control custom-checkbox mb-3">
+
+                            <input type="checkbox" class="custom-control-input pedagogy_tools{{ j }}"
+                                   id="unit{{ j }}{{ forloop.counter }}" name="pedagogy_tools_{{ j }}" value="{{ p.id }}">
+                            <label class="custom-control-label" for="unit{{ j }}{{ forloop.counter }}">{{ p.name }}</label>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="custom-control custom-checkbox mb-3" style="margin-left: 16px;">
+                    <input type="checkbox" class="custom-control-input pedagogy_tools{{ j }}" onclick="unit_selectall(this);" id="pedagogy_tools{{ j }}">
+                    <label class="custom-control-label" for="pedagogy_tools{{ j }}">Select All</label>
+                </div>
+                <span id="error_off_line"></span>
+            </div>
+            <hr/>
+            {% endfor %}
+
+
+        {% endif %}
+         <div id="newEntryUnit"></div>
+             <div class="row mt-3">
+                <div class="col-lg-12">
+                    <span id="addmore_unit" style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add Unit</b></span>
+                </div>
+            </div><br>
+		</div>		
+          {%  if  course_details.course_type_id == 3 or  course_details.course_type_id == 6  %}
+        <div class="pb-4">
+            <u><center><span style="font-size: 20px;color: #7f0000"><b>Practical</b></span></center></u>
+        </div>
+        {% if practical_syllabus %}
+            {% for p in practical_syllabus %}
+				<div class="practical_add_more">
+				
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="form-label">Topic</span>
+                        <div>
+                            <input type="text" value="{{ p.topic }}" name="syllabus_topic" id="syllabus_topic"
+                                   class="form-control" placeholder="Enter topic"/>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <span class="form-label">Type</span>
+                        <div>
+                            <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                                <option value="" selected disabled>Select Type</option>
+                                {% for s in syllabus_type %}
+                                    {% if s.id == p.syllabus_type_id %}
+                                        <option value="{{ s.id }}" selected>{{ s.name }}</option>
+                                    {% else %}
+                                        <option value="{{ s.id }}">{{ s.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+					{%if forloop.counter > 1 %}
+					<div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryPractical" onclick="removeThisEntryPractical(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div>
+					{%endif%}
+					</div>
+                </div>
+            {% endfor %}
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Topic</span>
+                    <div>
+                        <input type="text" name="syllabus_topic" id="syllabus_topic" class="form-control"
+                               placeholder="Enter topic"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Type</span>
+                    <div>
+                        <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                            <option value="" selected disabled>Select Type</option>
+                            {% for s in syllabus_type %}
+                                <option value="{{ s.id }}">{{ s.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+          {% endif %}
+    </div>
+{% elif course_details.course_type_id == 2 %}
+
+    <div class="fieldset-content">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {% if practical_syllabus %}
+            {% for p in practical_syllabus %}
+				<div class="practical_add_more">
+					<input type="hidden" name="practical_id" value="{{ p.id }}">
+					<div class="row">
+						<div class="col-md-8">
+							<span class="form-label">Topic</span>
+							<div>
+								<input type="text" value="{{ p.topic }}" name="syllabus_topic" id="syllabus_topic"
+									   class="form-control" placeholder="Enter topic"/>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<span class="form-label">Type</span>
+							<div>
+								<select class="form-control" aria-label="Default select example" name="syllabus_type">
+									<option value="" selected disabled>Select Type</option>
+									{% for s in syllabus_type %}
+										{% if s.id == p.syllabus_type_id %}
+											<option value="{{ s.id }}" selected>{{ s.name }}</option>
+										{% else %}
+											<option value="{{ s.id }}">{{ s.name }}</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryPractical" onclick="removeThisEntryPractical(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div>
+					</div>
+				</div>
+            {% endfor %}
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="form-label">Topic</span>
+                    <div>
+                        <input type="text" name="syllabus_topic" id="syllabus_topic" class="form-control"
+                               placeholder="Enter topic"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="form-label">Type</span>
+                    <div>
+                        <select class="form-control" aria-label="Default select example" name="syllabus_type">
+                            <option value="" selected disabled>Select Type</option>
+                            {% for s in syllabus_type %}
+                                <option value="{{ s.id }}">{{ s.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="newEntryPractical"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="practical_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% elif course_details.course_type_id == 4 %}
+    <div class="fieldset-content">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {% if course_details.project_topic %}
+            {% for i in course_details.project_topic %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="form-label">Topic-{{ forloop.counter }}</span>
+                        <input type="text" value="{{ i.project_topic }}" name="project_topic" id="project_topic"
+                               class="form-control" placeholder="Enter topic"/>
+                    </div>
+                </div><br>
+            {% endfor %}
+            <div id="newEntryProject"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="project_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="form-label">Topic</span>
+                    <input type="text" name="project_topic" id="project_topic" class="form-control"
+                           placeholder="Enter topic"/>
+                </div>
+            </div>
+            <div id="newEntryProject"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="project_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+{% if course_details.course_type_id == 5 %}
+	<div id= "topic_wise_div" {%if course_details.course_type_id == 5 %} {%if course_details.form_type == 1 or  course_details.form_type is None %} style="display:none" {%endif%} {%endif%} >
+    <div class="fieldset-content" id="syllabus_topics">
+        <input type="hidden" name="cour_id" value="{{ course_details.id }}">
+        {% if course_details.project_topic %}
+            {% for i in course_details.project_topic %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="form-label">Topic-{{ forloop.counter }}</span>
+                        <input type="text" value="{{ i }}" name="project_topic" id="project_topic"
+                               class="form-control" placeholder="Enter topic"/>
+                    </div>
+                </div><br>
+            {% endfor %}
+            <div id="newEntryProject"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="project_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+            <hr/>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="form-label">Topic</span>
+                    <input type="text" name="project_topic" id="project_topic" class="form-control"
+                           placeholder="Enter topic"/>
+                </div>
+            </div>
+            <div id="newEntryProject"></div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                <span id="project_add_more"
+                      style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+	</div>
+{% endif %}
+<div class="fieldset-footer">
+    <span>Step 4 of 6</span>
+</div>
+
+
+<script>
+$('input:radio[name="form_type"]').change(function(){
+	if (this.value ==1){
+		$('#syllabus_units').show()
+		$('#topic_wise_div').hide()
+	}
+	else if (this.value ==2){
+		$('#syllabus_units').hide()
+		$('#topic_wise_div').show()
+	}	
+})
+
+    var addedCountProject = {% if practical_syllabus %}{{ practical_syllabus|length }}{% else %}1{% endif %};
+    $("#project_add_more").click(function () {
+        addedCountP++;
+        let ademic_details_add_more_div = '<div class="project_add_more"><div class="row mt-4"><div class="col-md-11"><input type="text" name="project_topic" id="project_topic" class="form-control" placeholder="Enter topic"/></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryProject" onclick="removeThisEntryProject(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntryProject").append(ademic_details_add_more_div);
+        if (addedCountP == 20) {
+            $("#project_add_more").hide()
+        }
+
+
+    });
+
+    function removeThisEntryProject(entry) {
+        $(entry).closest(".project_add_more").remove();
+        addedCountP--;
+        if (addedCountP == 19) {
+            $("#project_add_more").show()
+        }
+        {#removeAcRecord(acQualificationId)#}
+
+    }
+
+</script>
+<script>
+    var addedCountP = {% if practical_syllabus %}{{ practical_syllabus|length }}{% else %}1{% endif %};
+    $("#practical_add_more").click(function () {
+        addedCountP++;
+        let ademic_details_add_more_div = '<div class="practical_add_more"><div class="row mt-4"><div class="col-md-6"><input type="text" name="syllabus_topic" id="syllabus_topic" class="form-control" placeholder="Enter topic"/></div><div class="col-md-5"><select class="form-control" aria-label="Default select example" name="syllabus_type"><option value="" selected disabled>Select Type</option>{% for s in syllabus_type %}<option value="{{ s.id }}">{{ s.name }} </option>{% endfor %}</select></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntryPractical" onclick="removeThisEntryPractical(this)" style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>'
+        $("#newEntryPractical").append(ademic_details_add_more_div);
+        if (addedCountP == 50) {
+            $("#practical_add_more").hide()
+        }
+
+
+    });
+
+    function removeThisEntryPractical(entry) {
+        $(entry).closest(".practical_add_more").remove();
+        addedCountP--;
+        if (addedCountP == 49) {
+            $("#practical_add_more").show()
+        }
+        {#removeAcRecord(acQualificationId)#}
+
+    }
+
+</script>
+
+<script>
+    $(".fieldset-content").on("click",".outcome_addmore",function () {
+        unit_count=this.id.split("_");
+        if(typeof addedCount == 'undefined'){
+            addedCount=Number($(this).data('count'))
+        }
+        else{
+             addedCount=Number($(this).attr('data-counter'))
+        }
+        addedCount++;
+        let ademic_details_add_more_div = `<div class="commity_add_more${addedCount}"><div class="row mt-4"><div class="col-md-10"><textarea class="form-control learning_outcome" rows="1" name="learning_outcome_${addedCount}" id="learning_outcome_${addedCount}"></textarea></div><div class="col-md-1"><input type="text" class="form-control" rows="2" name="level_${addedCount}" id="level_${addedCount}"  style="text-align: center;"></div><div class="col-md-1" style="margin-top:17px"><span class="removeThisEntry" id="remove_${addedCount}" data-unit_id="${unit_count[1]}" onclick="removeThisEn(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span></div></div></div>`
+        $("#newEntrySection_"+unit_count[1]).append(ademic_details_add_more_div);
+        if (addedCount > 4) {
+            $("#"+this.id).hide()
+        }
+        $('#'+this.id).attr("data-counter",addedCount);
+
+    });
+    function removeThisEn(entry) {
+        outcome_count=entry.id.split("_");
+        $(entry).closest(".commity_add_more"+outcome_count[1]).remove();
+        unit_id=$(entry).attr("data-unit_id");
+        $("#outcomeaddmore_"+unit_id).attr('data-counter',outcome_count[1]-1)
+        if (outcome_count[1] < 6) {
+            if (outcome_count[1]==4){
+                $("#newEntrySection_"+unit_id+" .commity_add_more5").attr("class","commity_add_more4")
+                $("#newEntrySection_"+unit_id+" .removeThisEntry").attr("id","remove_4")
+                $("#newEntrySection_"+unit_id+" #learning_outcome_5").attr("name","learning_outcome_4")
+                $("#newEntrySection_"+unit_id+" #learning_outcome_5").attr("id","learning_outcome_4")
+                $("#newEntrySection_"+unit_id+" #level_5").attr("name","level_4")
+                $("#newEntrySection_"+unit_id+" #level_5").attr("id","level_4")
+                if ($("#newEntrySection_"+unit_id+" .learning_outcome").length == 1){
+                    $("#outcomeaddmore_"+unit_id).attr("data-counter","4")
+                }else if($("#newEntrySection_"+unit_id+" .learning_outcome").length == 0)    {
+                    $("#outcomeaddmore_"+unit_id).attr("data-counter",3)
+
+                }
+
+            }
+            $("#outcomeaddmore_"+unit_id).show()
+        }
+
+    }
+    j="{{unit_length}}"
+    $("#addmore_unit").click(function () {
+        j++;
+        let add_more_unit=`<div class="new_unit_entry"><div class="row"><div class="form-textarea col-md-12"><span class="form-label" style="width: 5%">Unit-${j}</span> <span style="margin-left: 50px"></span> <input type="text" name="short_title" style="width: 75%" id="short_title${j}" placeholder="Short title" value=""> <input type="number" name="contact_hours" style="width: 16%" id="contact_hours${j}" placeholder="No.of contact hours"><span class="removeThisEntry" id="remove_${j}"  onclick="removeThisUnitEntry(this)"style="margin-top:10px"><i class="fa fa-trash" style="color:red;cursor:pointer;"></i></span> </div> <div class="form-textarea col-md-12"> <input type="hidden" name="unit_no" value="${j}"> <textarea rows="1" placeholder="Unit Description(Hyphenated content)" name="unit_name" id="unit_name" class="form-control"></textarea> <div class="row"> <div class="col-lg-8"> <div class="err"> </div> </div> </div> </div> </div> <div> <span>Learning Outcomes</span> </div><br> <div> <div class="row mb-3"> <div class="col-md-11"> <textarea class="form-control learning_outcome" placeholder="Learning outcome" rows="1" name="learning_outcome_1" id="learning_outcome_1${j}"></textarea> </div> <div class="col-md-1"> <input class="form-control" placeholder="Level" name="level_1" id="level_1${j}" style="text-align: center;"> </div> </div> <div class="row mb-3"> <div class="col-md-11"> <textarea class="form-control learning_outcome" placeholder="Learning outcome" rows="1" name="learning_outcome_2" id="learning_outcome_2${j}"></textarea> </div> <div class="col-md-1"> <input type="text" class="form-control" placeholder="Level" name="level_2" id="level_2${j}" style="text-align: center;"> </div> </div> <div class="row mb-3"> <div class="col-md-11"> <textarea class="form-control learning_outcome" placeholder="Learning outcome" rows="1" name="learning_outcome_3" id="learning_outcome_3${j}"></textarea> </div> <div class="col-md-1"> <input type="text" class="form-control" placeholder="Level" name="level_3" id="level_3${j}" style="text-align: center;"> </div> </div> </div> <div id="newEntrySection_${j}"></div> <div class="row mt-3"> <div class="col-lg-12"> <span id="outcomeaddmore_${j}" data-count="3" class="outcome_addmore" data-counter="3" style="cursor: pointer;float: right;color: #7f0000;background-color: #cecfd1;padding: 4px;border-radius: 5px;"><b>+ Add more</b></span> </div> </div><br> <span class="form-label">Pedagogy Tools</span><br><br> <div class="row" style="margin-left: 20px;"> {% for p in pedagogy_tools %} <div class="col-md-2"> <div class="custom-control custom-checkbox mb-3"> <input type="checkbox" class="custom-control-input pedagogy_tools${j}" id="unit${j}{{ forloop.counter }}" name="pedagogy_tools_${j}" value="{{ p.id }}"> <label class="custom-control-label" for="unit${j}{{ forloop.counter }}">{{ p.name }}</label> </div> </div> {% endfor %} <div class="custom-control custom-checkbox mb-3" style="margin-left: 16px;"> <input type="checkbox" class="custom-control-input pedagogy_tools${j}" onclick="unit_selectall(this);" id="pedagogy_tools${j}"> <label class="custom-control-label" for="pedagogy_tools${j}">Select All</label> </div> <span id="error_off_line"></span> </div> <hr/></div>`
+
+        $("#newEntryUnit").append(add_more_unit);
+        if (j > 4) {
+            $("#"+this.id).hide()
+        }
+    });
+    function removeThisUnitEntry(entry) {
+        $(entry).closest(".new_unit_entry").remove();
+        j--;
+        if (j == 4) {
+
+            $("#addmore_unit").show()
+        }
+
+    }
+    function unit_selectall(obj) {
+        checkbox_class_name=obj.id
+        $('.'+checkbox_class_name).prop('checked',true)
+
+    }
+
+</script>

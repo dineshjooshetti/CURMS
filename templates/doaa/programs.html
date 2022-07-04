@@ -1,0 +1,47 @@
+{% extends 'doaa/base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="row">
+          <div class="col-12">
+            <div class="card">
+			<div class="card-header">
+					<h5>Programs</h5>
+			</div>
+              <div class="card-body">
+			  <div class="table-responsive py-4">
+					<table id="example" class="table table-bordered table-striped">
+					  <thead>
+					  <tr>
+						<th>Name</th>
+						<th>Program Type</th>
+						<th>Program Levels</th>
+						<th>Status</th>
+						<th>Action</th>
+
+					  </tr>
+					  </thead>
+					  <tbody>
+					  {% for a in programs %}
+					  <tr>
+						<td>{{ a.name }}</td>
+						<td>{{ a.program_type }}</td>
+						<td>{{ a.program_levels }}</td>
+						<td>Pending</td>
+						<td><a class="item" style="text-align: center" data-toggle="tooltip" data-placement="top" title="View" href="/admin/application_details/{{ a.id }}">
+								<i class="fa fa-eye" style="color:green"></i></a>
+						</td>
+					  </tr>
+					  {% endfor %}
+					  </tbody>
+					</table>
+				</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+{% endblock %}

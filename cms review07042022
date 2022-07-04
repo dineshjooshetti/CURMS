@@ -1,0 +1,22 @@
+choice count filed in basket
+
+Pass or Fail
+============
+-->Pass / Fail course--validation none
+default-->NO 
+add *
+
+add course,edit course:
+=====================
+change position ltpsjc
+add faculty--Yes,No
+
+Open Electives:
+===============
+inputs:
+1.dropdown--->PC,PE
+2.number field-->credits
+label:
+#Student will Opt eligible PC/PE courses from other programmes as an open elective courses and earn 24 credits
+
+

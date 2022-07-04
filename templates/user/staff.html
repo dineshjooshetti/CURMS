@@ -1,0 +1,182 @@
+<!-- MAIN CONTENT-->
+{% extends 'doaa/base.html' %}
+{% block body %}
+{% load static %}
+{#{% load user_tags %}#}
+<style>
+.table tbody tr td{
+font-size:12px !important;
+}
+.table tfoot tr th{
+font-size:12px !important;
+}
+.table.dataTable tbody th, table.dataTable tbody td{
+    //padding: 5px 5px !important;
+}
+.table th, .table td{
+			white-space:normal !important;
+		}
+        
+</style>
+<link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/custom_datatable.css' %}">
+<!-- Page plugins -->
+
+   <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/jquery.dataTables.min.css' %}">
+   <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.3.3/css/fixedColumns.dataTables.min.css">
+  <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/buttons.dataTables.min.css' %}">
+    <!-- Header -->
+    <style>
+	
+	</style>
+    <!-- Page content -->
+    <div class="container-fluid mt-3">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h3 class="mb-0">Staff</h3>
+
+            </div>
+          <div class="card-body">
+            <div class="table-responsive py-4">
+              <table class="table table-flush" id="datatable-buttons1">
+                <thead class="thead-light">
+                  <tr>
+                    <th >EMP#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Campus</th>
+                    <th>INST</th>
+                    <th>DEPT</th>
+                    <!--th>Phone</th-->
+                    <th>Designation</th>
+                    <th>DEPT Code</th>
+                    <th>Default Role</th>
+                    <th>Additional Roles</th>
+                   
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for user in users %}
+                  <tr>
+                    <td width="7%">{%if request.user.is_superuser %}<a href="/session/{{user.enc_id}}"> {%endif%}{{ user.username }}{%if request.user.is_superuser %}</a> {%endif%}
+						
+						<span id="https://curmstest.gitam.edu/user/session/{{user.enc_id}}" style="cursor:pointer" onclick="myFunction(this)" ><i class="fas fa-copy"></i></span>
+						
+					</td>
+                    <td width="20%">{{ user.first_name|upper }}</td>
+                    <td width="10%">{{ user.email }}</td>
+                    <td width="4%">{{ user.campus }}</td>
+                    <td width="4%">{{ user.institution }}</td>
+                    <td width="15%">{{ user.department }}</td>
+                    <!--td width="7%">{%if user.phone %}{{ user.phone }}{%else%}- {%endif%}</td-->
+                    <td width="15%">{{ user.designation }}</td>
+                    <td width="4%">{{ user.dept_code__dept_code }}</td>
+                    <td width="4%">{%if 'STAFF' in user.groups %}STAFF {%else%} None{%endif%}</td>
+                    <td width="7%">{%for i in user.groups %} {%if not i == 'STAFF' %}{{i}} {%if not user.groups|length == forloop.counter %}, {%endif%} {%endif%}  {%endfor%} {%if user.groups|length < 2%} - {%endif%}</td>
+                   
+                    
+                  </tr>
+                {% endfor %}
+                </tbody>
+				<tfoot>
+					<tr>
+                    <th>Emp#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Campus</th>
+                    <th>Institution</th>
+                    <th>Department</th>
+					<!--th>Phone</th-->
+                    <th>Designation</th>
+                    <th>DEPT Code</th>
+                     <th>Default Role</th>
+					<th>Additional Roles</th>
+                </tr>
+				</tfoot>
+              </table>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Optional JS -->
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jszip.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/pdfmake.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/vfs_fonts.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.html5.min.js' %}"></script>
+  <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.print.min.js' %}"></script>
+
+
+  <script>
+	/*$('#datatable-buttons1 thead tr').clone(true).appendTo( '#datatable-buttons1 thead' );
+    $('#datatable-buttons1 thead tr:eq(0) th').each( function (i) {
+		//console.log(i)
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="'+title+'" / >' );
+ 
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );*/
+    var table=$('#datatable-buttons1').DataTable( {
+        dom: 'Bfrtip',
+		ordering: false,
+		//scrollX:        true,
+        //scrollCollapse: true,
+		//fixedColumns:   {
+          //  leftColumns: 1,
+            //rightColumns: 1
+        //},
+        buttons: [
+            'excel',
+			{
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL'
+            }
+        ],
+        language: {
+           paginate: {
+             previous: "<i class='fas fa-angle-left'>",
+             next: "<i class='fas fa-angle-right'>"
+           }
+         }
+
+    } );
+    $('.dt-buttons .buttons-html5, .buttons-print').removeClass('dt-button').addClass('btn-sm btn-default');
+	
+	
+	function copyToClipboard(text) {
+    var sampleTextarea = document.createElement("textarea");
+    document.body.appendChild(sampleTextarea);
+    sampleTextarea.value = text; //save main text in it
+    sampleTextarea.select(); //select textarea contenrs
+    document.execCommand("copy");
+    document.body.removeChild(sampleTextarea);
+}
+
+function myFunction(obj){
+	console.log(obj)
+    var copyText = obj.id;
+    copyToClipboard(copyText);
+}
+  </script>
+
+{% endblock %}

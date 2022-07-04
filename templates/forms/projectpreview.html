@@ -1,0 +1,449 @@
+{% extends 'csmc/base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/timeline.css' %}" type="text/css">
+    <style type="text/css">
+        table tr td{
+			padding-left:10px;
+		}
+		table tr th{
+			padding-left:10px;
+			font-size:14px;
+		}
+		#table{
+			font-size:14px;
+		}
+		 .btn-cus-yellow {
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+            z-index: 99;
+            font-size: 14px;
+        }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+             background-color: #ffff !important;
+			color:#7f0000
+        }
+
+        .hover {
+            #color: #6b7480 !important;
+        }
+
+        .hover.active {
+            #color: white !important;
+        }
+    </style>
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page">Course Preview</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover active" id="tabs-icons-text-1-tab" data-toggle="tab"
+                       href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
+                            class="fa fa-file-alt mr-2"></i>COURSE PREVIEW</a>
+                </li>
+                <!--li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 hover" id="tabs-icons-text-2-tab" data-toggle="tab"
+                       href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i
+                            class="far fa-comment-dots mr-2"></i>SUGGESTIONS & TIMELINE</a>
+                </li-->
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                         aria-labelledby="tabs-icons-text-1-tab">
+
+                        <div class="col-lg-12">
+                            <div class="">
+                                <div class="row">
+                                    {% if course_edit == 1 %}
+                                        <a class="btn btn-md mb-2" href="/pcmi/course_details/{{ course_id }}"
+                                           style="  color: white;background-color: #9e9e9e;float: right">Edit</a>
+                                    {% endif %}
+                                </div>
+                                <table border="1" style="font-size: 14px !important;margin-top:15px;" width="100%">
+                                    <tr>
+                                        <th rowspan="6"><img style="height: 120px;margin-left: 6px;margin-right: -31px;" src="/static/gitam-logo.jpg"></th>
+                                        <th>Course Code</th>
+                                        <th>Course Title</th>
+                                        <th>L</th>
+                                        <th>T</th>
+                                        <th>P</th>
+                                        <th>J</th>
+                                        <th>S</th>
+                                        <th>C</th>
+                                    </tr>
+                                    <tr>
+
+                                        <td>XXXXXXXX</td>
+                                        <td>{{ course.0.course_name }}</td>
+                                        <td>{{ course.0.L }}</td>
+                                        <td>{{ course.0.T }}</td>
+                                        <td>{{ course.0.P }}</td>
+                                        <td>{{ course.0.J }}</td>
+                                        <td>{{ course.0.S }}</td>
+                                        <td>{{ course.0.C }}</td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>Course Owner </td>
+                                        <td>{{course_owner.to_user__dept_code__dept_inst}}</td>
+                                        <td colspan="4">Syllabus version</td>
+                                        <td colspan="2">1.0</td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>Course Pre-requisite(s)</td>
+                                            <td>{% if course_pre_requisite %}YES{%else%}NO{% endif %}</td>
+                                        <td colspan="4">Contact hours</td>
+                                        <td colspan="2">{{ course.0.total_no_of_contact_hours }}</td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>Course Co-requisite(s)</td>
+                                        <td>{% if course_co_requisite %}Yes{%else%}No{% endif %}</td>
+                                        <td colspan="4">Date Approved</td>
+                                        <td colspan="2">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alternate Exposure</td>
+                                        <td colspan="7">{{ course.0.alternative_exposure }}</td>
+                                    </tr>
+                                </table>
+                                <p style="text-align: justify;margin-top:15px;">
+                                    {{ course.0.course_descrption }}
+                                </p>
+                                <h4>Course Objectives</h4>
+                                <div style="margin-left:30px;">
+                                    {{ course.0.specific_instruction_objectives|linebreaks }}
+                                </div>
+								 <h4>Course Pre-requisite(s)</h4>
+                                {% for i in course_pre_requisite %}
+                                    <div>
+                                        <p>{{ forloop.counter }}.&nbsp;{{ i.prerequesti__course_name }}</p>
+                                    </div>
+                                {% endfor %}
+								<h4>Topics</h4>
+									<ol>
+                                    {% for practical in course.0.project_topic %}
+                                        <li>{{ practical.project_topic }}</li>
+
+                                            
+                                       
+                                    {% endfor %}
+									</ol>
+                                
+
+                                
+                                <table style="font-size:14px !important;"  border="1" width="100%">
+                                    <tr>
+                                        <td><b>Texbook(s)</b></td>
+                                        <td><b>Topics</b></td>
+                                    </tr>
+                                    
+                                        {% for j in course_book_details %}
+											<tr>
+                                            <td><p>{{ forloop.counter }}.&nbsp;{{ j.author }},'{{ j.title }}',{{ j.edition }},{{ j.publisher }},{{ j.place_of_publication }},{{ j.year }},{{ j.isbn }}</p>
+                                            </td>
+                                            <td>{{ j.unit_mapping }}</td>
+											</tr>
+                                        {% endfor %}
+                                    
+                                </table>
+                                <table style="font-size:14px !important;"  border="1" width="100%">
+                                    <tr>
+                                        <td><b>Additional Reading(s)</b></td>
+                                        <td><b>Topics</b></td>
+                                    </tr>
+                                    
+                                        {% for i in references_details %}
+										<tr>
+                                            <td>
+                                                <p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.edition }},{{ i.publisher }},{{ i.place_of_publication }},{{ i.year }},{{ i.isbn }}</p>
+                                            </td>
+                                            <td>{{ i.unit_mapping }}</td>
+											</tr>
+                                        {% endfor %}
+                                    
+                                </table>
+                                <table style="font-size:14px !important;"  border="1" width="100%">
+                                    <tr>
+                                        <td><b>Journal(s)</b></td>
+                                        <td><b>Topics</b></td>
+                                    </tr>
+                                   
+                                        {% for i in journal_details %}
+										 <tr>
+                                            <td>
+                                                <p>{{ forloop.counter }}.&nbsp;{{ i.author }},'{{ i.title }}',{{ i.year }},{{ i.pages }}</p>
+                                            </td>
+                                            <td>{{ i.unit_mapping }}</td>
+											</tr>
+                                        {% endfor %}
+                                    
+                                </table>
+                                <table style="font-size:14px !important;"  border="1" width="100%">
+                                    <tr>
+                                        <td><b>Website(s)</b></td>
+                                        <td><b>Topics</b></td>
+                                    </tr>
+                                    
+                                        {% for i in website_details %}
+											<tr>
+                                            <td>
+                                                <p>{{ forloop.counter }}.&nbsp;{{ i.name_website }},{{ i.last_accessed }},{{ i.website_url }}</p>
+                                            </td>
+                                            <td>{{ i.unit_mapping }}</td>
+											</tr>
+                                        {% endfor %}
+                                    
+                                </table>
+
+                                <center><h3 class="mt-5" style="text-align: center;">Instructional Plan</h3></center>
+                                {% if course_details.instruction_plan %}
+                                    <embed src="/media/user/instruction_plan/{{ course_details.instruction_plan }}#toolbar=0"  type="application/pdf"  width="100%" height="600px" />
+                                {% else %}
+                                    <span>No file uploaded</span>
+                                {% endif %}
+                                <br>
+
+
+                                {#                                    {{ course_syllabus }}#}
+
+                                <div class="row" style="margin-left: 40%">
+                                    {% if is_edit == 1 %}
+										<div class="text-left mb-3" style="padding-left: 10px">
+											<a href="/csmc/course_details/{{ course_id }}" class="btn btn-info btn-md" id="interpersonal_submit" style="color: white;background-color: #9e9e9e;">
+												<< Back to Edit
+											</a>
+											<button type="submit" class="btn btn-md message_post" style="background-color: #7f0000; color: white">Submit</button>
+										</div>
+									{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade show" id="tabs-icons-text-2" role="tabpanel"
+                         aria-labelledby="tabs-icons-text-2-tab">
+                        <h2 style="color:#7f0000;text-align: center">Timeline</h2>
+                        <hr>
+                        <!-- timeline -->
+                        <div class="timeline">
+
+
+                            {% for t in course_timeline %}
+                                <div class="timeline__event  animated fadeInUp delay-1s timeline__event--type2">
+                                    <div class="timeline__event__icon">
+                                        <img src="
+                                                {% if forloop.counter == 1 %}{{ t.to_user__image }}{% else %}{{ t.user__image }}{% endif %}"
+                                             class="timeline-userimg">
+                                    </div>
+                                    <div class="timeline__event__date">
+                                        {% if forloop.counter == 1 %}{{ t.created }}{% else %}{{ t.created }}{% endif %}
+                                    </div>
+                                    <div class="timeline__event__content" style="width:75%">
+                                        <div class="timeline__event__title">
+                                            {% if forloop.counter == 1 %}{{ t.to_user__first_name }} <br>
+                                                <span style="font-size: 14px">
+                                                {{ t.to_user_group__description }}{% else %}{{ t.user__first_name }}
+                                                <br>
+                                                <span style="font-size: 14px">{{ t.user_group__description }}</span>{% endif %}
+                                            <span class="status">{% if forloop.counter == 1 %}
+                                                <span>Pending</span>{% else %}
+                                                {{ t.course_status_level__title }}{% endif %}</span>
+                                            {#								<br>#}
+                                            {#								<span class="designation">HOI  -VSP -GIT  -EECE</span>#}
+                                        </div>
+                                        {% if forloop.counter == 1 %}
+
+                                        {% else %}
+                                            <div class="timeline__event__description">
+                                                <p>TO: {{ t.to_user__first_name }}
+                                                    | {{ t.to_user_group__description }}</p>
+                                                {% if t.comment %}
+                                                    <p>{{ t.comment }}</p>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+                        </div>
+                        <!--- end timeline-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Submit Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    <h4 style="color: black">Do you want to forward to CSM Incharge ?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/csmc/course_preview_submit/{{ course_id }}" method="POST">{% csrf_token %}
+{#                        <input type="hidden" id="program_id" name="program_id" value="{{ p_id }}">#}
+{#                        <input type="hidden" id="bos_user_id" name="bos_user_id" value="{{ program_assign_details.user_id }}">#}
+{#                        <input type="hidden" name="path" value="{{request.path}}">#}
+{#                        <input type="hidden" name="program_status_level_id" value="{{ program_assign_details.program_status_level_id }}">#}
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;" value="Submit">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal pdf-->
+    <div class="modal fade" id="modal02" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w3-modal-content w3-animate-zoom">
+                        <iframe id="frame" width="100%" height="600px"></iframe>
+                        {#                        <embed id="frame"   type="application/pdf"  width="100%" height="600px" />#}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal PDF -->
+
+    <script>
+        $(".message_post").click(function () {
+            var str = this.id;
+            $("#staticModal").modal('show')
+        })
+    </script>
+    <!-- deny-modal -->
+    <div class="modal fade" id="staticModal2" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
+         aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Submit Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/pcmi/course_structure_need_more/{{ course_id }}" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control csmi_suggestions" placeholder="Enter your Suggestion....."
+                                          rows="6" required name="csmi_message" id="csmi_message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-md" style="background-color: #7f0000;color: white;"
+                               value="Submit">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(".deny_post").click(function () {
+            var str = this.id;
+            $("#staticModal2").modal('show')
+        })
+        $(".csmi_suggestions").focus(function () {
+            if (document.getElementById('csmi_message').value === '') {
+                document.getElementById('csmi_message').value += '• ';
+            }
+        });
+        $("#csmi_message").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                document.getElementById('csmi_message').value += '• ';
+            }
+            var txtval = document.getElementById('csmi_message').value;
+            if (txtval.substr(txtval.length - 1) == '\n') {
+                document.getElementById('csmi_message').value = txtval.substring(0, txtval.length - 1);
+
+            }
+
+        });
+    </script>
+    <script>
+        function getExtension(filename) {
+            return filename.split('.').pop().toLowerCase();
+        }
+
+        $(".preview").on("click", function () {
+            var c = $(this).data('value');
+            var extension = getExtension(c);
+            switch (extension) {
+                case 'pdf':
+
+                    onClick_pdf(c);
+                    $("#modal02").modal('show');
+                    break;
+
+            }
+        });
+
+        function onClick_pdf(element) {
+            var str1 = "/media/user/instruction_plan/";
+            var str2 = element;
+            var res = str1.concat(str2);
+            //window.open(res, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+            document.getElementById("frame").src = res + "#toolbar=0";
+        }
+    </script>
+    <!---assign-pab modal--->
+
+{% endblock %}
+

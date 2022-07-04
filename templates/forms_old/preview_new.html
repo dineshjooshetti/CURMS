@@ -1,0 +1,812 @@
+<!-- MAIN CONTENT-->
+{% extends 'base.html' %}
+{% block body %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/custom_datatable.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+
+    <!-- Page plugins -->
+
+    <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/datatable/css/buttons.dataTables.min.css' %}">
+    <style>
+        .error_msg{
+            color:red;
+            font-size: 12px;
+        }
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #7f0000 !important;
+            color: white !important;
+        }
+
+        .nav-pills .nav-link {
+
+            color: #7f0000 !important;
+        }
+
+        .breadcrumb-dark .breadcrumb-item + .breadcrumb-item::before {
+            color: black
+        }
+
+        .breadcrumb-dark .breadcrumb-item a {
+            color: black;
+        }
+
+        .br-theme-bars-square .br-widget {
+            height: 15px;
+            white-space: nowrap
+        }
+
+        .br-theme-bars-square .br-widget a {
+            display: block;
+            width: 35px;
+            height: 35px;
+            float: left;
+            border: 2px solid #b5bbc1;
+            background-color: white;
+            margin: 2px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 2;
+            text-align: center;
+            color: #b5bbc1;
+            font-weight: 600
+        }
+
+        .br-theme-bars-square .br-widget a.br-active,
+        .br-theme-bars-square .br-widget a.br-selected {
+            border: 2px solid #7f0000;
+            color: #7f0000;
+        }
+
+        .br-theme-bars-square .br-widget .br-current-rating {
+            clear: both;
+            width: 330px;
+            text-align: center;
+            font-weight: 600;
+            display: block;
+            padding: .5em 0;
+            color: #646464
+        }
+
+        .br-theme-bars-square .br-readonly a {
+            cursor: default
+        }
+
+        .br-theme-bars-square .br-readonly a.br-active,
+        .br-theme-bars-square .br-readonly a.br-selected {
+            border: 2px solid #7f0000;
+            color: #7f0000;
+        }
+
+        @media print {
+            .br-theme-bars-square .br-widget a {
+                border: 2px solid #b3b3b3;
+                color: #b3b3b3
+            }
+
+            .br-theme-bars-square .br-widget a.br-active,
+            .br-theme-bars-square .br-widget a.br-selected {
+                border: 2px solid black;
+                color: black
+            }
+        }
+
+        .box-example-1to10 .br-wrapper {
+            width: 210px;
+            position: absolute;
+            margin: 0px 0 0 -105px;
+            left: 50%
+        }
+
+        .box-example-movie .br-wrapper {
+            width: 250px;
+            position: absolute;
+            margin: 0px 0 0 -125px;
+            left: 50%
+        }
+
+        .box-example-square .br-wrapper {
+        {#width: 190px;#}
+            position: relative;
+            margin: 0px 0 0 15px;
+        {#left: 50%#}
+        }
+
+        .box-example-pill .br-wrapper {
+            width: 232px;
+            position: absolute;
+            margin: 0px 0 0 -116px;
+            left: 50%
+        }
+
+        .box-example-reversed .br-wrapper {
+            padding-top: 1.3em;
+            width: 356px;
+            position: absolute;
+            margin: 0px 0 0 -178px;
+            left: 50%
+        }
+
+        .box-example-horizontal .br-wrapper {
+            width: 120px;
+            position: absolute;
+            margin: 0px 0 0 -60px;
+            left: 50%
+        }
+
+
+        .box {
+            width: 100%;
+        {#float: left;#}
+            margin: 1em 0
+        }
+
+        .box .box-header {
+            text-align: center;
+            font-weight: 400;
+            padding: .5em 0
+        }
+
+        .box .box-body {
+        {#padding-top: 2em;#}
+        {#height: 85px;#}
+            position: relative
+        }
+
+        .box select {
+            width: 120px;
+            margin: 10px auto 0 auto;
+            display: block;
+            font-size: 16px
+        }
+
+        .box-large .box-body {
+            padding-top: 2em;
+            height: 120px
+        }
+
+
+
+        .box-blue .box-header {
+            background-color: #4278f5;
+            color: white
+        }
+
+        .box-blue .box-body {
+        {#background-color: white;#}
+        {#border: 2px solid #8bacf9;#}
+        {#border-top: 0#}
+        }
+        hr {
+            margin-top: -1rem;
+            margin-bottom: 0rem;
+            border: 0;
+            border-top: 8px solid rgba(0, 0, 0, .1);
+        }
+        .btn-cus-yellow{
+            background-color: #F2C94C;
+            border: 1px solid #ab903e;
+            color: black;
+        }
+        @media print {
+            .star-ratings h1 {
+                color: black
+            }
+
+            .star-ratings .stars .title {
+                color: black
+            }
+
+            .box-orange .box-header,
+            .box-green .box-header,
+            .box-blue .box-header {
+                background-color: transparent;
+                color: black
+            }
+
+            .box-orange .box-body,
+            .box-green .box-body,
+            .box-blue .box-body {
+                background-color: transparent;
+                border: none
+            }
+        }
+    .texta
+    </style>
+    <!-- Page content -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-wrapper">
+                    <div class="card">
+                    <form method="POST"  id="course_preview" class="signup-form" enctype="multipart/form-data" action="#">
+                            {% csrf_token %}
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                   <span>EEE101</span><br>
+                                   <span>Version</span>&nbsp;:&nbsp;<span>-</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <u><h3 style="text-align: center">{{ course_details.course_name }}</h3></u>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="form-label">L</span>
+                                    <div>
+                                        <input disabled type="text" name="L" id="L" value="{% if course_theory.0.L %}{{ course_theory.0.L }}{% endif %}" class="form-control budget_count" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="form-label">T</span>
+                                    <div>
+                                        <input disabled type="text" name="T" id="T" value="{% if course_theory.0.T %}{{ course_theory.0.T }}{% endif %}" class="form-control budget_count" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="form-label">P</span>
+                                    <div>
+                                        <input disabled type="text" name="P" id="P" value="{% if course_theory.0.P %}{{ course_theory.0.P }}{% endif %}" class="form-control budget_count"/>
+                                    </div>
+                                </div>
+                                 <div class="col-md-1">
+                                    <span class="form-label">J</span>
+                                    <div>
+                                        <input disabled type="text" name="J" id="J" value="{% if course_theory.0.J %}{{ course_theory.0.J }}{% endif %}" class="form-control budget_count"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="form-label">S</span>
+                                    <div>
+                                        <input disabled type="text" name="S" id="S" value="{% if course_theory.0.P %}{{ course_theory.0.P }}{% endif %}" class="form-control budget_count">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="form-label">C</span>
+                                    <div>
+                                        <input disabled type="text" name="C" id="total" value="{% if course_theory.0.C %}{{ course_theory.0.C }}{% endif %}" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="form-label">Total number of contact hours</span>
+                                    <div>
+                                        <input disabled type="text" name="total_hours" id="total_hours" value="{% if course_theory.0.total_no_of_contact_hours %}{{ course_theory.0.total_no_of_contact_hours }}{% endif %}" class="form-control" placeholder="C X 15 Weeks"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="form-label">School</span>
+                                    <div>
+                                        <input disabled type="text" name="total_hours" id="total_hours" value="-" class="form-control" placeholder="C X 15 Weeks"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="form-label">Date of Approval</span>
+                                    <div>
+                                        <input disabled type="text" name="total_hours" id="total_hours" value="-" class="form-control" placeholder="C X 15 Weeks"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Name of the faculty</label>
+                                            <div class="input-group input-group-merge">
+                                                <input autocomplete="off" type="text"
+                                                       class="form-control" value="{{ request.user.first_name }}" disabled>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Employee ID</label>
+                                            <div class="input-group input-group-merge">
+                                                <input autocomplete="off" type="text"
+                                                       class="form-control" value="{{ request.user.username }}" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Designation</label>
+                                            <div class="input-group input-group-merge">
+                                                <input autocomplete="off" type="text"
+                                                       class="form-control" value="{{ request.user.designation }}" disabled>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Department/Institute(course owner)</label>
+                                            <div class="input-group input-group-merge">
+                                                {% for d in dept %}
+                                                  {% if d.id == user_details.dept_code_id %}
+                                                      <input autocomplete="off" type="text"
+                                                   class="form-control" value="{{ d.dept_inst }}" disabled>
+                                                  {% endif %}
+                                              {% endfor %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="form-label">Alternate exposure</span>
+                                    <div>
+                                        <input disabled type="text" name="alt_exposure" value="{% if course_theory.0.alternative_exposure %}{{ course_theory.0.alternative_exposure }}{% endif %}" id="alt_exposure" class="form-control" placeholder="alternate exposure"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="form-label">Course outcomes</span>
+                                    <ol>
+                                        {% for c in course_outcome %}
+                                            <li style="font-size:15px;">{{ c.course_outcome }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="form-label">Specific instructional objectives</span>
+                                    <span id="self_objectives" class="form-label description">{% if course_theory.0.specific_instruction_objectives %}{{ course_theory.0.specific_instruction_objectives|linebreaks }}{% endif %}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Text Books</label>
+                                        <ol>
+                                            {% for j in course_book_details %}
+                                                <li style="font-size:15px;">{{ j.title }},{{ j.author }},{{ j.year }},{{ j.edition }},{{ j.publisher }},{{ j.place_of_publication }}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Referance Books</label>
+                                        <ol>
+                                            {% for i in references_details %}
+                                                <li style="font-size:15px;">{{ i.title }},{{ i.author }},{{ i.year }},{{ i.edition }},{{ i.publisher }},{{ i.place_of_publication }}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% for cs in course_syllabus %}
+                                <div class="row">
+                                    <div class="form-textarea col-md-12">
+                                       <span class="form-label">Unit-{{ forloop.counter }}</span>
+
+                                        <input type="text" name="short_title" id="short_title" placeholder="short title" value="{% if cs.short_title %}{{ cs.short_title }}{% endif %}" disabled>
+                                        <input type="number" name="contact_hours" id="contact_hours" placeholder="No.of contact hours" value="{% if cs.number_of_contact_hours %}{{ cs.number_of_contact_hours }}{% endif %}" disabled>
+                                    </div><br><br>
+                                    <div class="form-textarea col-md-12">
+                                        <textarea name="unit_name" id="unit_name" class="form-control" disabled>{% if cs.unit_name %}{{ cs.unit_name }}{% endif %}</textarea>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <span class="form-label">Pedagogy tools</span>
+                                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_1" disabled>
+                                          <option value="" selected>Select Pedagogy Tool</option>
+                                          {% for p in pedagogy_tools %}
+                                              {% if cs.pedagogy_tool_1_id == p.id %}
+                                                    <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                              {% else %}
+                                                    <option value="{{ p.id }}">{{ p.name }}</option>
+                                              {% endif %}
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="form-label">Pedagogy tools</span>
+                                    <div>
+                        {#                <input type="text" name="pedagogy_tools" id="pedagogy_tools" class="form-control" placeholder="Pedagogy.." value="">#}
+                                        <select class="form-control" aria-label="Default select example" name="pedagogy_tool_2" disabled>
+                                          <option value="" selected>Select Pedagogy Tool</option>
+                                          {% for p in pedagogy_tools %}
+                                              {% if cs.pedagogy_tool_2_id == p.id %}
+                                                    <option value="{{ p.id }}" selected>{{ p.name }}</option>
+                                              {% else %}
+                                                    <option value="{{ p.id }}">{{ p.name }}</option>
+                                              {% endif %}
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div><br>
+                            {% endfor %}
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive py-4">
+                                <table class="table table-bordered">
+                                  <thead class="text-center">
+                                    <tr>
+                                      <th scope="col"></th>
+                                      <th colspan="12">POs</th>
+                                      <th colspan="{{ pso|length }}">PSOs</th>
+                                    </tr>
+                                  </thead>
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">CO</th>
+                                      <th scope="col">1</th>
+                                      <th scope="col">2</th>
+                                      <th scope="col">3</th>
+                                      <th scope="col">4</th>
+                                      <th scope="col">5</th>
+                                      <th scope="col">6</th>
+                                      <th scope="col">7</th>
+                                      <th scope="col">8</th>
+                                      <th scope="col">9</th>
+                                      <th scope="col">10</th>
+                                      <th scope="col">11</th>
+                                      <th scope="col">12</th>
+                                      {% for p in pso %}
+                                          <th scope="col">{{ forloop.counter }}</th>
+                                      {% endfor %}
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {% for c in co_po_pso %}
+                                    <tr>
+                                      <th scope="row">{{ forloop.counter }}</th>
+                                        <td><span id="B1">{% if c.po1 %}{{ c.po1 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po2 %}{{ c.po2 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po3 %}{{ c.po3 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po4 %}{{ c.po4 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po5 %}{{ c.po5 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po6 %}{{ c.po6 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po7 %}{{ c.po7 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po8 %}{{ c.po8 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po9 %}{{ c.po9 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po10 %}{{ c.po10 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po11 %}{{ c.po11 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.po12 %}{{ c.po12 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.pso1 %}{{ c.pso1 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.pso2 %}{{ c.pso2 }}{% endif %}</span></td>
+                                        <td><span id="B1">{% if c.pso3 %}{{ c.pso3 }}{% endif %}</span></td>
+                                    </tr>
+                                    {% endfor %}
+{#                                    <tr>#}
+{#                                      <th scope="row">Avg</th>#}
+{#                                        <td><span id="total1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        <td><span id="B1" contenteditable></span></td>#}
+{#                                        {% for p in pso %}#}
+{#                                            <td><span id="B1" contenteditable></span></td>#}
+{#                                        {% endfor %}#}
+{#                                    </tr>#}
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </form>
+                    <div class="text-left mb-3" style="padding-left: 10px">
+                        <a href="/course/course_details/{{ course_id }}" class="btn btn-info btn-md" id="interpersonal_submit" style="color: white">
+                            << Back to Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal popup -->
+    <div class="modal fade" id="inter_persona_Modal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true"
+         data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><br>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                </div>
+                <div class="modal-body">
+                      <h5 class="modal-title" id="staticModalLabel">After submission, No further modifications can be made</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnModalCancel">Cancel</button>
+                    <button type="submit" class="btn btn-success btn-md" id="inter_personal_final_submit" style="color:white;">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end modal static -->
+    <script type="text/javascript" src="{% static 'assets/js/jquery.validate.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'assets/js/validations/inter_personal_attributes.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static '/assets/vendor/datatable/js/buttons.flash.min.js' %}"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"></script>
+
+    <script>
+        $(".accomplish").focus(function() {
+            if(document.getElementById('accomplish').value === ''){
+                document.getElementById('accomplish').value +='• ';
+            }
+        });
+        $(".strenghts").focus(function() {
+            if(document.getElementById('strenghts').value === ''){
+                document.getElementById('strenghts').value +='• ';
+            }
+        });
+        $(".area_to_improve").focus(function() {
+            if(document.getElementById('area_to_improve').value === ''){
+                document.getElementById('area_to_improve').value +='• ';
+            }
+        });
+        $(".required_training").focus(function() {
+            if(document.getElementById('required_training').value === ''){
+                document.getElementById('required_training').value +='• ';
+            }
+        });
+		$(".weakness").focus(function() {
+            if(document.getElementById('weakness').value === ''){
+                document.getElementById('weakness').value +='• ';
+            }
+        });
+        $(".comment1").focus(function() {
+            if(document.getElementById('comment1').value === ''){
+                document.getElementById('comment1').value +='• ';
+            }
+        });
+        $(".comment2").focus(function() {
+            if(document.getElementById('comment2').value === ''){
+                document.getElementById('comment2').value +='• ';
+            }
+        });
+        $("#accomplish").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('accomplish').value +='• ';
+            }
+            var txtval = document.getElementById('accomplish').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('accomplish').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+        $("#strenghts").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('strenghts').value +='• ';
+            }
+            var txtval = document.getElementById('strenghts').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('strenghts').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+        $("#area_to_improve").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('area_to_improve').value +='• ';
+            }
+            var txtval = document.getElementById('area_to_improve').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('area_to_improve').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+        $("#required_training").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('required_training').value +='• ';
+            }
+            var txtval = document.getElementById('required_training').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('required_training').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+		$("#weakness").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('weakness').value +='• ';
+            }
+            var txtval = document.getElementById('weakness').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('weakness').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+        $("#comment1").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('comment1').value +='• ';
+            }
+            var txtval = document.getElementById('comment1').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('comment1').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+        $("#comment2").on("keyup", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // debugger;
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == '13'){
+                document.getElementById('comment2').value +='• ';
+            }
+            var txtval = document.getElementById('comment2').value;
+            if(txtval.substr(txtval.length - 1) == '\n'){
+                document.getElementById('comment2').value = txtval.substring(0,txtval.length - 1);
+
+            }
+
+        });
+
+
+    </script>
+    <script>
+         $("#inter_personal_final_submit").on('click',function () {
+             $('#inter_personal_attributes').submit();
+         });
+         $("#interpersonal_submit").on('click',function () {
+            $(".error_msg").html('');
+                error = true
+
+                if(document.getElementById('acknowldgement').checked) {
+                    error = true
+                    if (error == true) {
+                        {#alert('After submitting you cannot change the data')#}
+                        $("#inter_persona_Modal").modal('show')
+                    }
+                }
+                else {
+                    $('<span class="error_msg">Please Check the Acknowldgement</span>').insertAfter("#error_ack");
+                    error = false
+                }
+
+                if (error == false) {
+                    return false
+                }
+         });
+
+    </script>
+    <script>
+        $(function() {
+            function ratingEnable() {
+                 readonly= false
+                {% if is_editable is False %}
+                    readonly= true
+                {% endif %}
+                $('#example-square').barrating('show', {
+                    theme: 'bars-square',
+                    showValues: true,
+                    showSelectedRating: false,
+                    initialRating:"{{interpersonal_attitude.0.self_apprisal }}",
+                    readonly:readonly
+                });
+
+            }
+            ratingEnable();
+        });
+    </script>
+    <script>
+        $(function() {
+            function ratingEnable() {
+                readonly= false
+                {% if is_editable is False %}
+                    readonly= true
+                {% endif %}
+                $('#example-square2').barrating('show', {
+                    theme: 'bars-square',
+                    showValues: true,
+                    showSelectedRating: false,
+                    initialRating:"{{interpersonal_collabarative.0.self_apprisal }}",
+                    readonly:readonly
+                });
+
+            }
+
+            ratingEnable();
+
+        });
+        $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
+        $("#newentry").append('<div class=input-group input-group-merge"><input type="hidden" name="remove_file1" value="{{ interpersonal_attitude.0.file }}"><input type="file" class="form-control" name="file1" accept="application/pdf"></div>');
+
+    });
+         $(document).on('click', '#removeRow2', function () {
+        $(this).closest('#inputFormRow2').remove();
+        $("#newentry2").append('<div class=input-group input-group-merge"><input type="hidden" name="remove_file2" value="{{ interpersonal_collabarative.0.file }}"><input type="file" class="form-control" name="file2" accept="application/pdf"></div>');
+    });
+
+     $(document).on('click', '#removeRow3', function () {
+        $(this).closest('#inputFormRow3').remove();
+        $("#newentry3").append('<div class=col-md-12 input-group input-group-merge"><input type="hidden" name="remove_file3" value="{{ comments.file }}"><input type="file" class="form-control" name="file3" accept="application/pdf"></div>');
+
+    });
+
+
+	$("input[type='file']").change(function () {
+		var this_file=$(this)
+		$(this).parent().next().find('.class').remove()
+        var fd=new FormData();
+        var file = $(this)[0].files[0];
+		this_file.next().find('.err').text('')
+		var filename = file.name;
+		var filesize = file.size;
+		if(file.type==="application/pdf"){
+			if (filesize > 2000000){
+				//this_file.next().find('.err').text('Max file size 2MB');
+				$(this).parent().after(`<div id="file1-error" class="error">Max file size 2MB</div>`)
+				 $(this).val('')
+				return false
+			}else{
+
+				return true
+			}
+		}else {
+				$(this).parent().after(`<div id="file1-error" class="error">Only PDF files allowed</div>`)
+				$(this).val('')
+				//if (filesize > 1000000){
+					//$(this).parent().after(`<div id="upload_document-error" class="error"></div>`)
+				//}
+				return false
+		}
+    })
+    </script>
+{% endblock %}
